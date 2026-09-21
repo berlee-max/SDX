@@ -5,6 +5,37 @@
 
 ---
 
+## 〇、工具链
+
+**bun 的版本必须是 `package.json` 里 `packageManager` 声明的那个**（当前 `bun@1.3.14`）。
+CI 通过 `bun-version-file: package.json` 读同一个字段，所以本地和 CI 用的是同一个版本。
+
+这不是形式主义。`brew install bun` 装的是最新版，实测 **bun 1.4.2 会让
+`desktop/electron/services/systemProxyBridge.test.ts` 的 "stop races with startup"
+用例超时失败**（1.3.14 下 18/18 全过）—— 那段代码依赖 bun HTTP server 的关闭语义，
+源码里就有相关注释。升 bun 是一项独立任务，需要单独验证，不能顺手带上。
+
+装指定版本：
+
+```bash
+curl -fsSL -o /tmp/bun.zip https://github.com/oven-sh/bun/releases/download/bun-v1.3.14/bun-darwin-aarch64.zip
+unzip -o /tmp/bun.zip -d /tmp && mkdir -p ~/.bun/bin && cp /tmp/bun-darwin-aarch64/bun ~/.bun/bin/bun
+```
+
+然后把 `~/.bun/bin` 放到 `PATH` 里 homebrew 之前：
+
+```bash
+echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.zshrc
+```
+
+安装依赖（三个 workspace 各装各的）：
+
+```bash
+bun install && (cd desktop && bun install) && (cd adapters && bun install)
+```
+
+---
+
 ## 一、分支模型
 
 单主干 + 短生命周期特性分支。不用 git-flow，没有长期 develop 分支。
