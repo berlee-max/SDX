@@ -3,7 +3,7 @@ set -euo pipefail
 
 # install-macos-unsigned.sh
 #
-# Installs the unsigned macOS build of SDX from a DMG that sits
+# Installs the unsigned macOS build of AI Agent SDX from a DMG that sits
 # next to this script (download both from the same GitHub Release into one
 # folder, e.g. ~/Downloads, then run this script).
 #
@@ -68,7 +68,7 @@ main() {
   local dmg="${1:-}"
   if [ -z "$dmg" ]; then
     if ! dmg="$(find_dmg "$base_dir")"; then
-      echo "No SDX macOS DMG found next to this script."
+      echo "No AI Agent SDX macOS DMG found next to this script."
       echo "Download the DMG into the same folder as this script, then run it again."
       echo "Usage: bash install-macos-unsigned.sh /path/to/SDX-0.4.0-mac-arm64.dmg"
       exit 1
@@ -102,11 +102,11 @@ main() {
     exit 1
   fi
 
-  osascript -e 'quit app "SDX"' >/dev/null 2>&1 || true
+  osascript -e "quit app \"${APP_NAME%.app}\"" >/dev/null 2>&1 || true
 
   if [ -d "$APP_PATH" ]; then
     local backup
-    backup="${HOME}/.Trash/SDX.$(date +%Y%m%d%H%M%S).app"
+    backup="${HOME}/.Trash/${APP_NAME%.app}.$(date +%Y%m%d%H%M%S).app"
     echo "Moving existing app to: $backup"
     mv "$APP_PATH" "$backup"
   fi
@@ -115,7 +115,7 @@ main() {
   ditto "$app_in_volume" "$APP_PATH"
   xattr -dr com.apple.quarantine "$APP_PATH" 2>/dev/null || true
 
-  echo "Opening SDX..."
+  echo "Opening ${APP_NAME%.app}..."
   open "$APP_PATH"
 }
 
