@@ -161,14 +161,19 @@ describe('release desktop workflow', () => {
         linux?: {
           maintainer?: string
         }
+        publish?: Array<{ owner?: string; repo?: string }>
       }
     }
 
     expect(desktopPackage.description).toBeTruthy()
-    expect(desktopPackage.homepage).toBe('https://github.com/NanmiCoder/cc-haha')
-    expect(desktopPackage.author?.name).toBe('NanmiCoder')
-    expect(desktopPackage.author?.email).toBe('relakkes@gmail.com')
-    expect(desktopPackage.build?.linux?.maintainer).toBe('NanmiCoder <relakkes@gmail.com>')
+    expect(desktopPackage.homepage).toBe('https://github.com/berlee-max/SDX')
+    expect(desktopPackage.author?.name).toBe('SDX')
+    expect(desktopPackage.author?.email).toBe('ribbernlee@gmail.com')
+    expect(desktopPackage.build?.linux?.maintainer).toBe('SDX <ribbernlee@gmail.com>')
+    // The updater feed must never point at upstream: a release there would be
+    // offered to SDX users as an update into a different product.
+    expect(desktopPackage.build?.publish?.[0]?.owner).toBe('berlee-max')
+    expect(desktopPackage.build?.publish?.[0]?.repo).toBe('SDX')
   })
 
   test('release workflow requires macOS Gatekeeper launch approval for signed builds', () => {
@@ -659,8 +664,8 @@ describe('release desktop workflow', () => {
     expect(desktopPackage.build.publish).toEqual([
       {
         provider: 'github',
-        owner: 'NanmiCoder',
-        repo: 'cc-haha',
+        owner: 'berlee-max',
+        repo: 'SDX',
       },
     ])
     expect(desktopPackage.build.mac?.publish).toBeUndefined()
