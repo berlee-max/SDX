@@ -84,6 +84,13 @@ bun run verify           # 跑上面选中的全部车道，等同 quality:pr
 bun run quality:push     # 同上但跳过覆盖率，适合推分支前快速过一遍
 ```
 
+`check:impact` 默认拿 `origin/main` 当基线，**在还没有 remote 的时候它会报 "Changed files: 0"**。
+本地比较用环境变量指定基线：
+
+```bash
+PR_BASE_REF=main bun run check:impact
+```
+
 单项车道（调试失败时用，比全量快得多）：
 
 | 命令 | 覆盖范围 |
