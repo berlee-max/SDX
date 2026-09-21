@@ -276,9 +276,7 @@
     },
     "needsApiKey": true,
     "websiteUrl": "https://aruhub.com",
-    "apiKeyUrl": "https://aruhub.com/sign-up?aff=Z54g",
-    "promoText": "AruHub 为 cc-haha 用户提供专属福利：通过「获取 API Key」链接注册即送 1 美元全模型通用额度，不限模型。支持 GPT、Claude，按量付费，适合持续 AI Coding。",
-    "featured": true,
+    "apiKeyUrl": "https://aruhub.com/sign-up",
     "isNew": true,
     "authStrategy": "api_key",
     "defaultEnv": {}
@@ -296,8 +294,7 @@
     },
     "needsApiKey": true,
     "websiteUrl": "https://www.atlascloud.ai",
-    "apiKeyUrl": "https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=cc-haha",
-    "featured": true,
+    "apiKeyUrl": "https://www.atlascloud.ai/",
     "authStrategy": "api_key",
     "modelContextWindows": {
       "deepseek-ai/deepseek-v4-pro": 1000000
@@ -306,7 +303,9 @@
   {
     "id": "apismart",
     "name": "ApiSmart",
-    "defaultImageGeneration": { "model": "doubao-seedream-5-0" },
+    "defaultImageGeneration": {
+      "model": "doubao-seedream-5-0"
+    },
     "baseUrl": "https://gw.apismart.ai/v1",
     "apiFormat": "openai_chat",
     "defaultModels": {
@@ -318,7 +317,6 @@
     "needsApiKey": true,
     "websiteUrl": "https://www.apismart.ai",
     "apiKeyUrl": "https://www.apismart.ai",
-    "featured": true,
     "authStrategy": "api_key",
     "modelContextWindows": {
       "deepseek-v4-pro-0813": 1000000,
@@ -338,7 +336,7 @@
     },
     "needsApiKey": true,
     "websiteUrl": "https://opencode.ai",
-    "apiKeyUrl": "https://opencode.ai/go?ref=3RK0WVVCGD",
+    "apiKeyUrl": "https://opencode.ai/",
     "promoText": "订阅后填入 API Key，即可获取并选择模型。",
     "authStrategy": "api_key",
     "defaultEnv": {},

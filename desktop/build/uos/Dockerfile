@@ -37,13 +37,24 @@ RUN set -eux; \
     rm /tmp/node.tar.xz; \
     node --version; npm --version
 
+# bun's default linux-x64 build uses AVX2. Under Docker's amd64 emulation on Apple
+# Silicon that faults with SIGILL, and some domestic x86 CPUs paired with UOS lack
+# AVX2 too. The -baseline build targets pre-AVX2 CPUs and runs everywhere, so it is
+# the correct choice for a UOS builder; try the fast one first and fall back.
 RUN set -eux; \
-    curl -fsSL -o /tmp/bun.zip \
-        "https://github.com/oven-sh/bun/releases/download/bun-v${BUN_VERSION}/bun-linux-x64.zip"; \
-    unzip -q /tmp/bun.zip -d /tmp; \
-    install -m 0755 /tmp/bun-linux-x64/bun /usr/local/bin/bun; \
-    rm -rf /tmp/bun.zip /tmp/bun-linux-x64; \
-    bun --version
+    install_bun() { \
+        curl -fsSL -o /tmp/bun.zip \
+            "https://github.com/oven-sh/bun/releases/download/bun-v${BUN_VERSION}/bun-linux-x64$1.zip"; \
+        unzip -q -o /tmp/bun.zip -d /tmp; \
+        install -m 0755 "/tmp/bun-linux-x64$1/bun" /usr/local/bin/bun; \
+        rm -rf /tmp/bun.zip "/tmp/bun-linux-x64$1"; \
+    }; \
+    install_bun ""; \
+    if ! bun --version; then \
+        echo "bun-linux-x64 faulted on this CPU; installing the baseline build"; \
+        install_bun "-baseline"; \
+        bun --version; \
+    fi
 
 # electron-builder 会往 ~/.cache/electron 和 ~/.cache/electron-builder 下载 Electron 和
 # 打包工具。挂成卷可以避免每次重建都重新下 118MB。

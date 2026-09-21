@@ -36,6 +36,6 @@ SDX 是本地优先的开源开发工具，项目本身不运营用于接收会�
 
 ## 联系方式
 
-隐私或安全问题可以通过 [GitHub 私密安全报告](https://github.com/NanmiCoder/cc-haha/security/advisories/new) 或 [relakkes@gmail.com](mailto:relakkes@gmail.com) 联系维护者。
+隐私或安全问题可以通过 [GitHub 私密安全报告](https://github.com/berlee-max/SDX/security/advisories/new) 或 [ribbernlee@gmail.com](mailto:ribbernlee@gmail.com) 联系维护者。
 
 本说明最近更新于 2026 年 8 月 5 日。

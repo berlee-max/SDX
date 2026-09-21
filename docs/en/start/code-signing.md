@@ -1,56 +1,55 @@
----
-title: Code signing policy
-nav_title: Signing policy
-description: Signing scope, responsible roles, approval, verification, and revocation rules for official SDX releases.
-order: 5
----
+# Code signing
 
-# Code signing policy
+**Current status: SDX has no code signing configured.** This page explains what that means for you and what it would take to change it.
 
-This policy applies to official Windows releases of SDX. The project is applying for free code signing through the SignPath Foundation. Until onboarding is complete, the Windows download page will continue to identify installers as unsigned. After onboarding, only artifacts that comply with this policy will be submitted for signing.
+## Where things stand
 
-Free code signing provided by SignPath.io, certificate by SignPath Foundation.
+| Platform | Signing status | What you hit on first launch |
+| --- | --- | --- |
+| macOS | Unsigned, not notarized | Gatekeeper blocks it. Right-click the icon and choose Open, or run `xattr -cr /Applications/SDX.app` first |
+| Windows 10+ | Unsigned | SmartScreen shows "Windows protected your PC". Click More info → Run anyway |
+| UOS 20 | Unsigned (Linux does not rely on code signing) | Installs normally, no extra prompt |
 
-The service is provided by [SignPath.io](https://about.signpath.io) and the [SignPath Foundation](https://signpath.org).
+The upstream project [cc-haha](https://github.com/NanmiCoder/cc-haha) obtained free Windows code
+signing through the SignPath Foundation. **That certificate belongs to upstream and has nothing to
+do with SDX** — SDX neither uses nor may use it.
 
-## Signing scope
+## What proper signing would require
 
-Signing is limited to the Windows desktop application, project-owned sidecars, and final x64 and ARM64 NSIS installers built from source owned by this project in [NanmiCoder/cc-haha](https://github.com/NanmiCoder/cc-haha).
+**macOS** — an Apple Developer Program membership ($99/year) for a Developer ID Application
+certificate, plus an app-specific password for notarization. The build already implements signing,
+notarization and signing-chain verification (host, sidecar and cu-helper must share one certificate);
+only the certificate itself is missing.
 
-Release packages may include third-party or upstream open-source components distributed under their respective licenses. Those components may be bundled unchanged, but they will not be signed as binaries owned by SDX. The certificate will not be used for other projects, personal builds, debug builds, or files of unknown origin.
+**Windows** — two options:
 
-## Trusted source and build
+- apply to the [SignPath Foundation](https://signpath.org) for free open-source signing, which
+  requires a public project with some community track record;
+- or buy an OV / EV code signing certificate yourself. EV clears SmartScreen immediately; OV has to
+  build reputation first.
 
-- The only trusted source is a protected release commit or tag in the public GitHub repository.
-- Official Windows artifacts are built by version-controlled GitHub Actions workflows on GitHub-hosted runners.
-- Every signing request must be traceable to a specific commit, release tag, workflow run, and build artifact.
-- An artifact must not be published if signing fails, its origin is unclear, or its metadata does not match the release.
+The configuration under `.github/signpath/` is inherited from upstream and must be replaced wholesale
+when SDX has its own signing channel.
 
-## Responsible roles
+## Verifying a download until then
 
-- **Authors / Committers:** [@NanmiCoder](https://github.com/NanmiCoder), plus external contributors whose changes have been reviewed and accepted.
-- **Reviewers:** [@NanmiCoder](https://github.com/NanmiCoder); external contributions require maintainer review before entering an official release commit.
-- **Approvers:** [@NanmiCoder](https://github.com/NanmiCoder).
+Download only from this project's [GitHub Releases](https://github.com/berlee-max/SDX/releases) and
+check the hash:
 
-Team members must enable multi-factor authentication for their GitHub and SignPath accounts. This page will be updated when roles or members change.
+```bash
+# macOS / Linux
+shasum -a 256 SDX-<version>-*.dmg
 
-## Approval and release
-
-Every signing request for an official release requires manual approval by an Approver. Automatic approval and approval bypasses are not permitted. Before approval, the commit or tag, build workflow, target architecture, file name, product name, version, and release notes must be checked. An artifact may be uploaded to GitHub Releases only after approval and signature verification.
-
-## User verification
-
-After onboarding is complete, a Windows installer can be inspected in PowerShell:
-
-```powershell
-Get-AuthenticodeSignature ".\SDX-<version>-win-x64.exe" |
-  Format-List Status, StatusMessage, SignerCertificate, TimeStamperCertificate
+# Windows PowerShell
+Get-FileHash .\SDX-<version>-win-x64.exe -Algorithm SHA256
 ```
 
-Continue with installation only when `Status` is `Valid`, the product and version are expected, and the file came from this project's [GitHub Releases](https://github.com/NanmiCoder/cc-haha/releases).
+Each release lists the SHA-256 of every artifact. If a hash does not match, do not install it.
 
-## Security incidents and revocation
+## Reporting a security problem
 
-Report suspected misuse of the certificate, signing accounts, build process, or release artifacts through a [private GitHub security advisory](https://github.com/NanmiCoder/cc-haha/security/advisories/new) or by email to [relakkes@gmail.com](mailto:relakkes@gmail.com). The maintainer will pause affected releases and signing requests, remove affected downloads, investigate the source, and ask the SignPath Foundation to revoke the certificate or signature when necessary.
+If you suspect misuse of the build process, release artifacts, or (in future) signing accounts,
+report it through a [private GitHub security advisory](https://github.com/berlee-max/SDX/security/advisories/new)
+or by email to [ribbernlee@gmail.com](mailto:ribbernlee@gmail.com).
 
 See [Privacy and network access](./privacy.md) for the software's network and local-data behavior.

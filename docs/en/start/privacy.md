@@ -36,6 +36,6 @@ Uninstalling the application does not automatically delete sessions and configur
 
 ## Contact
 
-For privacy or security questions, contact the maintainer through a [private GitHub security advisory](https://github.com/NanmiCoder/cc-haha/security/advisories/new) or at [relakkes@gmail.com](mailto:relakkes@gmail.com).
+For privacy or security questions, contact the maintainer through a [private GitHub security advisory](https://github.com/berlee-max/SDX/security/advisories/new) or at [ribbernlee@gmail.com](mailto:ribbernlee@gmail.com).
 
 Last updated: August 5, 2026.

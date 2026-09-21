@@ -53,6 +53,16 @@ cd desktop && bun run build:uos-x64
 `build-in-container.sh` 在打包结束前会扫一遍 `linux-unpacked/` 里所有 ELF，发现任何一个
 要求高于 2.28 就直接失败，不会把有问题的包交出来。
 
+## 二点五、AVX2：国产 x86 CPU 的坑
+
+bun 的默认 `bun-linux-x64` 构建用了 AVX2 指令。这有两处影响：
+
+- **构建镜像**：在 Apple Silicon 上跑 amd64 模拟时，默认 bun 会直接 `Illegal instruction`
+  崩掉（实测踩到了）。Dockerfile 现在先试默认版，失败就换 `bun-linux-x64-baseline`。
+- **产物 sidecar**：兆芯等部分国产 x86 CPU 不支持 AVX2。好在上游在
+  `desktop/scripts/build-sidecars.ts` 里已经把 `x86_64-unknown-linux-gnu` 映射到
+  **`bun-linux-x64-baseline`**，所以打出来的 sidecar 本身不要求 AVX2。**改这个映射前请三思。**
+
 ## 三、deb 依赖
 
 `desktop/package.json` 的 `build.deb.depends` 显式声明了 21 项。前 9 项是 electron-builder 26

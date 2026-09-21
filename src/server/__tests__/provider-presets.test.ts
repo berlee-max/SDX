@@ -44,22 +44,26 @@ function makeRequest(
 }
 
 describe('provider presets API', () => {
-  test('exposes AruHub first among sponsors with signup copy and the new badge', async () => {
+  test('exposes AruHub as an ordinary preset with its connection defaults', async () => {
     const { req, url, segments } = makeRequest('GET', '/api/providers/presets')
     const response = await handleProvidersApi(req, url, segments)
     const { presets } = await response.json()
-    const sponsors = presets.filter((preset: { featured?: boolean }) => preset.featured)
-    expect(sponsors[0]).toMatchObject({
+    const aruhub = presets.find((preset: { id: string }) => preset.id === 'aruhub')
+    expect(aruhub).toMatchObject({
       id: 'aruhub',
       baseUrl: 'https://direct.aruhub.com:8443',
       apiFormat: 'anthropic',
       authStrategy: 'api_key',
-      apiKeyUrl: 'https://aruhub.com/sign-up?aff=Z54g',
+      apiKeyUrl: 'https://aruhub.com/sign-up',
       isNew: true,
       needsApiKey: true,
       defaultModels: { main: 'claude-opus-5', haiku: 'claude-sonnet-5', sonnet: 'claude-sonnet-5', opus: 'claude-opus-5' },
     })
-    expect(sponsors[0].promoText).toContain('注册即送 1 美元全模型通用额度')
+    // No sponsor placement or promo copy: the affiliate link and the offer that
+    // depended on it were removed with the rest of the upstream sponsorship.
+    expect(aruhub.featured).toBeUndefined()
+    expect(aruhub.promoText).toBeUndefined()
+    expect(presets.every((preset: { featured?: boolean }) => !preset.featured)).toBe(true)
     const preset = PROVIDER_PRESETS.find((candidate) => candidate.id === 'aruhub')!
     expect(buildProviderManagedEnv({
       id: 'aruhub-test', presetId: preset.id, name: preset.name,
@@ -77,7 +81,7 @@ describe('provider presets API', () => {
 
   // ApiSmart /v1/models and live calls verified these exact IDs on 2026-09-09.
   // The unsuffixed names in its docs return 503 provider_not_available.
-  test('exposes ApiSmart with its live-verified Chat Completions defaults and sponsor link', async () => {
+  test('exposes ApiSmart with its live-verified Chat Completions defaults', async () => {
     const { req, url, segments } = makeRequest('GET', '/api/providers/presets')
     const response = await handleProvidersApi(req, url, segments)
     const { presets } = await response.json()
@@ -96,7 +100,6 @@ describe('provider presets API', () => {
       },
       apiKeyUrl: 'https://www.apismart.ai',
       websiteUrl: 'https://www.apismart.ai',
-      featured: true,
     })
   })
 
@@ -296,9 +299,9 @@ describe('provider presets API', () => {
     expect(qiniuai?.modelContextWindows?.['z-ai/glm-5.2']).toBe(1000000)
     expect(qiniuai?.modelContextWindows?.['moonshotai/kimi-k3']).toBe(262144)
     expect(atlascloud?.apiKeyUrl).toBe(
-      'https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=cc-haha',
+      'https://www.atlascloud.ai/',
     )
-    expect(atlascloud?.featured).toBe(true)
+    expect(atlascloud?.featured).toBeUndefined()
     expect(custom?.promoText).toBeUndefined()
     expect(custom?.authStrategy).toBe('auth_token')
     expect(custom?.defaultEnv).toBeUndefined()
@@ -398,7 +401,7 @@ describe('provider presets API', () => {
     const opencodeGo = PROVIDER_PRESETS.find((preset) => preset.id === 'opencode-go')!
 
     test('links API key signup to the referral page with concise setup guidance', () => {
-      expect(opencodeGo.apiKeyUrl).toBe('https://opencode.ai/go?ref=3RK0WVVCGD')
+      expect(opencodeGo.apiKeyUrl).toBe('https://opencode.ai/')
       expect(opencodeGo.promoText).toBe('订阅后填入 API Key，即可获取并选择模型。')
     })
 

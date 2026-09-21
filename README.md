@@ -14,91 +14,23 @@
 > **About this project**: SDX is a downstream fork of [cc-haha](https://github.com/NanmiCoder/cc-haha)
 > (MIT, by NanmiCoder), branched from upstream desktop v0.6.5. Upstream copyright and licence notices are
 > preserved — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md). Most of the text below is inherited from
-> upstream documentation and is being replaced as SDX develops; links to `github.com/NanmiCoder/cc-haha`
-> still point at the upstream repository.
+> upstream documentation and is being replaced as SDX develops. Upstream sponsorship, donation, chat-group and
+> author-contact sections have all been removed; the remaining `github.com/NanmiCoder/cc-haha` links are the
+> attribution the licence requires.
+>
+> UI screenshots still show the upstream build (the sidebar reads `cc-haha`) and need to be retaken, so they
+> are not included here yet.
 
 SDX is a **desktop Claude Code workspace** for macOS, Windows, and Linux: multi-session workspaces, global search, branch / Worktree launch, diff review, built-in browser preview, GUI permission approval, any model — Claude, ChatGPT, Grok, presets, or local endpoints — image generation, visual MCP & SubAgent managers, an Agent Teams workbench, dynamic Workflow orchestration, model trace, Computer Use, skill marketplace, colour themes, desktop pets, H5 remote access, IM integration, and scheduled tasks, all in one app.
 
 <p align="center">
-  <a href="#desktop-preview">Desktop Preview</a> · <a href="#install-the-desktop-app">Install</a> · <a href="#desktop-highlights">Highlights</a> · <a href="#more-documentation">More Docs</a> · <a href="#sponsorship--partnership">Sponsorship</a> · <a href="#user-group">User Group</a>
+  <a href="#install-the-desktop-app">Install</a> · <a href="#run-the-cli-from-source">Run the CLI</a> · <a href="#desktop-highlights">Highlights</a> · <a href="#more-documentation">Docs</a>
 </p>
-
----
-
-## Desktop Preview
-
-<p align="center">
-  <a href="https://github.com/NanmiCoder/cc-haha/releases"><img src="https://img.shields.io/badge/⬇_Download_Desktop-macOS_%7C_Windows_%7C_Linux-FF7A00?style=for-the-badge" alt="Download Desktop"></a>
-</p>
-
-<table>
-  <tr>
-    <td align="center" width="33.33%"><img src="docs/images/app/en/session-new.webp" alt="Empty desktop session before the first task"><br><b>Start with a clear, empty session</b><br><sub>Project and permissions stay visible</sub></td>
-    <td align="center" width="33.33%"><img src="docs/images/app/en/session-main.webp" alt="Real task running with the Activity panel open"><br><b>Follow the task as it runs</b><br><sub>Tool calls and stage-by-stage progress stay in view</sub></td>
-    <td align="center" width="33.33%"><img src="docs/images/app/en/workspace-diff.webp" alt="Workspace diff review"><br><b>See exactly what changed</b><br><sub>A focused, full-width syntax-highlighted diff</sub></td>
-  </tr>
-  <tr>
-    <td align="center" width="33.33%"><img src="docs/images/app/en/workspace-preview.webp" alt="Built-in browser previewing the page that was just changed"><br><b>Verify on the spot</b><br><sub>The real edited page in the built-in browser</sub></td>
-    <td align="center" width="33.33%"><img src="docs/images/app/en/model-picker.webp" alt="Model picker showing providers, presets, and local endpoints"><br><b>Choose the exact model</b><br><sub>Your providers, presets, and local endpoints in one list</sub></td>
-    <td align="center" width="33.33%"><img src="docs/images/app/en/skill-market.webp" alt="Skill marketplace"><br><b>Missing a trick? Install it</b><br><sub>Source and safety status shown up front</sub></td>
-  </tr>
-</table>
-
----
-
-## Sponsorship & Partnership
-
-This project is maintained in the author's spare time. Corporate or individual sponsorships are welcome to support ongoing development. Custom features, integrations, and business partnerships are also open for discussion.
-
-<table>
-  <thead>
-    <tr>
-      <th width="220">Sponsor</th>
-      <th align="left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://aruhub.com/sign-up?aff=Z54g">
-          <img src="docs/images/sponsors/aruhub-logo.webp" width="180" alt="AruHub">
-        </a>
-      </td>
-      <td valign="middle">
-        Thanks to <a href="https://aruhub.com/sign-up?aff=Z54g">AruHub</a> for sponsoring this project! AruHub focuses on providing developers with a stable, long-term primary API upstream service. Built for high-frequency AI coding workflows such as Codex and Claude Code, it offers official GPT API access through enterprise groups and stable Claude enterprise groups for sustained use, with support for leading models including GPT and Claude. Image 2 / 2.5 is available around the clock, starting at CNY 0.04 per image. Pay-as-you-go billing supports high-volume enterprise usage, invoicing, and refunds. Register through the <a href="https://aruhub.com/sign-up?aff=Z54g">exclusive link</a> to receive US$1 in credit usable across all models, with no model restrictions.
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=cc-haha">
-          <img src="docs/images/sponsors/atlascloud-logo-black.webp#gh-light-mode-only" width="180" alt="Atlas Cloud">
-          <img src="docs/images/sponsors/atlascloud-logo-white.webp#gh-dark-mode-only" width="180" alt="Atlas Cloud">
-        </a>
-      </td>
-      <td valign="middle">
-        Thanks to <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=cc-haha">Atlas Cloud</a> for sponsoring this project. Atlas Cloud is a full-modal AI inference platform that gives developers a single AI API to access video generation, image generation, and LLM APIs. Instead of managing multiple vendor integrations, you connect once and get unified access to 300+ curated models across all modalities. Atlas Cloud is already built into the cc-haha provider list, so you can pick it in settings and start using it with just an API key. Check out Atlas Cloud's new <a href="https://www.atlascloud.ai/console/coding-plan">coding plan promotion</a> for more budget-friendly API access.
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://www.apismart.ai">
-          <img src="docs/images/sponsors/apismart-logo.webp" width="180" alt="ApiSmart">
-        </a>
-      </td>
-      <td valign="middle">
-        Thanks to <a href="https://www.apismart.ai">ApiSmart</a> for sponsoring this project. ApiSmart provides unified access to leading AI models through a single API. Use one API key to connect with LLM, image, and video models through an OpenAI-compatible interface. Easily switch between models, simplify billing, and improve reliability with intelligent routing and automatic failover.
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-📧 **Contact**: relakkes@gmail.com
-
----
 
 ## Install the Desktop App
 
-1. Download the macOS / Windows / Linux desktop installer from [Releases](https://github.com/NanmiCoder/cc-haha/releases).
+1. Download the installer from [Releases](https://github.com/berlee-max/SDX/releases) (macOS / Windows 10+ / UOS 20).
+   **SDX has not published a release yet** — build from source as described below.
 2. On first launch, configure your model provider, API key, and default model in Settings.
 3. Public macOS releases require signing and notarization. Draft or unsigned temporary builds may still need one-time manual approval. Unsigned Windows installers may show SmartScreen; click "More info" -> "Run anyway". See the [desktop installation guide](docs/en/start/install.md).
 
@@ -115,43 +47,6 @@ cp .env.example .env
 ```
 
 See [environment variables](docs/en/cli/env.md) and [CLI setup](docs/en/cli/index.md) for more configuration options.
-
----
-
-## User Group
-
-Scan the QR code below to join the cc-haha user group on WeCom (WeChat Work) — the conversation there is mostly in Chinese. For questions and bug reports in English, [Issues](https://github.com/NanmiCoder/cc-haha/issues) is the better place. For enterprise deployment, customization, or Agent development needs, contact the author [NanmiCoder](https://github.com/NanmiCoder).
-
-<p align="center">
-  <img src="docs/images/community/wechat-group-qr.webp" width="300" alt="cc-haha WeCom user group QR code">
-</p>
-
----
-
-## ☕ Buy Me a Coffee
-
-If this project helps you, consider buying me a coffee — every bit of support keeps this project going ❤️
-
-<table>
-<tr>
-<td align="center" width="33%">
-<img src="docs/images/donate/wechat_pay.webp" width="250" alt="WeChat Pay"><br>
-<b>WeChat Pay</b>
-</td>
-<td align="center" width="33%">
-<img src="docs/images/donate/zfb_pay.webp" width="250" alt="Alipay"><br>
-<b>Alipay</b>
-</td>
-<td align="center" width="33%">
-<a href="https://buymeacoffee.com/relakkes" target="_blank">
-<img src="docs/images/donate/bmc_button.webp" width="250" alt="Buy Me a Coffee">
-</a><br>
-<b>Buy Me a Coffee</b>
-</td>
-</tr>
-</table>
-
----
 
 ## Desktop Highlights
 
@@ -214,13 +109,3 @@ Thanks to the following open-source projects and community practices for referen
 - [Electron](https://github.com/electron/electron): cross-platform desktop app capabilities and engineering practices.
 - [cc-switch](https://github.com/farion1231/cc-switch): reference for model provider configuration.
 - [LINUX DO](https://linux.do/): a new ideal developer community.
-
----
-
-## ⭐ Star History
-
-If this project helps you, please support it with a ⭐ Star so more people can discover SDX.
-
-<a href="https://www.repostars.dev/?repos=NanmiCoder%2Fcc-haha&theme=ocean">
-  <img alt="Star History Chart" src="https://www.repostars.dev/api/embed?repo=NanmiCoder%2Fcc-haha&theme=ocean" />
-</a>

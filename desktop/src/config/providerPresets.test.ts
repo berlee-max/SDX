@@ -126,9 +126,14 @@ describe('bundled provider presets', () => {
       .not.toContain(id)
   })
 
-  it('keeps active sponsors selectable and ordered like the README', () => {
-    expect(selectableProviderPresets(BUNDLED_PROVIDER_PRESETS).filter((preset) => preset.featured).map((preset) => preset.id))
-      .toEqual(['aruhub', 'atlascloud', 'apismart'])
+  it('gives no preset paid placement', () => {
+    // Upstream marked its three sponsors featured, which pinned them to the front
+    // of the picker. SDX has no sponsors, so nothing earns that position.
+    expect(selectableProviderPresets(BUNDLED_PROVIDER_PRESETS).filter((preset) => preset.featured))
+      .toEqual([])
+    for (const id of ['aruhub', 'atlascloud', 'apismart']) {
+      expect(selectableProviderPresets(BUNDLED_PROVIDER_PRESETS).map((preset) => preset.id)).toContain(id)
+    }
   })
 
   it('keeps the retired 接口AI preset resolvable but not selectable', () => {

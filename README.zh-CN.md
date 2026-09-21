@@ -13,91 +13,21 @@
 
 > **关于本项目**：SDX 基于开源项目 [cc-haha](https://github.com/NanmiCoder/cc-haha)（MIT 协议，作者 NanmiCoder）
 > 二次开发，起始于上游桌面端 v0.6.5。本仓库保留上游版权与许可声明，详见 [LICENSE](LICENSE) 和 [NOTICE.md](NOTICE.md)。
-> 下文大部分内容继承自上游文档，会随 SDX 的开发逐步替换；文中指向 `github.com/NanmiCoder/cc-haha`
-> 的链接仍然指向上游仓库。
+> 下文大部分内容继承自上游文档，会随 SDX 的开发逐步替换。上游的赞助、打赏、交流群和作者联系方式已全部移除；
+> 文中仅剩的 `github.com/NanmiCoder/cc-haha` 链接是出于许可要求保留的来源标注。
+>
+> 界面截图仍是上游版本（侧边栏显示 `cc-haha`），需要重新截图后替换，暂未纳入 README。
 
 SDX 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、分支 / Worktree 启动、Diff 审阅、内置浏览器预览、图形化权限审批、模型自选（Claude / ChatGPT / Grok / 预设 / 本地端点）、图片生成、MCP 与 SubAgent 可视化管理、Agent Teams 协作工作台、动态 Workflow 编排、模型请求追踪、Computer Use、技能市场、多主题、桌面宠物、H5 远程访问、IM 接入和定时任务，集中在一个 macOS / Windows / Linux APP 里。
 
 <p align="center">
-  <a href="#桌面端预览">桌面端预览</a> · <a href="#安装桌面端">安装桌面端</a> · <a href="#桌面端亮点">桌面端亮点</a> · <a href="#更多文档">更多文档</a> · <a href="#赞助与合作">赞助与合作</a> · <a href="#用户交流群">用户交流群</a>
+  <a href="#安装桌面端">安装桌面端</a> · <a href="#从源码启动-cli">从源码启动 CLI</a> · <a href="#桌面端亮点">桌面端亮点</a> · <a href="#更多文档">更多文档</a>
 </p>
-
----
-
-## 桌面端预览
-
-<p align="center">
-  <a href="https://github.com/NanmiCoder/cc-haha/releases"><img src="https://img.shields.io/badge/⬇_下载桌面端-macOS_%7C_Windows_%7C_Linux-FF7A00?style=for-the-badge" alt="下载桌面端"></a>
-</p>
-
-<table>
-  <tr>
-    <td align="center" width="33.33%"><img src="docs/images/app/zh-CN/session-new.webp" alt="第一次任务前的空会话"><br><b>从清爽的空会话开始</b><br><sub>项目和权限都在首屏</sub></td>
-    <td align="center" width="33.33%"><img src="docs/images/app/zh-CN/session-main.webp" alt="打开活动面板的真实执行中任务"><br><b>跟着任务一步步往前</b><br><sub>工具调用与阶段进度都留在眼前</sub></td>
-    <td align="center" width="33.33%"><img src="docs/images/app/zh-CN/workspace-diff.webp" alt="工作区 Diff 评审"><br><b>改了什么，逐行看清楚</b><br><sub>放大的高亮 Diff，文字和代码更清楚</sub></td>
-  </tr>
-  <tr>
-    <td align="center" width="33.33%"><img src="docs/images/app/zh-CN/workspace-preview.webp" alt="内置浏览器预览刚改完的页面"><br><b>改完当场验证</b><br><sub>内置浏览器打开真实本地页面</sub></td>
-    <td align="center" width="33.33%"><img src="docs/images/app/zh-CN/model-picker.webp" alt="显示服务商、预设和本地端点的模型选择器"><br><b>每条会话自选模型</b><br><sub>自己的服务商、预设和本地端点都在一个列表里</sub></td>
-    <td align="center" width="33.33%"><img src="docs/images/app/zh-CN/skill-market.webp" alt="技能市场"><br><b>缺什么手艺装什么</b><br><sub>来源和安全状态摆在明处</sub></td>
-  </tr>
-</table>
-
----
-
-## 赞助与合作
-
-本项目由个人利用业余时间维护，欢迎企业或个人赞助支持持续开发，也可洽谈定制、集成或商务合作。
-
-<table>
-  <thead>
-    <tr>
-      <th width="220">赞助商</th>
-      <th align="left">介绍</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://aruhub.com/sign-up?aff=Z54g">
-          <img src="docs/images/sponsors/aruhub-logo.webp" width="180" alt="AruHub">
-        </a>
-      </td>
-      <td valign="middle">
-        感谢 <a href="https://aruhub.com/sign-up?aff=Z54g">AruHub</a> 对本项目的赞助！AruHub 专注为开发者提供长期稳定的主力 API 上游服务。面向 Codex / Claude Code 等高频 AI Coding 场景，提供 GPT 企业分组官方接口、Claude 稳定企业分组，适合长时间持续调用；同时覆盖 GPT、Claude 等主流模型。Image 2 / 2.5 全天稳定供应，低至 0.04 元/张。按量付费，支持企业大用量、开发票及退款。通过 <a href="https://aruhub.com/sign-up?aff=Z54g">专属链接</a>注册即送 1 美元全模型通用额度，不限制模型使用。
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=cc-haha">
-          <img src="docs/images/sponsors/atlascloud-logo-black.webp#gh-light-mode-only" width="180" alt="Atlas Cloud">
-          <img src="docs/images/sponsors/atlascloud-logo-white.webp#gh-dark-mode-only" width="180" alt="Atlas Cloud">
-        </a>
-      </td>
-      <td valign="middle">
-        感谢 <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=cc-haha">Atlas Cloud</a> 赞助本项目！Atlas Cloud 是一个全模态 AI 推理平台，让开发者通过统一的 AI API 访问视频生成、图像生成和 LLM API，无需分别维护多个厂商集成，即可调用 300+ 精选模型。cc-haha 已内置 Atlas Cloud 供应商预设，在设置里选择后填入 API Key 即可直接使用。Atlas Cloud 最新推出 <a href="https://www.atlascloud.ai/console/coding-plan">coding plan 优惠</a>，为开发者提供更具性价比的 API 访问预算。
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://www.apismart.ai">
-          <img src="docs/images/sponsors/apismart-logo.webp" width="180" alt="ApiSmart">
-        </a>
-      </td>
-      <td valign="middle">
-        感谢 <a href="https://www.apismart.ai">ApiSmart</a> 赞助本项目！ApiSmart 通过单一 API 提供对主流 AI 模型的统一访问。只需一个 API Key，即可通过兼容 OpenAI 的接口连接大语言模型、图像模型和视频模型。轻松切换模型、简化账单管理，并通过智能路由和自动故障转移提升可靠性。
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-📧 **联系邮箱**：relakkes@gmail.com
-
----
 
 ## 安装桌面端
 
-1. 前往 [Releases](https://github.com/NanmiCoder/cc-haha/releases) 下载 macOS / Windows / Linux 桌面端安装包。
+1. 前往 [Releases](https://github.com/berlee-max/SDX/releases) 下载安装包（macOS / Windows 10+ / 统信 UOS 20）。
+   **SDX 尚未发布任何版本**，当前请按下文从源码构建。
 2. 首次启动后，在桌面端设置里配置模型提供商、API Key 和默认模型。
 3. 正式 macOS Release 需要经过签名和公证；如果安装的是 draft/unsigned 临时包，首次打开可能仍需手动放行。Windows 未签名安装包可能出现 SmartScreen 提示，点「更多信息」→「仍要运行」即可。详见 [桌面端安装指南](docs/start/install.md)。
 
@@ -114,43 +44,6 @@ cp .env.example .env
 ```
 
 更多配置见 [环境变量](docs/cli/env.md) 和 [命令行安装与启动](docs/cli/index.md)。
-
----
-
-## 用户交流群
-
-使用过程中有问题、想反馈 Bug，或者想看看别人怎么用，欢迎扫码加入 cc-haha 企业微信用户群。也可以直接来 [Issues](https://github.com/NanmiCoder/cc-haha/issues) 提问。企业定制 / 私有化部署 / Agent 定制需求，请联系作者 [NanmiCoder](https://github.com/NanmiCoder)。
-
-<p align="center">
-  <img src="docs/images/community/wechat-group-qr.webp" width="300" alt="cc-haha 企业微信用户群二维码">
-</p>
-
----
-
-## ☕ 请作者喝杯咖啡
-
-如果这个项目对您有帮助，欢迎打赏支持，您的每一份支持都是我持续更新的动力 ❤️
-
-<table>
-<tr>
-<td align="center" width="33%">
-<img src="docs/images/donate/wechat_pay.webp" width="250" alt="微信赞赏"><br>
-<b>微信赞赏</b>
-</td>
-<td align="center" width="33%">
-<img src="docs/images/donate/zfb_pay.webp" width="250" alt="支付宝"><br>
-<b>支付宝</b>
-</td>
-<td align="center" width="33%">
-<a href="https://buymeacoffee.com/relakkes" target="_blank">
-<img src="docs/images/donate/bmc_button.webp" width="250" alt="Buy Me a Coffee">
-</a><br>
-<b>Buy Me a Coffee</b>
-</td>
-</tr>
-</table>
-
----
 
 ## 桌面端亮点
 
@@ -213,13 +106,4 @@ cp .env.example .env
 - [Electron](https://github.com/electron/electron)：跨端桌面应用能力与工程实践。
 - [cc-switch](https://github.com/farion1231/cc-switch)：模型供应商配置能力参考。
 - [LINUX DO](https://linux.do/)：新的理想型开发者社区。
-
----
-
-## ⭐ Star History
-
-如果这个项目对你有帮助，欢迎点一个 ⭐ Star，让更多人发现 SDX。
-
-<a href="https://www.repostars.dev/?repos=NanmiCoder%2Fcc-haha&theme=ocean">
-  <img alt="Star History Chart" src="https://www.repostars.dev/api/embed?repo=NanmiCoder%2Fcc-haha&theme=ocean" />
-</a>
+- [cc-haha](https://github.com/NanmiCoder/cc-haha)：本项目的上游，SDX 从它的 v0.6.5 分叉而来。

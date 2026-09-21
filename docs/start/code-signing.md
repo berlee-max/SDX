@@ -1,56 +1,52 @@
----
-title: Code signing policy
-nav_title: 签名政策
-description: SDX 正式发布包的签名范围、责任角色、审批、验证与撤销规则。
-order: 5
----
+# 代码签名说明
 
-# Code signing policy
+**当前状态：SDX 尚未配置任何代码签名。** 本页说明这对你意味着什么，以及计划怎么做。
 
-本政策适用于 SDX 的正式 Windows 发布包。项目正在申请 SignPath Foundation 免费代码签名；接入完成前，Windows 下载页会继续明确标注安装包尚未签名。接入完成后，只有符合本政策的构建产物才会提交签名。
+## 现状
 
-Free code signing provided by SignPath.io, certificate by SignPath Foundation.
+| 平台 | 签名状态 | 首次打开时会遇到什么 |
+| --- | --- | --- |
+| macOS | 未签名、未公证 | Gatekeeper 会拦截。右键点图标选「打开」，或执行 `xattr -cr /Applications/SDX.app` 后再启动 |
+| Windows 10+ | 未签名 | SmartScreen 会提示「已保护你的电脑」。点「更多信息」→「仍要运行」 |
+| 统信 UOS 20 | 未签名（Linux 生态本就不依赖代码签名） | 正常安装，无额外提示 |
 
-服务由 [SignPath.io](https://about.signpath.io) 和 [SignPath Foundation](https://signpath.org) 提供。
+上游项目 [cc-haha](https://github.com/NanmiCoder/cc-haha) 通过 SignPath Foundation 获得了 Windows
+免费代码签名。**那份证书属于上游，与 SDX 无关**，SDX 不会也不能使用它。
 
-## 签名范围
+## 要做正式签名，各平台需要什么
 
-签名仅用于本项目拥有并从 [NanmiCoder/cc-haha](https://github.com/NanmiCoder/cc-haha) 源码构建的 Windows 桌面程序、项目自有 sidecar，以及最终的 x64 和 ARM64 NSIS 安装包。
+**macOS** —— Apple Developer Program 会员（99 美元/年），用于取得 Developer ID Application 证书；
+公证还需要一个 App-specific password。仓库里的构建流程已经完整支持签名 + 公证 + 签名链校验
+（host / sidecar / cu-helper 必须签在同一张证书上），只差证书本身。
 
-发布包可能包含在各自许可证下分发的第三方或上游开源组件。这些组件可以原样打包，但不会以 SDX 自有二进制的身份签名。证书不会用于其他项目、个人构建、调试构建或来源不明的文件。
+**Windows** —— 两条路：
 
-## 可信来源与构建
+- 向 [SignPath Foundation](https://signpath.org) 申请开源项目免费签名，需要项目公开且有一定
+  社区基础；
+- 或自行购买 OV / EV 代码签名证书。EV 证书能立刻消除 SmartScreen 警告，OV 证书需要累积信誉。
 
-- 唯一可信源码来源是公开 GitHub 仓库的受保护发布提交或标签。
-- 正式 Windows 产物由仓库内受版本控制的 GitHub Actions 工作流在 GitHub 托管的运行器上构建。
-- 签名请求必须能追溯到具体提交、发布标签、工作流运行和构建产物。
-- 签名失败、来源不明或元数据不一致的产物不得发布。
+仓库里 `.github/signpath/` 下的配置继承自上游，接入 SDX 自己的签名渠道时需要整体替换。
 
-## 责任角色
+**Linux / UOS** —— deb 包可以用 GPG 签名以便进入 apt 仓库，但直接分发 `.deb` 文件不需要。
 
-- **Authors / Committers：** [@NanmiCoder](https://github.com/NanmiCoder)，以及提交经审核贡献的外部贡献者。
-- **Reviewers：** [@NanmiCoder](https://github.com/NanmiCoder)；外部贡献必须经过维护者审核后才能进入正式发布提交。
-- **Approvers：** [@NanmiCoder](https://github.com/NanmiCoder)。
+## 在签名就绪之前，怎么确认下载的包没问题
 
-团队成员必须为 GitHub 和 SignPath 账户启用多因素认证。角色或成员发生变化时，本页会同步更新。
+只从本项目的 [GitHub Releases](https://github.com/berlee-max/SDX/releases) 下载，并核对哈希：
 
-## 审批与发布
+```bash
+# macOS / Linux
+shasum -a 256 SDX-<版本>-*.dmg
 
-每一次正式发布的签名请求都必须由 Approver 手动审批，不允许自动批准或绕过审批。批准前需要核对提交或标签、构建工作流、目标架构、文件名、产品名称、版本和发布说明。审批完成并验证签名后，产物才可以上传到 GitHub Releases。
-
-## 用户验证
-
-接入完成后，可以在 PowerShell 中检查 Windows 安装包：
-
-```powershell
-Get-AuthenticodeSignature ".\SDX-<version>-win-x64.exe" |
-  Format-List Status, StatusMessage, SignerCertificate, TimeStamperCertificate
+# Windows PowerShell
+Get-FileHash .\SDX-<版本>-win-x64.exe -Algorithm SHA256
 ```
 
-只在 `Status` 为 `Valid`、产品与版本符合预期且文件来自本项目 [GitHub Releases](https://github.com/NanmiCoder/cc-haha/releases) 时继续安装。
+发布页会附带每个产物的 SHA-256。哈希对不上就不要安装。
 
-## 安全事件与撤销
+## 安全事件上报
 
-如发现证书、签名账户、构建流程或发布产物可能被滥用，请通过 [GitHub 私密安全报告](https://github.com/NanmiCoder/cc-haha/security/advisories/new) 或发送邮件至 [relakkes@gmail.com](mailto:relakkes@gmail.com) 报告。维护者会暂停相关发布和签名请求、移除受影响的下载、调查来源，并在需要时联系 SignPath Foundation 撤销证书或签名。
+如果发现构建流程、发布产物或（将来的）签名账户可能被滥用，请通过
+[GitHub 私密安全报告](https://github.com/berlee-max/SDX/security/advisories/new) 或邮件
+[ribbernlee@gmail.com](mailto:ribbernlee@gmail.com) 报告。
 
 软件联网与本地数据处理方式见[隐私与联网说明](./privacy.md)。

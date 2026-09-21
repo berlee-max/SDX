@@ -41,7 +41,7 @@ describe('ApiSmart sponsor provider', () => {
     vi.restoreAllMocks()
   })
 
-  it('puts AruHub first in the sponsor row with badges and its signup offer', async () => {
+  it('shows AruHub as an ordinary preset with its connection defaults', async () => {
     const create = vi.spyOn(providersApi, 'create').mockImplementation(async (input) => ({
       provider: { ...input, id: 'saved-aruhub', apiFormat: input.apiFormat ?? 'anthropic' },
     }))
@@ -50,24 +50,20 @@ describe('ApiSmart sponsor provider', () => {
     fireEvent.click(await screen.findByRole('button', { name: /Add Model/ }))
     const dialog = within(screen.getByRole('dialog'))
     const sponsor = dialog.getByRole('button', { name: 'AruHub' })
-    expect(sponsor.parentElement?.firstElementChild).toBe(sponsor)
-    expect(sponsor.parentElement).toBe(dialog.getByRole('button', { name: 'Atlas Cloud' }).parentElement)
     expect(within(sponsor).getByText('New')).toBeInTheDocument()
-    expect(within(sponsor).getByLabelText('Sponsor')).toBeInTheDocument()
-    for (const name of ['Atlas Cloud', 'ApiSmart']) {
+    // Upstream sponsorship is gone: no sponsor badge on any preset, and no
+    // paid first position in the row.
+    for (const name of ['AruHub', 'Atlas Cloud', 'ApiSmart']) {
       expect(within(dialog.getByRole('button', { name })).queryByLabelText('Sponsor')).not.toBeInTheDocument()
     }
     fireEvent.click(sponsor)
     expect(dialog.getByDisplayValue('https://direct.aruhub.com:8443')).toBeInTheDocument()
     expect(dialog.getAllByDisplayValue('claude-opus-5')).toHaveLength(2)
     expect(dialog.getAllByDisplayValue('claude-sonnet-5')).toHaveLength(2)
-    expect(dialog.getByText(/注册即送 1 美元全模型通用额度/)).toBeInTheDocument()
     fireEvent.click(dialog.getByRole('button', { name: /Get API Key/ }))
-    expect(open).toHaveBeenCalledWith('https://aruhub.com/sign-up?aff=Z54g')
+    expect(open).toHaveBeenCalledWith('https://aruhub.com/sign-up')
     fireEvent.change(dialog.getAllByPlaceholderText('sk-...')[0]!, { target: { value: 'fake-aruhub-key' } })
-    expect(dialog.getByText(/注册即送 1 美元全模型通用额度/)).toBeInTheDocument()
     fireEvent.change(dialog.getByDisplayValue('https://direct.aruhub.com:8443'), { target: { value: 'https://other.invalid' } })
-    expect(dialog.queryByText(/注册即送 1 美元全模型通用额度/)).not.toBeInTheDocument()
     fireEvent.change(dialog.getByDisplayValue('https://other.invalid'), { target: { value: 'https://direct.aruhub.com:8443' } })
     fireEvent.click(dialog.getByRole('button', { name: 'Add' }))
     await waitFor(() => expect(create).toHaveBeenCalledWith(expect.objectContaining({
@@ -347,7 +343,7 @@ describe('OpenCode Go provider', () => {
     fireEvent.change(key, { target: { value: 'fake-opencode-key' } })
     expect(fetch).toBeEnabled()
     fireEvent.click(dialog.getByRole('button', { name: /Get API Key/ }))
-    expect(open).toHaveBeenCalledWith('https://opencode.ai/go?ref=3RK0WVVCGD')
+    expect(open).toHaveBeenCalledWith('https://opencode.ai/')
     expect(screen.queryByText(/CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1/)).not.toBeInTheDocument()
     fireEvent.focus(dialog.getByRole('button', { name: 'Disable experimental beta headers' }))
     expect(await screen.findByRole('tooltip')).toHaveTextContent('CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1')

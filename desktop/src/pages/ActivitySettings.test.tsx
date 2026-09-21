@@ -325,17 +325,17 @@ describe('ActivitySettings', () => {
     fireEvent.click(screen.getByRole('button', { name: '编辑个人资料' }))
     const input = screen.getByLabelText('显示名称')
     fireEvent.change(input, { target: { value: '本地舰长' } })
-    fireEvent.change(screen.getByLabelText('第二行'), { target: { value: 'relakkes.dev' } })
+    fireEvent.change(screen.getByLabelText('第二行'), { target: { value: 'example.dev' } })
     fireEvent.click(screen.getByRole('button', { name: '保存' }))
 
     await flushActivityLoad()
 
     expect(updateProfilePreferencesMock).toHaveBeenCalledWith({
       displayName: '本地舰长',
-      subtitle: 'relakkes.dev',
+      subtitle: 'example.dev',
     })
     expect(screen.getByText('本地舰长')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'relakkes.dev' })).toHaveAttribute('href', 'https://relakkes.dev')
+    expect(screen.getByRole('link', { name: 'example.dev' })).toHaveAttribute('href', 'https://example.dev')
   })
 
   it('handles avatar upload, fallback, removal, save failure, and cancel reset', async () => {

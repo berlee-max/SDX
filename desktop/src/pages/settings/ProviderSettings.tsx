@@ -2,8 +2,7 @@ import { useState, useEffect, useMemo, useRef, useId, type CSSProperties, type R
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { GripVertical, Star } from 'lucide-react'
-import aruhubLogo from '../../../../docs/images/sponsors/aruhub-logo.webp'
+import { GripVertical } from 'lucide-react'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useProviderStore } from '../../stores/providerStore'
 import { useUIStore } from '../../stores/uiStore'
@@ -1531,9 +1530,7 @@ function ProviderFormModal({ open, onClose, mode, provider, presets, browserMode
       selected={selectedPreset.id === preset.id}
       onClick={() => handlePresetChange(preset)}
     >
-      {preset.id === 'aruhub' && <img src={aruhubLogo} alt="" className="size-4 rounded-[var(--radius-sm)] object-contain" />}
       {preset.name}
-      {preset.id === 'aruhub' && <Star size={12} className="fill-[var(--color-warning)] text-[var(--color-warning)]" aria-label={t('settings.providers.sponsor')} />}
       {preset.isNew && (
         <Badge tone="warning" size="xs" className="absolute -right-1 -top-2">
           {t('settings.providers.new')}

@@ -6441,8 +6441,8 @@ describe('MessageList nested tool calls', () => {
 
   it('relativizes Windows checkpoint paths against the turn workdir', () => {
     expect(relativizeWorkspacePath(
-      'C:\\Users\\Relakkes\\aacc\\src\\App.tsx',
-      'c:/users/relakkes/aacc',
+      'C:\\Users\\Tester\\aacc\\src\\App.tsx',
+      'c:/users/tester/aacc',
     )).toBe('src/App.tsx')
   })
 
