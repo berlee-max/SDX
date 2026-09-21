@@ -426,7 +426,11 @@ describe('packaged artifact inspection', () => {
     writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
     writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
     writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/SDX-0.3.1-arm64-mac.zip')
+    // The on-disk archive and the one latest-mac.yml points at must NOT match:
+    // that mismatch is what this test asserts gets caught. Before the SDX rename
+    // the gap was productName-with-spaces vs the hyphenated artifactName; with a
+    // single-word product name the versions carry it instead.
+    writeFile(rootDir, 'desktop/build-artifacts/electron/SDX-0.3.0-arm64-mac.zip')
     writeFile(rootDir, 'desktop/build-artifacts/electron/latest-mac.yml', 'path: SDX-0.3.1-arm64-mac.zip\n')
 
     const report = await inspectPackagedArtifacts(rootDir, { platform: 'macos' })
