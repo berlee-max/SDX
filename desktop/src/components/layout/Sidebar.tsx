@@ -960,7 +960,7 @@ export function Sidebar({
               className={`sidebar-copy ${expanded ? 'sidebar-copy--visible' : 'sidebar-copy--hidden'} text-base font-bold tracking-tight text-[var(--color-text-primary)]`}
               style={{ fontFamily: 'var(--font-headline)' }}
             >
-              cc-<span className="text-[var(--color-brand)]">haha</span>
+              SD<span className="text-[var(--color-brand)]">X</span>
             </span>
           </div>
           <div className={`flex items-center ${expanded ? 'gap-1.5' : 'flex-col gap-2'}`}>
@@ -986,7 +986,7 @@ export function Sidebar({
               />
             </span>
             <a
-              href="https://github.com/NanmiCoder/cc-haha"
+              href="https://github.com/berlee-max/SDX"
               target="_blank"
               rel="noopener noreferrer"
               className={`sidebar-copy ${expanded ? 'sidebar-copy--visible' : 'sidebar-copy--hidden'} inline-flex items-center justify-center rounded-[var(--radius-sm)] p-1 text-[var(--color-text-tertiary)] transition-colors hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)]`}

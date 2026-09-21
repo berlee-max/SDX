@@ -666,9 +666,14 @@ describe('build-sidecars cu-helper macOS gating', () => {
     // guard, so non-macOS sidecar builds keep using the Python helper instead of
     // attempting a macOS-only Swift build.
     const guarded = source.match(
-      /if \(process\.platform === 'darwin' && cuHelperArch\) \{\s*await buildCuHelper\(cuHelperArch\)\s*\}/,
+      /if \(process\.platform === 'darwin' && cuHelperArch && !skipCuHelper\) \{\s*await buildCuHelper\(cuHelperArch\)\s*\}/,
     )
     expect(guarded).not.toBeNull()
+    // The SKIP_CU_HELPER escape hatch may only widen the skip, never the build:
+    // buildCuHelper must be called from exactly one place, inside that guard.
+    // Match call sites only — a comment above the guard also names the function.
+    expect(source.match(/^\s*await buildCuHelper\(cuHelperArch\)$/gm)).toHaveLength(1)
+    expect(source).toContain("const skipCuHelper = process.env.SKIP_CU_HELPER === '1'")
   })
 
   it('invokes native/cu-helper/build.sh from the cu-helper build step', () => {
