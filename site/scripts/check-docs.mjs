@@ -259,8 +259,17 @@ async function checkLocaleRedirect() {
   }
 
   // 少了这道判断，/en/start 这类地址也会被卷进分流。
-  if (!shellSource.includes("window.location.pathname.replace(/\\/+$/, '') !== ''")) {
+  if (!shellSource.includes("window.location.pathname.replace(/\\/+$/, '') !== base")) {
     problems.push('index.html: 内联语言脚本缺少「只在根路径生效」的判断')
+  }
+
+  // 站点部署在 /SDX/ 这样的项目子路径下，根路径不是空串。内联脚本必须从 %BASE_URL%
+  // 取前缀并带着它跳转，否则英文访客在子路径上永远跳不走，跳走了也会落到 404。
+  if (!shellSource.includes("var base = '%BASE_URL%'.replace(/\\/+$/, '')")) {
+    problems.push('index.html: 内联语言脚本没有从 %BASE_URL% 读部署前缀')
+  }
+  if (!shellSource.includes("window.location.replace(base + '/en'")) {
+    problems.push('index.html: 内联语言脚本跳转时丢了部署前缀')
   }
 
   return problems

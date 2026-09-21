@@ -39,7 +39,13 @@ export function toSiteHref(href) {
   return `${SITE_BASE}${route}${suffix}`
 }
 
-function withoutSiteBase(pathname) {
+/**
+ * The inverse of `toSiteHref`: turn a real `window.location.pathname` back into
+ * the route the docs index is keyed by. Exported because the router reads the
+ * address bar directly, and on a project-path deployment that string carries a
+ * prefix no route contains.
+ */
+export function withoutSiteBase(pathname) {
   const route = cleanRoute(pathname)
   if (SITE_BASE === '/') return route
   if (route === SITE_BASE) return '/'

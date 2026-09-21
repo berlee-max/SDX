@@ -6,14 +6,14 @@
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#201d17" media="(prefers-color-scheme: dark)">
     <meta name="description" content="SDX — Claude Code 的本地优先桌面客户端。会话、改动、Agent、定时任务都摆在明处，接哪个模型你说了算。">
-    <link rel="icon" href="/images/app-icon.webp" type="image/png">
+    <link rel="icon" href="%BASE_URL%images/app-icon.webp" type="image/webp">
     <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/noto-serif-sc-latin.woff2" as="font" type="font/woff2" crossorigin>
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SDX">
     <meta property="og:title" content="SDX — Claude Code 的本地优先桌面客户端">
     <meta property="og:description" content="会话、改动、Agent、定时任务都摆在明处。接哪个模型你说了算，改哪一行你点头才算。">
-    <meta property="og:image" content="https://cchaha.ai/images/banner.png">
+    <meta property="og:image" content="https://berlee-max.github.io/SDX/images/banner.png">
     <meta name="twitter:card" content="summary_large_image">
     <title>SDX — Claude Code 的本地优先桌面客户端</title>
     <script>
@@ -22,7 +22,10 @@
       // 判定规则与 src/lib/locale.js 是同一套，check-docs.mjs 盯着两处不漂移。
       (function () {
         try {
-          if (window.location.pathname.replace(/\/+$/, '') !== '') return
+          // Vite substitutes %BASE_URL%. On a project-path deployment the root
+          // is '/SDX/', not '', so an empty-string comparison never fires.
+          var base = '%BASE_URL%'.replace(/\/+$/, '')
+          if (window.location.pathname.replace(/\/+$/, '') !== base) return
 
           var stored = localStorage.getItem('cch-locale')
           var locale = stored === 'en' || stored === 'zh'
@@ -32,7 +35,7 @@
             }) ? 'zh' : 'en')
 
           if (locale === 'en') {
-            window.location.replace('/en' + window.location.search + window.location.hash)
+            window.location.replace(base + '/en' + window.location.search + window.location.hash)
           }
         } catch (error) {
           // 读不到偏好就维持中文站，别让语言分流把首页整个拦死。
@@ -52,13 +55,6 @@
           document.documentElement.dataset.theme = 'light'
         }
       })()
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D42DM82263"></script>
-    <script>
-      window.dataLayer = window.dataLayer || []
-      function gtag(){dataLayer.push(arguments)}
-      gtag('js', new Date())
-      gtag('config', 'G-D42DM82263')
     </script>
   </head>
   <body>

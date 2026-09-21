@@ -76,7 +76,7 @@ See [environment variables](docs/en/cli/env.md) and [CLI setup](docs/en/cli/inde
 
 ## More Documentation
 
-Full documentation site: <https://cchaha.ai>
+Full documentation site: <https://berlee-max.github.io/SDX/>
 
 | Section | Documents |
 |------|------|

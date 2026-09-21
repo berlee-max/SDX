@@ -60,6 +60,12 @@ function docsManifestPlugin() {
 }
 
 export default defineConfig({
+  // A GitHub Pages project site serves from /<repo>/, not from the origin root.
+  // Vite reads this config before it can load anything else, so the value is
+  // duplicated as SITE_BASE in src/lib/siteUrl.js — the two move together. It
+  // reaches runtime code as import.meta.env.BASE_URL and %BASE_URL% in
+  // index.html, so nothing else should hard-code it.
+  base: '/SDX/',
   plugins: [docsManifestPlugin()],
   build: {
     outDir: 'dist',

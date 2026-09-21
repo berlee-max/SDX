@@ -69,6 +69,29 @@ describe('resolveRootRedirect', () => {
     }
   })
 
+  // 站点部署在 GitHub Pages 的项目子路径下（/SDX/），根路径不再是空串。
+  // 这组漏了的话，英文访客会静悄悄留在中文首页，或者被送到一个 404。
+  describe('部署在子路径下', () => {
+    const base = '/SDX/'
+
+    it('子路径的根按语言分流，并带上前缀', () => {
+      assert.equal(resolveRootRedirect({ languages: ['en-US'], pathname: '/SDX/', base }), '/SDX/en')
+      assert.equal(resolveRootRedirect({ languages: ['en-US'], pathname: '/SDX', base }), '/SDX/en')
+      assert.equal(resolveRootRedirect({ languages: ['zh-CN'], pathname: '/SDX/', base }), null)
+    })
+
+    it('子路径下的其他地址一律不碰', () => {
+      for (const pathname of ['/SDX/en', '/SDX/start', '/SDX/en/start']) {
+        assert.equal(resolveRootRedirect({ languages: ['en-US'], pathname, base }), null, pathname)
+      }
+    })
+
+    it('源站根目录不是这个站的根，不分流', () => {
+      // 真跳了就等于把访客丢到 github.io 的根上，那儿没有这个站。
+      assert.equal(resolveRootRedirect({ languages: ['en-US'], pathname: '/', base }), null)
+    })
+  })
+
   it('记住的偏好优先于浏览器语言', () => {
     // 中文浏览器手动切到英文后，回首页不该被弹回中文，否则切换器等于没用。
     assert.equal(resolveRootRedirect({ languages: ['zh-CN'], pathname: '/', stored: 'en' }), '/en')

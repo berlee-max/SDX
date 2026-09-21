@@ -2,9 +2,9 @@ import { promises as fs } from 'node:fs'
 import path from 'node:path'
 
 import { generateDocsManifest, paths } from './generate-docs-manifest.mjs'
+import { siteUrl } from '../src/lib/siteUrl.js'
 
 const distDir = path.join(paths.siteDir, 'dist')
-const expectedCustomDomain = 'cchaha.ai'
 
 async function pathExists(targetPath) {
   return fs.access(targetPath).then(() => true, () => false)
@@ -131,10 +131,9 @@ function escapeHtml(value) {
 function shellForRoute(shell, meta) {
   if (!meta) return shell
 
-  const origin = `https://${expectedCustomDomain}`
   const isEnglish = meta.path === '/en' || meta.path.startsWith('/en/')
-  const canonical = `${origin}${meta.path}`
-  const alternate = meta.alternate ? `${origin}${meta.alternate}` : null
+  const canonical = siteUrl(meta.path)
+  const alternate = meta.alternate ? siteUrl(meta.alternate) : null
 
   const head = [
     `<link rel="canonical" href="${escapeHtml(canonical)}">`,
@@ -181,10 +180,9 @@ function alternateFor(record, records) {
 }
 
 async function writeSitemap(records) {
-  const origin = `https://${expectedCustomDomain}`
   const urls = ['/', '/en', ...records.map((record) => record.path)]
   const body = urls
-    .map((url) => `  <url><loc>${origin}${url}</loc><changefreq>weekly</changefreq></url>`)
+    .map((url) => `  <url><loc>${siteUrl(url)}</loc><changefreq>weekly</changefreq></url>`)
     .join('\n')
 
   await fs.writeFile(
@@ -194,7 +192,7 @@ async function writeSitemap(records) {
 
   await fs.writeFile(
     path.join(distDir, 'robots.txt'),
-    `User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`
+    `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl('/sitemap.xml')}\n`
   )
 }
 
@@ -223,9 +221,11 @@ async function main() {
   await copyReferencedDocImages(records)
   await copySiteReferencedImages()
 
-  const customDomain = (await fs.readFile(path.join(distDir, 'CNAME'), 'utf8')).trim()
-  if (customDomain !== expectedCustomDomain) {
-    throw new Error(`Expected CNAME to contain ${expectedCustomDomain}, received ${customDomain || 'an empty value'}.`)
+  // Inverted from the check it replaces. This fork publishes to a project path
+  // on github.io, so a CNAME would make Pages claim a domain nobody here owns —
+  // and the one that used to sit in docs/public/ named the upstream's.
+  if (await pathExists(path.join(distDir, 'CNAME'))) {
+    throw new Error('dist/CNAME exists. This site deploys to a GitHub Pages project path, not a custom domain — see src/lib/siteUrl.js.')
   }
 
   for (const record of records) {

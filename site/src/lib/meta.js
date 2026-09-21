@@ -1,4 +1,4 @@
-const SITE_ORIGIN = 'https://cchaha.ai'
+import { siteUrl } from './siteUrl'
 
 function upsert(selector, create) {
   let node = document.head.querySelector(selector)
@@ -49,13 +49,13 @@ export function setPageMeta({ alternate, canonical, description, lang, title }) 
   setMetaContent('name', 'description', description)
   setMetaContent('property', 'og:title', title)
   setMetaContent('property', 'og:description', description)
-  setMetaContent('property', 'og:url', canonical ? `${SITE_ORIGIN}${canonical}` : null)
+  setMetaContent('property', 'og:url', canonical ? siteUrl(canonical) : null)
 
-  setLink('canonical', canonical ? `${SITE_ORIGIN}${canonical}` : null)
+  setLink('canonical', canonical ? siteUrl(canonical) : null)
 
   if (canonical) {
     const isEnglish = canonical === '/en' || canonical.startsWith('/en/')
-    setLink('alternate', `${SITE_ORIGIN}${canonical}`, isEnglish ? 'en' : 'zh-Hans')
-    setLink('alternate', alternate ? `${SITE_ORIGIN}${alternate}` : null, isEnglish ? 'zh-Hans' : 'en')
+    setLink('alternate', siteUrl(canonical), isEnglish ? 'en' : 'zh-Hans')
+    setLink('alternate', alternate ? siteUrl(alternate) : null, isEnglish ? 'zh-Hans' : 'en')
   }
 }

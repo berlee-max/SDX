@@ -29,11 +29,15 @@ export function normalizeStoredLocale(value) {
 /**
  * 根路径该跳去哪；返回 null 表示留在原地（中文站）。
  */
-export function resolveRootRedirect({ languages, pathname, stored }) {
-  if (String(pathname ?? '/').replace(/\/+$/, '') !== '') return null
+export function resolveRootRedirect({ languages, pathname, stored, base = '/' }) {
+  // `base` is the deployment prefix, '/SDX/' on GitHub Pages and '/' in dev.
+  // Without it the root check never matches on a project path, and every
+  // English visitor silently lands on the Chinese home page.
+  const trim = (value) => String(value ?? '/').replace(/\/+$/, '')
+  if (trim(pathname) !== trim(base)) return null
 
   const locale = normalizeStoredLocale(stored) || (prefersChinese(languages) ? 'zh' : 'en')
-  return locale === 'en' ? '/en' : null
+  return locale === 'en' ? `${trim(base)}/en` : null
 }
 
 export function rememberLocale(locale) {

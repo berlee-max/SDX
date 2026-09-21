@@ -91,7 +91,7 @@ in a 1024 box) so it carries the same visual weight in a Dock. The mark spans
 | `docs/images/app-icon.webp` | the site: its favicon, `SiteHeader.jsx`, and `HomePage.jsx` |
 | `docs/images/logo-horizontal{,-dark}.{svg,webp}` | the wordmark lockup; no consumer in-tree today |
 | `docs/images/banner.{svg,webp}` | the wide 3:1 card; no consumer in-tree today |
-| `docs/public/images/banner.{svg,png}` | `og:image` in `site/index.html` — see the note below |
+| `docs/public/images/banner.{svg,png}` | `og:image` in `site/index.html` |
 
 Four paths are written that nothing currently reads: `desktop/public/app-icon.svg`,
 `desktop/src-tauri/app-icon*.{png,svg}`, and the `-light` / `-dark` variants under
@@ -145,28 +145,42 @@ glyphs themselves. A few percent of error moves the rule a few pixels. The
 alternative — the hard-coded length the previous set used — drifts visibly the
 moment anything about the type changes.
 
-### The `og:image` still points at the upstream's domain
+### Where the site lives
 
-`site/index.html` sets `og:image` to `https://cchaha.ai/images/banner.png` — an
-absolute URL on a host this project does not control. Regenerating
-`docs/public/images/banner.png` does not fix that: a social preview of an SDX link
-still fetches the previous project's card from the previous project's server.
+The fork inherited a custom domain at an apex: `docs/public/CNAME` claimed
+`cchaha.ai`, and `SITE_ORIGIN`, the `og:image`, both READMEs and the issue
+template all pointed at it. None of that could be repointed, because this account
+does not own the domain — GitHub Pages would have refused to claim it, and until
+then a social preview of an SDX link fetched the previous project's card from the
+previous project's server.
 
-It is part of a cluster that all resolves the same way, and none of it can be
-decided here:
+It now publishes as a GitHub Pages **project site** at
+`https://berlee-max.github.io/SDX/`. That is a path prefix on a shared origin
+rather than a domain, which is the whole of the difference:
 
 | | |
 | --- | --- |
-| `docs/public/CNAME` | `cchaha.ai` — GitHub Pages would try to claim a domain this account does not own |
-| `site/src/lib/meta.js` | `SITE_ORIGIN = 'https://cchaha.ai'` |
-| `site/index.html` | the `og:image` above |
-| `README.md`, `README.zh-CN.md` | link the documentation site at `cchaha.ai` |
-| `.github/ISSUE_TEMPLATE/feature_request.md` | same link |
-| `site/AGENTS.md`, `site/scripts/prepare-static-output.mjs` | encode the custom-domain contract, and hard-fail when the CNAME drifts |
+| `site/src/lib/siteUrl.js` | the one definition of origin and base; `siteUrl(route)` is what everything else calls |
+| `site/vite.config.js` | `base: '/SDX/'` — duplicated, because Vite reads its config before it can load anything |
+| `site/index.html` | reads the prefix from `%BASE_URL%`; `og:image` and the favicon are absolute under it |
+| `site/src/App.jsx` | strips the prefix before matching a route, or every page 404s |
+| `site/src/lib/locale.js` | the root check compares against the base, not against `''` |
+| `site/scripts/prepare-static-output.mjs` | canonical, hreflang, `og:url`, sitemap and `robots.txt` all go through `siteUrl` |
 
-Every `Deploy React Site` run on this fork has failed since the repository was
-created, because GitHub Pages is not enabled on it. So nothing is broken right
-now — but the moment Pages is switched on, this is what it will try to publish.
+`docs/public/CNAME` was deleted rather than repointed, and the guard that used to
+assert its contents is inverted: `prepare-static-output.mjs` now fails if a
+`CNAME` reappears in `dist/`.
+
+Two things went with it. The site's GitHub icon, its Download button and the
+`git clone` line on the home page all still pointed at the upstream repository —
+so the download button on SDX's own home page fetched the other project's
+releases. And `index.html` carried the upstream's Google Analytics property, which
+would have reported this fork's traffic into someone else's account; the tag is
+removed rather than replaced.
+
+GitHub Pages is still switched off for this repository, which is why every
+`Deploy React Site` run has failed since it was created. Turning it on in the
+repository settings is the remaining step, and nothing else needs to change.
 
 ## Guards
 

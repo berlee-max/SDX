@@ -73,7 +73,7 @@ cp .env.example .env
 
 ## 更多文档
 
-完整文档站：<https://cchaha.ai>
+完整文档站：<https://berlee-max.github.io/SDX/>
 
 | 分区 | 文档 |
 |------|------|
