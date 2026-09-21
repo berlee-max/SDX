@@ -137,12 +137,9 @@ describe('macOS installed app enumeration', () => {
       else process.env.CC_HAHA_COMPUTER_USE_HOST_BUNDLE_ID = previousHost
     }
 
+    // Sorted by display name, so the host's position moves whenever the product
+    // is renamed — 'SDX' lands after 'Notes' where 'Claude Code Haha' led.
     expect(apps).toEqual([
-      {
-        bundleId: 'com.sdx.desktop',
-        displayName: 'SDX',
-        path: '/Applications/Desktop.app',
-      },
       {
         bundleId: 'dev.cchaha.cu-helper',
         displayName: 'Computer Use Helper',
@@ -157,6 +154,11 @@ describe('macOS installed app enumeration', () => {
         bundleId: 'com.example.notes',
         displayName: 'Notes',
         path: '/Applications/Notes.app',
+      },
+      {
+        bundleId: 'com.sdx.desktop',
+        displayName: 'SDX',
+        path: '/Applications/Desktop.app',
       },
     ])
   })
