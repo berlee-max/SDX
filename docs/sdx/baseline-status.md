@@ -1,7 +1,7 @@
 # SDX 基线验证状态
 
 > 环境：macOS 15（Darwin 24.6.0，arm64）· bun 1.3.14（= `packageManager` 声明的版本）· node v26.8.1
-> 提交：`58093f1`（`main`）· 日期：2026-09-21
+> 分支：`main` · 日期：2026-09-21 · 上游基线：tag `upstream-baseline`
 
 这份文档记录 **SDX 刚建仓时各条质量车道的真实状态**。目的只有一个：
 以后有人看到某个测试是红的，能立刻分清"我刚改坏的"还是"本来就红的"，
@@ -34,13 +34,13 @@
 
 | 文件 | 问题 | 提交 |
 | --- | --- | --- |
-| `scripts/quality-gate/package-smoke/index.test.ts` | 测试靠"带空格的产品名"与"带连字符的安装包名"不同来模拟"更新元数据指向缺失文件"；单词产品名让两者塌缩成同一个字符串，断言失效 | `0775437` |
-| `src/server/__tests__/mac-installed-apps.test.ts` | 断言的是按显示名排序的列表；`Claude Code Haha` 排第一，`SDX` 排到了 `Notes` 之后 | `58093f1` |
-| `package.json` `packageManager` | 把 bun 提到 1.4.2 导致 `systemProxyBridge` 竞态用例超时；1.3.14 下全绿。已回退并写进 [git-workflow.md](git-workflow.md) | `23f3b39` |
+| `scripts/quality-gate/package-smoke/index.test.ts` | 测试靠"带空格的产品名"与"带连字符的安装包名"不同来模拟"更新元数据指向缺失文件"；单词产品名让两者塌缩成同一个字符串，断言失效 | `chore: establish SDX 0.1.0 version line and dev workflow` |
+| `src/server/__tests__/mac-installed-apps.test.ts` | 断言的是按显示名排序的列表；`Claude Code Haha` 排第一，`SDX` 排到了 `Notes` 之后 | `fix(test): restore sorted order in the macOS installed-app expectation` |
+| `package.json` `packageManager` | 把 bun 提到 1.4.2 导致 `systemProxyBridge` 竞态用例超时；1.3.14 下全绿。已回退并写进 [git-workflow.md](git-workflow.md) | `revert: keep bun pinned at 1.3.14` |
 
 顺带修掉一个继承的缺陷：`src/vendor/computer-use-mcp/toolCalls.test.ts` 重复 import 了
 `bindSessionContext`，Bun 转译器拒绝该文件，导致 `check:policy` 的死代码分析器把它判为
-"无法分析"而整条车道失败（`3922d54`）。
+"无法分析"而整条车道失败（`fix: unbreak the dead-import analyser on the computer-use vendor tests`）。
 
 ## 三、继承的失败清单（27 个 / 10 个文件）
 
@@ -66,6 +66,18 @@
 2. **`transitionPermissionMode` 缺失**：3 个失败指向同一个不存在的导出，像是重构后没跟上的 mock。
 
 剩下的 `searchService`（9）、`workspaceWatch`（2）、`settings`（1）、`sessions`（2）需要各自定位。
+
+## 三点五、历史重写记录
+
+首次 push 前后各做过一次 `git filter-repo`，两次都把 commit hash 全换了：
+
+1. 剔除 92.6MB 原始文档图片（webp 转换后的死重量）
+2. 剔除一个 55.37MB 的 `.bun-build` 构建临时文件 —— 它在 `fix: unbreak the dead-import
+   analyser on the computer-use vendor tests` 里被 `git add -A` 误收进来，而忽略规则是下一个
+   提交才加的。这一个文件曾占整个仓库的 67%。
+
+**所以本文档一律用 tag 和提交标题引用，不用 hash。** 往仓库根目录跑 `bun build` 会留下
+`.<hash>-00000000.bun-build`，`.gitignore` 已覆盖，但提交前还是看一眼 `git status`。
 
 ## 四、复现对照的方法
 
