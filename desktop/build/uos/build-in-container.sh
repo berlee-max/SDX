@@ -32,6 +32,10 @@ if [ "${SKIP_INSTALL:-0}" != "1" ]; then
   bun install --frozen-lockfile
   log "installing desktop dependencies"
   (cd "${DESKTOP_DIR}" && bun install --frozen-lockfile)
+  # The sidecar bundles the IM adapters, so their dependencies have to be present
+  # before build:sidecars — CI installs these in a step of its own.
+  log "installing adapter dependencies"
+  (cd "${REPO_ROOT}/adapters" && bun install --frozen-lockfile)
 fi
 
 log "cleaning stale output"

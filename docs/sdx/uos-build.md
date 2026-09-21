@@ -22,10 +22,33 @@ cd desktop && bun run build:uos-x64
 现有 CI（`.github/workflows/release-desktop.yml`）在 `ubuntu-22.04` 上构建，那是 glibc 2.35。
 这样出来的包装到 UOS 20 上，`pty.node` 会直接报 `GLIBC_2.3x not found` —— 终端功能整个挂掉。
 
-所以构建机的 glibc **必须 ≤ 2.28**。`desktop/build/uos/Dockerfile` 用 `debian:buster-slim`
-正是为此：它和 UOS 20 同源同版本。
+所以构建机的 glibc **必须正好是 2.28**。其余组件全是预编译的，构建机版本不影响它们。
 
-其余组件全是预编译的，构建机版本不影响它们。
+### 为什么基础镜像不是 Debian 10
+
+`debian:buster` 才是 UOS 20 的同源发行版，看起来最自然，但实测连撞两堵墙，**两堵都和 glibc 无关**：
+
+| 报错 | 原因 |
+| --- | --- |
+| `SyntaxError: invalid syntax`（`gyp/pylib/gyp/__init__.py:212`） | node-gyp 12 的 gyp 用了海象运算符 `:=`，要求 Python ≥ 3.8；buster 只有 3.7.3 |
+| `unrecognized command line option '-std=gnu++20'` | Electron 42 的 node 头文件要求 C++20；buster 的 gcc 8.3 连这个选项名都不认识 |
+
+第二个绕不过去：GCC 8 的 C++20 支持本就残缺，退回 `-std=gnu++2a` 大概率仍编不过 Electron 的头文件。
+
+于是换成 **`quay.io/pypa/manylinux_2_28_x86_64`** —— 这个镜像就是为"新编译器 + 老 glibc"存在的：
+AlmaLinux 8 把 glibc 钉在 2.28，上面叠现代工具链。实测一次拿到：
+
+```
+glibc  2.28      ← 与 UOS 20 完全相同，这是唯一不能动的约束
+gcc    14.2.1    ← C++20 通过
+python 3.12.14   ← 顺带解决 node-gyp 的问题
+```
+
+它是 RPM 系，`dpkg` 和 `fakeroot`（electron-builder 打 deb 需要）从 EPEL 装。
+
+**一个隐蔽的坑**：manylinux 的工具链正常要 `source /opt/rh/gcc-toolset-14/enable`。Dockerfile 里
+直接写进 `ENV PATH` 而不是用 `BASH_ENV` —— 因为 `make` 通过 `/bin/sh -c` 调 g++，bash 在 sh 兼容
+模式下**不读 `BASH_ENV`**，编译子进程会悄悄退回系统自带的 gcc 8，报一模一样的错，让人误以为没修好。
 
 ## 二、glibc 核验表
 
