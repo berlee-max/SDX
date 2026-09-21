@@ -1,7 +1,8 @@
 # 统信 UOS 20 (x86_64) 构建
 
 > 目标：统信 UOS 桌面版 20（Debian 10 基础，**glibc 2.28**），x86_64
-> 状态：构建链路已就绪并做过静态核验；**尚未在真机上验证过**（见文末）
+> 状态：**构建已跑通并产出 deb / AppImage**，产物 glibc 地板实测不超过 2.28；
+> 但**尚未在 UOS 真机上安装运行过**（见第五节）
 
 ```bash
 # 需要 Docker 在跑
@@ -117,6 +118,47 @@ Electron、npm、bun 的下载缓存挂在 Docker 卷 `sdx-uos-build-cache` 上�
 
 **在 Apple Silicon 上会走 amd64 模拟，正确但慢。** 有 x86_64 的 Linux 机器的话，同一条命令
 在上面跑会快很多。
+
+## 四点五、实际构建结果
+
+2026-09-21 在 macOS（Apple Silicon，amd64 模拟）上完整跑通：
+
+| 产物 | 体积 |
+| --- | ---: |
+| `SDX-0.1.0-linux-amd64.deb` | 188 MB（安装后 683 MB） |
+| `SDX-0.1.0-linux-x86_64.AppImage` | 239 MB |
+
+deb 元数据：
+
+```
+Package:      sdx-desktop
+Version:      0.1.0
+Architecture: amd64
+Maintainer:   SDX <ribbernlee@gmail.com>
+Homepage:     https://github.com/berlee-max/SDX
+Depends:      21 项，见第三节
+```
+
+**出厂 glibc 扫描**（16 个 ELF）：
+
+| 文件 | 需要 glibc |
+| --- | --- |
+| `node-pty/build/Release/pty.node` | **2.28** ← 全包最高，正好卡在 UOS 20 的上限 |
+| `claude-sidecar-x86_64-unknown-linux-gnu` | 2.17 |
+| `chrome-sandbox` | 2.4 |
+| Electron 主程序与随包 `.so` | ≤ 2.25 |
+
+容器里编译出的 `pty.node` 还需要 `GLIBCXX_3.4.22` 和 `CXXABI_1.3.9`，UOS 20 的 gcc 8 运行时
+提供到 `GLIBCXX_3.4.25` / `CXXABI_1.3.11`，够用。
+
+**这条数据是整个方案的立足点**：用 GCC 14 编译，产物却只要求 glibc 2.28。
+
+几点观察：
+
+- 主可执行文件叫 `sdx-desktop`（electron-builder 取自 `package.json` 的 `name`），安装目录是
+  `/opt/SDX`（取自 `productName`）。这正好避开了和 CLI 的 `sdx` 重名，暂不改。
+- 包里仍带着 `node-pty` 的 darwin-* 和 win32-* 预编译产物，对 Linux 包是死重量。可以用
+  `files` 规则剔掉，体积能再小一些，优先级不高。
 
 ## 五、尚未验证的部分
 
