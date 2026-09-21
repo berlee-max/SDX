@@ -14,6 +14,9 @@ REPO_ROOT="$(cd "${DESKTOP_DIR}/.." && pwd)"
 
 IMAGE_TAG="${UOS_IMAGE_TAG:-sdx-uos20-builder:latest}"
 CACHE_VOLUME="${UOS_CACHE_VOLUME:-sdx-uos-build-cache}"
+NM_ROOT_VOLUME="${UOS_NM_ROOT_VOLUME:-sdx-uos-nm-root}"
+NM_DESKTOP_VOLUME="${UOS_NM_DESKTOP_VOLUME:-sdx-uos-nm-desktop}"
+NM_ADAPTERS_VOLUME="${UOS_NM_ADAPTERS_VOLUME:-sdx-uos-nm-adapters}"
 OUTPUT_DIR="${DESKTOP_DIR}/build-artifacts/uos-x64"
 
 usage() {
@@ -27,7 +30,7 @@ Options:
   --shell            Drop into a shell in the builder image instead of building.
 
 Environment:
-  SKIP_INSTALL=1     Reuse node_modules already present in the repo (faster reruns).
+  SKIP_INSTALL=1     Reuse the container's node_modules volumes (faster reruns).
   UOS_IMAGE_TAG      Builder image tag. Default: sdx-uos20-builder:latest
   UOS_CACHE_VOLUME   Docker volume for the Electron/npm/bun caches.
   REBUILD_IMAGE=1    Rebuild the builder image even if it already exists.
@@ -67,21 +70,33 @@ else
   echo "[uos] Reusing builder image ${IMAGE_TAG} (REBUILD_IMAGE=1 to rebuild)."
 fi
 
-docker volume create "${CACHE_VOLUME}" >/dev/null
+for volume in "${CACHE_VOLUME}" "${NM_ROOT_VOLUME}" "${NM_DESKTOP_VOLUME}" "${NM_ADAPTERS_VOLUME}"; do
+  docker volume create "${volume}" >/dev/null
+done
 
 if [[ "${1:-}" == "--shell" ]]; then
   exec docker run --rm -it --platform linux/amd64 \
     -v "${REPO_ROOT}:/work" \
     -v "${CACHE_VOLUME}:/cache" \
+    -v "${NM_ROOT_VOLUME}:/work/node_modules" \
+    -v "${NM_DESKTOP_VOLUME}:/work/desktop/node_modules" \
+    -v "${NM_ADAPTERS_VOLUME}:/work/adapters/node_modules" \
     -w /work "${IMAGE_TAG}" bash
 fi
 
 rm -rf "${OUTPUT_DIR}"
 
+# The repo is bind-mounted, so the container would otherwise install linux-x64
+# native modules straight over the host's darwin ones and quietly break local
+# development. Named volumes shadow every node_modules directory: the container
+# gets its own Linux tree, persisted across runs so SKIP_INSTALL still helps.
 echo "[uos] Building in container..."
 docker run --rm --platform linux/amd64 \
   -v "${REPO_ROOT}:/work" \
   -v "${CACHE_VOLUME}:/cache" \
+  -v "${NM_ROOT_VOLUME}:/work/node_modules" \
+  -v "${NM_DESKTOP_VOLUME}:/work/desktop/node_modules" \
+  -v "${NM_ADAPTERS_VOLUME}:/work/adapters/node_modules" \
   -e "SKIP_INSTALL=${SKIP_INSTALL:-0}" \
   -w /work "${IMAGE_TAG}" \
   bash /work/desktop/build/uos/build-in-container.sh
