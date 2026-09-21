@@ -3,8 +3,9 @@
 SDX 的 CLI 和桌面端走两条不同的接入路径，同一家服务商往往要填不同的地址。本文以
 **千问AI平台**（`platform.qianwenai.com`）为例，它两套接口都提供，正好把差异说清楚。
 
-> 注意：这家 `platform.qianwenai.com` 不是阿里云官方的通义千问（那是
-> `dashscope.aliyuncs.com` / `bailian.console.aliyun.com`），是第三方聚合平台。
+> 关于域名：key 在 `platform.qianwenai.com` 的控制台创建，但实测在阿里云官方的
+> `dashscope.aliyuncs.com` 上同样有效，两个域名返回的模型列表逐字相同。二者的确切关系
+> 没有深究，**配置时用 `dashscope.aliyuncs.com`**：官方域名，链路更可控。
 
 ---
 
@@ -12,8 +13,11 @@ SDX 的 CLI 和桌面端走两条不同的接入路径，同一家服务商往�
 
 | 格式 | Base URL | 谁用 |
 | --- | --- | --- |
-| **Anthropic 兼容** | `https://maas.qianwenaiapi.com/apps/anthropic` | CLI（`bin/sdx`），桌面端选 `anthropic` 时 |
-| **OpenAI 兼容** | `https://maas.qianwenaiapi.com/compatible-mode/v1` | 桌面端选 `openai_chat` 时 |
+| **Anthropic 兼容** | `https://dashscope.aliyuncs.com/apps/anthropic` | CLI（`bin/sdx`），桌面端选 `anthropic` 时 |
+| **OpenAI 兼容** | `https://dashscope.aliyuncs.com/compatible-mode/v1` | 桌面端选 `openai_chat` 时 |
+
+`maas.qianwenaiapi.com` 是同一套后端的镜像，两个域名的模型列表逐字相同、同一个 key 都认。
+**用 `dashscope.aliyuncs.com`** —— 阿里云官方域名。
 
 CLI 只认 Anthropic 格式，会自己往 base URL 后面接 `/v1/messages`。**填 base URL 时不要带
 `/v1/messages`**，否则路径会变成 `.../v1/messages/v1/messages`。
@@ -21,12 +25,18 @@ CLI 只认 Anthropic 格式，会自己往 base URL 后面接 `/v1/messages`。*
 实测记录（2026-09-21）：
 
 ```
-GET  /compatible-mode/v1/models          200
-POST /compatible-mode/v1/chat/completions 200
-POST /apps/anthropic/v1/messages          200   ← CLI 用这个
-POST /apps/anthropic/messages             404   （必须带 /v1）
-POST /anthropic/v1/messages               404
-POST /v1/messages                         404
+dashscope.aliyuncs.com
+  GET  /compatible-mode/v1/models           200
+  POST /compatible-mode/v1/chat/completions 200
+  POST /apps/anthropic/v1/messages          200   ← CLI 用这个
+  POST /compatible-mode/v1/messages         404
+  POST /api/v2/apps/claude-code-proxy/v1/messages  401
+
+maas.qianwenaiapi.com（镜像，行为一致）
+  POST /apps/anthropic/v1/messages          200
+  POST /apps/anthropic/messages             404   （必须带 /v1）
+  POST /anthropic/v1/messages               404
+  POST /v1/messages                         404
 ```
 
 常用模型：`qwen3.8-max`（复杂推理/编程）、`qwen3.7-plus`（均衡）、`qwen3.8-flash`（快、便宜）。
@@ -38,7 +48,7 @@ POST /v1/messages                         404
 
 ```bash
 ANTHROPIC_AUTH_TOKEN=<你的 key>
-ANTHROPIC_BASE_URL=https://maas.qianwenaiapi.com/apps/anthropic
+ANTHROPIC_BASE_URL=https://dashscope.aliyuncs.com/apps/anthropic
 ANTHROPIC_MODEL=qwen3.8-max
 ANTHROPIC_DEFAULT_OPUS_MODEL=qwen3.8-max
 ANTHROPIC_DEFAULT_SONNET_MODEL=qwen3.7-plus
@@ -85,7 +95,7 @@ env -u ANTHROPIC_BASE_URL -u CLAUDECODE -u CLAUDE_CODE_ENTRYPOINT \
 
 | 字段 | Anthropic 格式 | OpenAI 格式 |
 | --- | --- | --- |
-| Base URL | `https://maas.qianwenaiapi.com/apps/anthropic` | `https://maas.qianwenaiapi.com/compatible-mode/v1` |
+| Base URL | `https://dashscope.aliyuncs.com/apps/anthropic` | `https://dashscope.aliyuncs.com/compatible-mode/v1` |
 | API 格式 | `anthropic` | `openai_chat` |
 | 模型 | `qwen3.8-max` | `qwen3.8-max` |
 

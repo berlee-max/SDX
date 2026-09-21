@@ -70,9 +70,21 @@ console.log(`[build-sidecars] Built desktop sidecar for ${targetTriple} (${bunTa
 // re-sign cu-helper here: native/cu-helper/build.sh already signs it with a
 // STABLE identity + hardened runtime, and re-signing would rotate its TCC
 // identity, dropping the user's Accessibility + Screen Recording grants.
+//
+// SKIP_CU_HELPER=1 opts out. cu-helper's build.sh refuses to ad-hoc sign — for
+// good reason, since a rotating identity drops the user's TCC grants every
+// rebuild — which means a machine with no stable signing identity cannot build
+// the desktop app AT ALL, even just to look at the UI. The escape hatch keeps
+// that from being a wall; the resulting build simply has no Computer Use.
 const cuHelperArch = resolveCuHelperArch(targetTriple)
-if (process.platform === 'darwin' && cuHelperArch) {
+const skipCuHelper = process.env.SKIP_CU_HELPER === '1'
+if (process.platform === 'darwin' && cuHelperArch && !skipCuHelper) {
   await buildCuHelper(cuHelperArch)
+} else if (process.platform === 'darwin' && cuHelperArch && skipCuHelper) {
+  console.warn(
+    '[build-sidecars] SKIP_CU_HELPER=1 — not building the native Computer Use helper.\n' +
+      '[build-sidecars] Computer Use will be unavailable in this build. Never ship it.',
+  )
 }
 
 async function stageHostRipgrepForOfflineBuild() {
