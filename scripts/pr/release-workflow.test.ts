@@ -180,6 +180,21 @@ describe('release desktop workflow', () => {
     expect(desktopPackage.build?.publish?.[0]?.repo).toBe('SDX')
   })
 
+  test('the macOS install helper names the same bundle electron-builder produces', () => {
+    // install-macos-unsigned.sh ships beside the .dmg in the release artifact and
+    // runs from the user's download folder, so it cannot read package.json. It
+    // moves `<productName>.app` out of the mounted image — a rename that updates
+    // only one of the two leaves the helper moving a bundle that is not there.
+    const desktopPackage = JSON.parse(
+      readFileSync('desktop/package.json', 'utf8'),
+    ) as { build?: { productName?: string } }
+    const productName = desktopPackage.build?.productName
+    expect(productName).toBeTruthy()
+
+    const helper = readFileSync('desktop/scripts/install-macos-unsigned.sh', 'utf8')
+    expect(helper).toContain(`APP_NAME="${productName}.app"`)
+  })
+
   test('release workflow requires macOS Gatekeeper launch approval for signed builds', () => {
     const workflow = readReleaseWorkflow()
     const gatekeeperStep = workflow.match(
@@ -239,7 +254,7 @@ describe('release desktop workflow', () => {
     expect(signedBuildStep).toContain('xcrun stapler staple "$app_path"')
     expect(signedBuildStep).toContain('xcrun stapler validate "$app_path"')
     expect(signedBuildStep).toContain('spctl -a -vv -t execute "$app_path"')
-    expect(signedBuildStep).toContain('app_path="build-artifacts/electron/${{ matrix.app_bundle_dir }}/SDX.app"')
+    expect(signedBuildStep).toContain('app_path="build-artifacts/electron/${{ matrix.app_bundle_dir }}/AI Agent SDX.app"')
     expect(signedBuildStep).toContain('package_args=( ${{ matrix.builder_args }} --prepackaged "$app_path" --publish never -c.mac.notarize=false )')
     expect(signedBuildStep).toContain('find build-artifacts/electron -maxdepth 1 -type f -delete')
     expect(signedBuildStep).toContain('Signed electron-builder timed out')
@@ -429,7 +444,7 @@ describe('release desktop workflow', () => {
     expect(workflow.indexOf('Verify Windows updater config before SignPath')).toBeLessThan(
       workflow.indexOf('Stage project-owned Windows application executables'),
     )
-    expect(stageApplicationStep).toContain('SDX.exe')
+    expect(stageApplicationStep).toContain('AI Agent SDX.exe')
     expect(stageApplicationStep).toContain('claude-sidecar-${{ matrix.target_triple }}.exe')
     expect(stageApplicationStep).not.toContain('rg.exe')
     expect(stageApplicationStep).not.toContain('node-pty')
@@ -447,7 +462,7 @@ describe('release desktop workflow', () => {
     expect(restoreInstallerStep).toContain('A trusted production signature is required')
     expect(refreshMetadataStep).toContain('scripts/refresh-windows-update-metadata.ts')
     expect(refreshMetadataStep).toContain('desktop/build-artifacts/electron/latest.yml')
-    expect(applicationConfiguration).toContain('<pe-file path="SDX.exe">')
+    expect(applicationConfiguration).toContain('<pe-file path="AI Agent SDX.exe">')
     expect(applicationConfiguration).toContain('<pe-file path="claude-sidecar-*.exe">')
     expect(applicationConfiguration).not.toContain('rg.exe')
     expect(installerConfiguration).toContain('<pe-file path="SDX-*-win-*.exe">')
@@ -824,7 +839,7 @@ describe('release desktop workflow', () => {
     expect(recoveryHelper).toContain('robocopy.exe')
     expect(recoveryHelper).not.toMatch(/\/XC|\/XN|\/XO/)
     expect(recoveryHelper).toContain('Multiple distinct legacy data sources')
-    expect(recoveryHelper).toContain('Active CLAUDE_CONFIG_DIR is managed outside SDX')
+    expect(recoveryHelper).toContain('Active CLAUDE_CONFIG_DIR is managed outside AI Agent SDX')
     expect(recoveryHelper).toContain('Test-LexicalPathAtOrBelow')
     expect(recoveryHelper).toContain('-SharedInstallDirs @($PerMachineInstallDir)')
     expect(normalizedRecoveryHelper).toContain("function Invoke-LegacyRecovery {\n  param(\n    [Parameter(Mandatory = $true)][AllowEmptyCollection()][AllowEmptyString()][string[]]$InstallDirs")
@@ -865,7 +880,14 @@ describe('release desktop workflow', () => {
     expect(installerSmoke).toContain('$Stage completed successfully.')
     expect(installerSmoke).toContain('Fresh install did not create the application executable')
     expect(installerSmoke).toContain('Reinstall removed the application executable')
-    expect(installerSmoke).toContain("'中文 安装目录\\SDX'")
+    // The install path stays non-ASCII with a space in it — that is the case
+    // this smoke exists for. It is built from the packaged product name rather
+    // than a literal, so a rename cannot leave the smoke probing a directory the
+    // installer never creates.
+    expect(installerSmoke).toContain('$productName = $desktopPackage.build.productName')
+    expect(installerSmoke).toContain('"中文 安装目录\\$productName"')
+    expect(installerSmoke).toContain('"$productName.exe"')
+    expect(installerSmoke).not.toMatch(/'SDX\.exe'/)
     expect(installerSmoke).toContain('Invoke-InstalledApplicationSmoke')
     expect(installerSmoke).toContain('CC_HAHA_ELECTRON_WINDOW_SMOKE_LOG')
     expect(installerSmoke).toContain('desktop-server-state.json')

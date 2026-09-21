@@ -28,7 +28,7 @@ function createRepoRoot() {
       name: 'claude-code-desktop',
       version: '0.3.1',
       build: {
-        productName: 'SDX',
+        productName: 'AI Agent SDX',
       },
     }, null, 2),
   )
@@ -146,13 +146,13 @@ describe('final macOS helper cursor resource verification', () => {
   function fixture(arch: 'arm64' | 'x64' = 'arm64') {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
-    const app = 'desktop/build-artifacts/electron/mac/SDX.app'
+    const app = 'desktop/build-artifacts/electron/mac/AI Agent SDX.app'
     const resources = `${app}/Contents/Resources`
     const binaries = `${resources}/app.asar.unpacked/src-tauri/binaries`
     const triple = arch === 'arm64' ? 'aarch64-apple-darwin' : 'x86_64-apple-darwin'
     const pty = `${resources}/app.asar.unpacked/node_modules/node-pty`
     writeFile(rootDir, `${app}/Contents/Info.plist`)
-    writeFile(rootDir, `${app}/Contents/MacOS/SDX`, thinMachO(arch))
+    writeFile(rootDir, `${app}/Contents/MacOS/AI Agent SDX`, thinMachO(arch))
     writeFile(rootDir, `${resources}/app.asar`)
     writeFile(rootDir, `${resources}/app.asar.unpacked/dist/index.html`)
     writeFile(rootDir, `${binaries}/claude-sidecar-${triple}`, thinMachO(arch))
@@ -255,15 +255,15 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Info.plist')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/MacOS/SDX')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app-update.yml')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/dist/index.html')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Info.plist')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/MacOS/AI Agent SDX')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app-update.yml')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/dist/index.html')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
     writeFile(rootDir, 'desktop/build-artifacts/electron/SDX-0.3.1-arm64.zip')
     writeFile(rootDir, 'desktop/build-artifacts/electron/SDX-0.3.1-arm64.zip.blockmap')
     writeFile(rootDir, 'desktop/build-artifacts/electron/SDX-0.3.1-arm64.dmg')
@@ -292,11 +292,11 @@ describe('packaged artifact inspection', () => {
   test('fails macOS inspection when bundled ripgrep is missing', async () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
-    const appRoot = 'desktop/build-artifacts/electron/mac-arm64/SDX.app'
+    const appRoot = 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app'
     const sidecarRoot = `${appRoot}/Contents/Resources/app.asar.unpacked/src-tauri/binaries`
 
     writeFile(rootDir, `${appRoot}/Contents/Info.plist`)
-    writeFile(rootDir, `${appRoot}/Contents/MacOS/SDX`)
+    writeFile(rootDir, `${appRoot}/Contents/MacOS/AI Agent SDX`)
     writeFile(rootDir, `${appRoot}/Contents/Resources/app.asar`)
     writeFile(rootDir, `${appRoot}/Contents/Resources/app.asar.unpacked/dist/index.html`)
     writeFile(rootDir, `${sidecarRoot}/claude-sidecar-aarch64-apple-darwin`)
@@ -320,13 +320,13 @@ describe('packaged artifact inspection', () => {
   test('fails closed when an arm64 package contains an x64 cu-helper', async () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
-    const appRoot = 'desktop/build-artifacts/electron/mac-arm64/SDX.app'
+    const appRoot = 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app'
     const resources = `${appRoot}/Contents/Resources`
     const sidecarRoot = `${resources}/app.asar.unpacked/src-tauri/binaries`
     const nodePtyRoot = `${resources}/app.asar.unpacked/node_modules/node-pty`
 
     writeFile(rootDir, `${appRoot}/Contents/Info.plist`)
-    writeFile(rootDir, `${appRoot}/Contents/MacOS/SDX`, thinMachO('arm64'))
+    writeFile(rootDir, `${appRoot}/Contents/MacOS/AI Agent SDX`, thinMachO('arm64'))
     writeFile(rootDir, `${resources}/app.asar`)
     writeFile(rootDir, `${resources}/app.asar.unpacked/dist/index.html`)
     writeFile(rootDir, `${sidecarRoot}/claude-sidecar-aarch64-apple-darwin`, thinMachO('arm64'))
@@ -363,13 +363,13 @@ describe('packaged artifact inspection', () => {
   test('fails closed when the helper Mach-O deployment target drifts below 14.4', async () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
-    const appRoot = 'desktop/build-artifacts/electron/mac-arm64/SDX.app'
+    const appRoot = 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app'
     const resources = `${appRoot}/Contents/Resources`
     const sidecarRoot = `${resources}/app.asar.unpacked/src-tauri/binaries`
     const nodePtyRoot = `${resources}/app.asar.unpacked/node_modules/node-pty`
 
     writeFile(rootDir, `${appRoot}/Contents/Info.plist`)
-    writeFile(rootDir, `${appRoot}/Contents/MacOS/SDX`, thinMachO('arm64'))
+    writeFile(rootDir, `${appRoot}/Contents/MacOS/AI Agent SDX`, thinMachO('arm64'))
     writeFile(rootDir, `${resources}/app.asar`)
     writeFile(rootDir, `${resources}/app.asar.unpacked/dist/index.html`)
     writeFile(rootDir, `${sidecarRoot}/claude-sidecar-aarch64-apple-darwin`, thinMachO('arm64'))
@@ -399,14 +399,14 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Info.plist')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/MacOS/SDX')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app-update.yml')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Info.plist')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/MacOS/AI Agent SDX')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app-update.yml')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
 
     const report = await inspectPackagedArtifacts(rootDir, { platform: 'macos', packageKind: 'dir' })
 
@@ -418,14 +418,14 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Info.plist')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/MacOS/SDX')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app-update.yml')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Info.plist')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/MacOS/AI Agent SDX')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app-update.yml')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
     // The on-disk archive and the one latest-mac.yml points at must NOT match:
     // that mismatch is what this test asserts gets caught. Before the SDX rename
     // the gap was productName-with-spaces vs the hyphenated artifactName; with a
@@ -443,13 +443,13 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Info.plist')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/MacOS/SDX')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Info.plist')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/MacOS/AI Agent SDX')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
     writeFile(rootDir, 'desktop/build-artifacts/electron/SDX-0.3.1-arm64.zip')
     writeFile(rootDir, 'desktop/build-artifacts/electron/latest-mac.yml', [
       'version: 0.3.1',
@@ -468,14 +468,14 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Info.plist')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/MacOS/SDX')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app-update.yml')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Info.plist')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/MacOS/AI Agent SDX')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app-update.yml')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
     writeFile(rootDir, 'desktop/build-artifacts/electron/SDX-0.3.1-arm64.zip')
     writeFile(rootDir, 'desktop/build-artifacts/electron/latest-mac.yml', 'path: SDX-0.3.1-arm64.zip\n')
 
@@ -489,13 +489,13 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Info.plist')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/MacOS/SDX')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Info.plist')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/MacOS/AI Agent SDX')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
 
     const report = await inspectPackagedArtifacts(rootDir, {
       platform: 'macos',
@@ -527,12 +527,12 @@ describe('packaged artifact inspection', () => {
   test('requires one Developer ID signer across host, sidecar, and helper', async () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
-    const appRoot = 'desktop/build-artifacts/electron/mac-arm64/SDX.app'
+    const appRoot = 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app'
     const resources = `${appRoot}/Contents/Resources`
     const sidecarRoot = `${resources}/app.asar.unpacked/src-tauri/binaries`
     const nodePtyRoot = `${resources}/app.asar.unpacked/node_modules/node-pty`
     writeFile(rootDir, `${appRoot}/Contents/Info.plist`)
-    writeFile(rootDir, `${appRoot}/Contents/MacOS/SDX`, thinMachO('arm64'))
+    writeFile(rootDir, `${appRoot}/Contents/MacOS/AI Agent SDX`, thinMachO('arm64'))
     writeFile(rootDir, `${resources}/app.asar`)
     writeFile(rootDir, `${resources}/app.asar.unpacked/dist/index.html`)
     writeFile(rootDir, `${sidecarRoot}/claude-sidecar-aarch64-apple-darwin`, thinMachO('arm64'))
@@ -591,13 +591,13 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Info.plist')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/MacOS/SDX')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
-    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Info.plist')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/MacOS/AI Agent SDX')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-apple-darwin')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/package.json')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/pty.node')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/mac-arm64/AI Agent SDX.app/Contents/Resources/app.asar.unpacked/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper')
 
     const commands: string[] = []
     const report = await inspectPackagedArtifacts(rootDir, {
@@ -728,7 +728,7 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/SDX.exe')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/AI Agent SDX.exe')
     writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/resources/app.asar')
     writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-x86_64-pc-windows-msvc.exe')
     writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/resources/app.asar.unpacked/node_modules/node-pty/package.json')
@@ -745,7 +745,7 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/SDX.exe')
+    writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/AI Agent SDX.exe')
     writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/resources/app.asar')
     writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/resources/app-update.yml')
     writeFile(rootDir, 'desktop/build-artifacts/electron/win-unpacked/resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-x86_64-pc-windows-msvc.exe')
@@ -762,7 +762,7 @@ describe('packaged artifact inspection', () => {
     const rootDir = createRepoRoot()
     tempDirs.push(rootDir)
 
-    writeFile(rootDir, 'desktop/build-artifacts/windows-arm64/win-arm64-unpacked/SDX.exe')
+    writeFile(rootDir, 'desktop/build-artifacts/windows-arm64/win-arm64-unpacked/AI Agent SDX.exe')
     writeFile(rootDir, 'desktop/build-artifacts/windows-arm64/win-arm64-unpacked/resources/app.asar')
     writeFile(rootDir, 'desktop/build-artifacts/windows-arm64/win-arm64-unpacked/resources/app-update.yml')
     writeFile(rootDir, 'desktop/build-artifacts/windows-arm64/win-arm64-unpacked/resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-aarch64-pc-windows-msvc.exe')

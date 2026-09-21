@@ -12,7 +12,7 @@
   "main": "electron-dist/main.cjs",
   "build": {
     "appId": "com.sdx.desktop",
-    "productName": "SDX",
+    "productName": "AI Agent SDX",
     "asar": true,
     "asarUnpack": [
       "dist/**",

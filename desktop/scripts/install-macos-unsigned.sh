@@ -16,7 +16,10 @@ set -euo pipefail
 #   bash install-macos-unsigned.sh                       # auto-pick the DMG next to this script
 #   bash install-macos-unsigned.sh /path/to/SDX-0.4.0-mac-arm64.dmg
 
-APP_NAME="SDX.app"
+# Must equal `build.productName` in desktop/package.json — this script runs from
+# the user's download folder, so it cannot read that file. release-workflow.test.ts
+# pins the two together.
+APP_NAME="AI Agent SDX.app"
 APP_PATH="/Applications/${APP_NAME}"
 
 script_dir() {

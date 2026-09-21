@@ -18,12 +18,17 @@ branched from upstream desktop **v0.6.5**.
 
 | 原值 (cc-haha) | 新值 (SDX) |
 | --- | --- |
-| 产品名 `Claude Code Haha` | `SDX` |
+| 产品名 `Claude Code Haha` | `AI Agent SDX` |
+| 打包显示名 `productName` | `AI Agent SDX`（决定 `AI Agent SDX.app` / `AI Agent SDX.exe`、开始菜单项，以及 Electron 的 `app.getPath('userData')`：Windows `%APPDATA%\AI Agent SDX`、macOS `~/Library/Application Support/AI Agent SDX`。本仓库尚未发过正式版，没有需要迁移的用户数据；再改一次就需要迁移了）|
 | Bundle / AppUserModelID `com.claude-code-haha.desktop` | `com.sdx.desktop` |
 | Sidecar 签名标识 `com.claude-code-haha.desktop.sidecar` | `com.sdx.desktop.sidecar` |
 | 安装包命名 `Claude-Code-Haha-${version}-...` | `SDX-${version}-...` |
 | CLI 可执行文件 `bin/claude-haha` | `bin/sdx`（保留 `claude-haha` 作为 bin 别名） |
 | npm 包名 `claude-code-local` / `claude-code-desktop` | `sdx` / `sdx-desktop` |
+| 内部包名 `claude-code-haha-site` / `claude-code-im-adapters` | `sdx-site` / `sdx-im-adapters` |
+
+短名 `SDX` 仍然是标识符：bundle id、CLI、仓库名、构建产物文件名（`SDX-${version}-${os}-${arch}`）
+和站点路径 `/SDX/` 都用它。`AI Agent SDX` 只在产品自称的地方出现。
 
 ## 尚未重命名（刻意保留）/ Intentionally not renamed
 

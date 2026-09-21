@@ -19,13 +19,23 @@ if ($installers.Count -ne 1) {
 }
 $installer = $installers[0].FullName
 
+# Read the packaged name rather than repeating it. It appears here as the
+# install directory, the executable, the uninstaller and the Roaming data
+# folder, and a rename that updated package.json but not these eight places
+# would leave the smoke test looking for a product that no longer exists.
+$desktopPackage = Get-Content -LiteralPath (Join-Path $PSScriptRoot '..\package.json') -Raw | ConvertFrom-Json
+$productName = $desktopPackage.build.productName
+if ([string]::IsNullOrWhiteSpace($productName)) {
+  throw 'desktop/package.json has no build.productName.'
+}
+
 $testRoot = Join-Path ([IO.Path]::GetTempPath()) "cc-haha-installer-smoke-$([Guid]::NewGuid().ToString('N'))"
-$installDir = Join-Path $testRoot '中文 安装目录\SDX'
+$installDir = Join-Path $testRoot "中文 安装目录\$productName"
 $appData = Join-Path $testRoot 'AppData\Roaming'
 $localAppData = Join-Path $testRoot 'AppData\Local'
 $userProfile = Join-Path $testRoot 'UserProfile'
-$appExe = Join-Path $installDir 'SDX.exe'
-$uninstaller = Join-Path $installDir 'Uninstall SDX.exe'
+$appExe = Join-Path $installDir "$productName.exe"
+$uninstaller = Join-Path $installDir "Uninstall $productName.exe"
 $recoveryHelper = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\build\recover-legacy-install-data.ps1')).Path
 $processHelper = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\build\check-install-processes.ps1')).Path
 $siblingProcess = $null
@@ -111,7 +121,7 @@ function Test-IsProcessElevated {
 # process carrying one -- whoever started it -- reads as "the app is still
 # running". Keep this in sync with installer.nsh.
 $installerFallbackImageNames = @(
-  'SDX.exe',
+  "$productName.exe",
   'claude-sidecar-x86_64-pc-windows-msvc.exe',
   'claude-sidecar-aarch64-pc-windows-msvc.exe',
   'claude-sidecar.exe',
@@ -338,7 +348,7 @@ function Invoke-InstalledApplicationSmoke {
             -Stage 'Installed application Unicode-path smoke cleanup' `
             -Arguments @(
               '-InstallDir', $InstallDirectory,
-              '-ProcessName', 'SDX.exe',
+              '-ProcessName', "$productName.exe",
               '-Action', 'KillForce',
               '-InstallerPid', [string]$PID,
               '-InstallerParentPid', '0'
@@ -379,11 +389,11 @@ function Invoke-LegacyRecoveryDiagnostic {
     '-CandidateInstallDir',
     $installDir,
     '-UserDataDir',
-    (Join-Path $appData 'SDX'),
+    (Join-Path $appData $productName),
     '-RecoveryRoot',
-    (Join-Path $userProfile 'SDX Data\Recovered'),
+    (Join-Path $userProfile "$productName Data\Recovered"),
     '-ProcessName',
-    'SDX.exe',
+    "$productName.exe",
     '-InstallerIdentitySafety',
     'trusted-user'
   )
@@ -424,7 +434,7 @@ try {
 
   $processProbeSource = Join-Path $env:SystemRoot 'System32\ping.exe'
   $siblingDir = "$installDir Tools"
-  $siblingProbe = Join-Path $siblingDir 'SDX.exe'
+  $siblingProbe = Join-Path $siblingDir "$productName.exe"
   New-Item -ItemType Directory -Path $siblingDir -Force | Out-Null
   Copy-Item -LiteralPath $processProbeSource -Destination $siblingProbe
   $siblingProcess = Start-Process -FilePath $siblingProbe -ArgumentList @('-t', '127.0.0.1') -PassThru
@@ -444,7 +454,7 @@ try {
     -ExpectedExitCode 0 `
     -Arguments @(
       '-InstallDir', $installDir,
-      '-ProcessName', 'SDX.exe',
+      '-ProcessName', "$productName.exe",
       '-Action', 'Find',
       '-InstallerPid', [string]$PID,
       '-InstallerParentPid', [string]$installProcess.Id

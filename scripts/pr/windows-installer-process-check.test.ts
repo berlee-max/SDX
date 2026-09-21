@@ -61,7 +61,7 @@ describe('Windows installer process matching', () => {
     )
 
     expect(installerSmoke).toContain("$siblingDir = \"$installDir Tools\"")
-    expect(installerSmoke).toContain("$siblingProbe = Join-Path $siblingDir 'SDX.exe'")
+    expect(installerSmoke).toContain('$siblingProbe = Join-Path $siblingDir "$productName.exe"')
     expect(installerSmoke).toContain('Sibling-prefix process remains running')
     expect(installerSmoke).toContain('Install-directory parent process detection')
     expect(installerSmoke).toContain('Install-directory process was not terminated')

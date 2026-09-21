@@ -13,7 +13,7 @@ const outputDir = path.resolve('build-artifacts', 'electron')
 const bundledMainCommand = path.join(
   outputDir,
   'mac-arm64',
-  'SDX.app',
+  'AI Agent SDX.app',
   'Contents',
   'MacOS',
   'SDX',
@@ -21,7 +21,7 @@ const bundledMainCommand = path.join(
 const bundledSidecarCommand = path.join(
   outputDir,
   'mac-arm64',
-  'SDX.app',
+  'AI Agent SDX.app',
   'Contents',
   'Resources',
   'app.asar.unpacked',
@@ -34,13 +34,13 @@ const scriptsDir = import.meta.dirname
 describe('Electron output guard', () => {
   it('parses the ps process table into individual snapshots', () => {
     expect(parseProcessSnapshots([
-      '  20641 /workspace/SDX.app/Contents/MacOS/SDX',
+      '  20641 /workspace/AI Agent SDX.app/Contents/MacOS/AI Agent SDX',
       '    321 /usr/bin/example --flag',
       '',
     ].join('\n'))).toEqual([
       {
         pid: 20641,
-        command: '/workspace/SDX.app/Contents/MacOS/SDX',
+        command: '/workspace/AI Agent SDX.app/Contents/MacOS/AI Agent SDX',
       },
       { pid: 321, command: '/usr/bin/example --flag' },
     ])
@@ -58,7 +58,7 @@ describe('Electron output guard', () => {
       },
       {
         pid: 99,
-        command: '/Applications/SDX.app/Contents/MacOS/SDX',
+        command: '/Applications/AI Agent SDX.app/Contents/MacOS/AI Agent SDX',
       },
     ])
 
@@ -84,7 +84,7 @@ describe('Electron output guard', () => {
   it('allows cleanup when only packaged apps outside the output directory are running', () => {
     expect(() => assertElectronOutputIdle(outputDir, [{
       pid: 99,
-      command: '/Applications/SDX.app/Contents/MacOS/SDX',
+      command: '/Applications/AI Agent SDX.app/Contents/MacOS/AI Agent SDX',
     }])).not.toThrow()
   })
 
