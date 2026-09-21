@@ -257,8 +257,10 @@ describe('provider presets API', () => {
     expect(deepseek?.apiKeyUrl).toBe('https://platform.deepseek.com/api_keys')
     expect(deepseek?.modelContextWindows?.['deepseek-v4-pro']).toBe(1000000)
     expect(deepseek?.modelContextWindows?.['deepseek-v4-flash']).toBe(1000000)
-    expect(zhipu?.apiKeyUrl).toBe('https://www.bigmodel.cn/invite?icode=d41B2qi8Z5xNwTGLNPPF3OZLO2QH3C0EBTSr%2BArzMw4%3D')
-    expect(zhipu?.promoText).toContain('cc-haha')
+    // Plain sign-up page: the upstream invite code and the "exclusive perk for
+    // cc-haha users" copy that depended on it are both gone.
+    expect(zhipu?.apiKeyUrl).toBe('https://www.bigmodel.cn/')
+    expect(zhipu?.promoText).toBeUndefined()
     expect(zhipu?.defaultEnv?.CC_HAHA_SEND_DISABLED_THINKING).toBeUndefined()
     expect(zhipu?.modelContextWindows?.['glm-5.3']).toBe(1000000)
     expect(zhipu?.modelContextWindows?.['glm-5.3-flash']).toBe(1000000)
@@ -270,7 +272,7 @@ describe('provider presets API', () => {
     expect(kimi?.modelContextWindows?.k3).toBe(262144)
     expect(kimi?.modelContextWindows?.['kimi-for-coding']).toBe(262144)
     expect(kimi?.modelContextWindows?.['kimi-for-coding-highspeed']).toBe(262144)
-    expect(minimax?.apiKeyUrl).toBe('https://platform.minimaxi.com/subscribe/token-plan?code=1TG2Cseab2&source=link')
+    expect(minimax?.apiKeyUrl).toBe('https://platform.minimaxi.com/')
     // Retired: no referral link, no promo copy, no featured slot.
     expect(shengsuanyun?.apiKeyUrl).toBeUndefined()
     expect(shengsuanyun?.promoText).toBeUndefined()
