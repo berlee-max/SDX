@@ -72,7 +72,9 @@ log "verifying glibc floor of every shipped ELF"
 worst="0.0"; worst_file="-"
 while IFS= read -r f; do
   head -c4 "$f" 2>/dev/null | grep -q $'\x7fELF' || continue
-  v=$(strings -a "$f" 2>/dev/null | grep -oE 'GLIBC_2\.[0-9]+' | sed 's/GLIBC_//' | sort -V | tail -1)
+  # `|| true` is load-bearing: pipefail plus set -e would kill the script on the
+  # first file whose grep legitimately matches nothing, which is most of them.
+  v=$(strings -a "$f" 2>/dev/null | grep -oE 'GLIBC_2\.[0-9]+' | sed 's/GLIBC_//' | sort -V | tail -1 || true)
   [ -n "$v" ] || continue
   if [ "$(printf '%s\n%s\n' "$worst" "$v" | sort -V | tail -1)" = "$v" ] && [ "$v" != "$worst" ]; then
     worst="$v"; worst_file="${f#${CANONICAL_OUTPUT_DIR}/}"
