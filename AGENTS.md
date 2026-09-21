@@ -24,6 +24,7 @@ Rules closer to the code take precedence. For the directory you are changing, re
 | CI and quality policy | [.github/AGENTS.md](.github/AGENTS.md), `scripts/pr/`, `scripts/quality-gate/` |
 | Desktop releases and auto-update | `release-notes/`, `scripts/release.ts`, [release guide](docs/internals/contributing.md#发版与自动更新) |
 | SDX fork: branching, commits, release flow, bun pin | [docs/sdx/git-workflow.md](docs/sdx/git-workflow.md) |
+| SDX fork: the mark, the icon pipeline, brand palette | [docs/sdx/brand-assets.md](docs/sdx/brand-assets.md) |
 | SDX fork: provenance, applied and deferred renames | [NOTICE.md](NOTICE.md) |
 
 ## SDX Fork

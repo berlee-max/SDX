@@ -17,10 +17,11 @@ const sha = (file: string) => createHash('sha256').update(readFileSync(file)).di
 
 describe('icon assets', () => {
   it('keeps src-tauri/app-icon.png byte-identical to public/app-icon.png', () => {
-    // src-tauri/app-icon.png is the canonical 1024 RGBA source the platform
-    // icon set gets regenerated from — a directive that lived only in a commit
-    // body, which is exactly why a later rebrand replaced everything except
-    // this file and left a stale source primed to overwrite the new set.
+    // Two copies of one 1024 RGBA image, both emitted by
+    // `bun run gen:brand-assets` from the same buffer. They used to be hand-kept,
+    // and a rebrand replaced everything except the src-tauri copy, leaving a
+    // stale source primed to overwrite the new set. Regeneration made that
+    // impossible; this still guards against either one being edited by hand.
     const source = path.join(desktopRoot, 'src-tauri', 'app-icon.png')
     const runtime = path.join(desktopRoot, 'public', 'app-icon.png')
     expect(sha(source)).toBe(sha(runtime))
@@ -46,6 +47,27 @@ describe('icon assets', () => {
       expect(existsSync(full)).toBe(true)
       expect(readFileSync(full).byteLength).toBeGreaterThan(1024)
     }
+  })
+
+  it('lets nothing else into the directory Linux scans', () => {
+    // The 310px Store asset above is the whole reason for this test: any PNG
+    // whose name happens to contain NxN joins the scan and can outrank the real
+    // icons. The Tauri shell's Store tiles and its android/ and ios/ sets were
+    // deleted rather than rebranded — nothing built them, and they shipped
+    // inside the asar carrying the previous product's artwork.
+    const allowed = new Set([
+      '32x32.png',
+      '64x64.png',
+      '128x128.png',
+      '128x128@2x.png',
+      '256x256.png',
+      '512x512.png',
+      'icon.png',
+      'icon.icns',
+      'icon.ico',
+    ])
+    const unexpected = readdirSync(icons).filter((entry) => !allowed.has(entry))
+    expect(unexpected).toEqual([])
   })
 
   it('serves a favicon to the H5 client', () => {
