@@ -638,7 +638,7 @@ export function ComponentGallery() {
         </div>
       </Section>
 
-      <Section title="BrandSeal" note="The cc-haha mark, a vector rebuild of the app icon. It sheds parts as it shrinks — sparkles only at xl, cursor drops at sm — so check each size against its neighbours.">
+      <Section title="BrandSeal" note="The SDX mark: two tapered blades crossing, long pair on --color-brand, short pair on --color-text-primary. Sparks only at xl. Switch palettes above — if the two tokens land close together the blades should merge into one solid star, not half vanish.">
         <div className="flex flex-wrap items-end gap-4">
           <BrandSeal size="sm" />
           <BrandSeal size="md" />

@@ -27,6 +27,9 @@ Environment:
                    certificate. An ad-hoc build cannot use Computer Use.
   REBUILD_NATIVE=1 Run `electron-builder install-app-deps` before packaging.
   MAC_TARGETS      Electron Builder macOS targets. Defaults to "dmg zip".
+  NOTARIZE=1       Submit the signed build to Apple for notarization. Requires
+                   APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD and APPLE_TEAM_ID, and
+                   a signed (not ad-hoc) build. Waits on Apple's queue.
   SKIP_PACKAGE_SMOKE=1
                    Skip package-smoke verification after copying artifacts.
   REQUIRE_MACOS_GATEKEEPER_SMOKE=1
@@ -193,10 +196,31 @@ if [[ "${SIGN_BUILD_EFFECTIVE}" != "1" ]]; then
   export CSC_IDENTITY_AUTO_DISCOVERY=false
 fi
 
-# Notarization stays OFF for local builds regardless of signing: it needs an
-# Apple ID + app-specific password and a round-trip through Apple's queue.
-# package.json keeps mac.notarize=true for CI's release path.
-BUILDER_ARGS+=(-c.mac.notarize=false)
+# Notarization is OFF for local builds by default: it needs an Apple ID + an
+# app-specific password and a round-trip through Apple's queue, which most local
+# builds neither have nor want. package.json keeps mac.notarize=true for CI's
+# release path. NOTARIZE=1 opts a local build in — check the credentials here so
+# the failure is one clear line now rather than a stack trace twenty minutes
+# into packaging.
+if [[ "${NOTARIZE:-0}" == "1" ]]; then
+  if [[ "${SIGN_BUILD_EFFECTIVE}" != "1" ]]; then
+    echo "[build-macos-arm64] NOTARIZE=1 needs a signed build; Apple will not notarize an ad-hoc one." >&2
+    exit 1
+  fi
+  missing=()
+  [[ -n "${APPLE_ID:-}" ]] || missing+=(APPLE_ID)
+  [[ -n "${APPLE_APP_SPECIFIC_PASSWORD:-}" ]] || missing+=(APPLE_APP_SPECIFIC_PASSWORD)
+  [[ -n "${APPLE_TEAM_ID:-}" ]] || missing+=(APPLE_TEAM_ID)
+  if [[ "${#missing[@]}" -gt 0 ]]; then
+    echo "[build-macos-arm64] NOTARIZE=1 but these are unset: ${missing[*]}" >&2
+    echo "[build-macos-arm64] APPLE_APP_SPECIFIC_PASSWORD comes from appleid.apple.com > Sign-In and Security." >&2
+    exit 1
+  fi
+  echo "[build-macos-arm64] Notarizing as ${APPLE_ID} (team ${APPLE_TEAM_ID}). This waits on Apple's queue."
+  BUILDER_ARGS+=(-c.mac.notarize=true)
+else
+  BUILDER_ARGS+=(-c.mac.notarize=false)
+fi
 if [[ "$#" -gt 0 ]]; then
   BUILDER_ARGS+=("$@")
 fi

@@ -14,42 +14,52 @@ describe('BrandSeal', () => {
     expect(container.firstElementChild).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('draws the two C strokes at every size', () => {
-    // Whatever else is shed, the double C is the mark. If this count drops the
-    // remaining shape is no longer recognizable as the logo.
+  it('draws both crossed blades at every size', () => {
+    // The two blades ARE the mark. Whatever else is shed, losing one leaves a
+    // single tapered sliver that reads as nothing.
     for (const size of SIZES) {
       const { container, unmount } = render(<BrandSeal size={size} />)
-      const strokes = container.querySelectorAll('g[stroke="var(--color-text-primary)"] path')
-      expect(strokes).toHaveLength(3) // big C + the second C's two arcs
+      expect(container.querySelectorAll(`path[fill="var(--color-text-primary)"]`)).toHaveLength(1)
+      expect(
+        container.querySelectorAll(`path[fill="var(--color-brand)"]`).length,
+      ).toBeGreaterThanOrEqual(1)
       unmount()
     }
   })
 
   it('paints from tokens so all six palettes recolor it', () => {
     // This is why the vector replaced the raster app icon: a bitmap kept its
-    // own blue and orange under every theme while the chrome around it moved.
+    // own colours under every theme while the chrome around it moved.
     const { container } = render(<BrandSeal size="xl" />)
     const svg = container.firstElementChild!
-    expect(svg.querySelector('[stroke="var(--color-text-primary)"]')).not.toBeNull()
-    expect(svg.querySelector('[stroke="var(--color-brand)"]')).not.toBeNull()
+    expect(svg.querySelector('[fill="var(--color-text-primary)"]')).not.toBeNull()
     expect(svg.querySelector('[fill="var(--color-brand)"]')).not.toBeNull()
     // No literal hex anywhere — that would survive a theme switch unchanged.
     expect(svg.innerHTML).not.toMatch(/#[0-9a-f]{3,8}\b/i)
   })
 
-  it('sheds parts as it shrinks instead of turning to mush', () => {
-    // At 38px a sparkle is under 2px across and reads as dirt; at 24px the
-    // cursor merges into the second C.
-    const count = (size: (typeof SIZES)[number]) => {
+  it('is filled rather than stroked, so the blades can taper', () => {
+    // A stroke carries one width along its whole length. The tips here come to
+    // a point, and a stroke thin enough to look right at 80px is gone at 24px.
+    for (const size of SIZES) {
       const { container, unmount } = render(<BrandSeal size={size} />)
-      const filled = container.querySelectorAll('path[fill="var(--color-brand)"]').length
+      expect(container.querySelectorAll('[stroke]')).toHaveLength(0)
       unmount()
-      return filled
     }
-    expect(count('xl')).toBe(3) // cursor + two sparkles
-    expect(count('lg')).toBe(1) // cursor only
-    expect(count('md')).toBe(1)
-    expect(count('sm')).toBe(0) // the C's and the bar
+  })
+
+  it('sheds the orbiting sparks below xl instead of turning to mush', () => {
+    // At 38px a spark is under 2px across and reads as dirt.
+    const brandPaths = (size: (typeof SIZES)[number]) => {
+      const { container, unmount } = render(<BrandSeal size={size} />)
+      const n = container.querySelectorAll('path[fill="var(--color-brand)"]').length
+      unmount()
+      return n
+    }
+    expect(brandPaths('xl')).toBe(3) // long blade + two sparks
+    expect(brandPaths('lg')).toBe(1) // long blade only
+    expect(brandPaths('md')).toBe(1)
+    expect(brandPaths('sm')).toBe(1)
   })
 
   it('crops the viewBox to the ink so the mark fills its box', () => {
@@ -65,5 +75,20 @@ describe('BrandSeal', () => {
       expect(h).toBeLessThan(1024)
       unmount()
     }
+  })
+
+  it('widens the crop only at xl, where the sparks push the bounds out', () => {
+    // sm/md/lg dropping the sparks changes what is drawn, not how far the ink
+    // reaches — so they share a crop, and only xl's is wider.
+    const box = (size: (typeof SIZES)[number]) => {
+      const { container, unmount } = render(<BrandSeal size={size} />)
+      const vb = container.firstElementChild!.getAttribute('viewBox')!
+      unmount()
+      return vb
+    }
+    expect(box('sm')).toBe(box('md'))
+    expect(box('md')).toBe(box('lg'))
+    expect(box('xl')).not.toBe(box('lg'))
+    expect(Number(box('xl').split(' ')[2])).toBeGreaterThan(Number(box('lg').split(' ')[2]))
   })
 })
