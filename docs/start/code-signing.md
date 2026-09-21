@@ -1,23 +1,40 @@
 # 代码签名说明
 
-**当前状态：AI Agent SDX 尚未配置任何代码签名。** 本页说明这对你意味着什么，以及计划怎么做。
+**当前状态：macOS 已完成签名与公证，Windows 和 UOS 尚未签名。** 本页说明这对你意味着什么。
 
 ## 现状
 
 | 平台 | 签名状态 | 首次打开时会遇到什么 |
 | --- | --- | --- |
-| macOS | 未签名、未公证 | Gatekeeper 会拦截。右键点图标选「打开」，或执行 `xattr -cr /Applications/SDX.app` 后再启动 |
+| macOS | Developer ID 签名 + Apple 公证，票据已装订 | 正常打开，没有额外提示。**不需要**右键「打开」，也不要去 `xattr -cr` |
 | Windows 10+ | 未签名 | SmartScreen 会提示「已保护你的电脑」。点「更多信息」→「仍要运行」 |
 | 统信 UOS 20 | 未签名（Linux 生态本就不依赖代码签名） | 正常安装，无额外提示 |
+
+macOS 这边可以自己验，`.app` 和 `.dmg` 都应该是这个结果：
+
+```bash
+spctl -a -t exec -vv "/Applications/AI Agent SDX.app"
+# accepted
+# source=Notarized Developer ID
+
+xcrun stapler validate "/Applications/AI Agent SDX.app"
+# The validate action worked!
+```
+
+票据装订到安装镜像本身，是为了让首次校验不必联网——`electron-builder` 默认只公证 `.app`，
+留下的 `.dmg` 是未签名的，构建脚本在 `NOTARIZE=1` 时会额外把镜像也签名、公证、装订一遍。
+
+如果 `spctl` 回的是 `rejected`，别绕过它：那说明这个包不是从本项目的 Release 下载的，或者
+在传输中被改过。
 
 上游项目 [cc-haha](https://github.com/NanmiCoder/cc-haha) 通过 SignPath Foundation 获得了 Windows
 免费代码签名。**那份证书属于上游，与 AI Agent SDX 无关**，AI Agent SDX 不会也不能使用它。
 
 ## 要做正式签名，各平台需要什么
 
-**macOS** —— Apple Developer Program 会员（99 美元/年），用于取得 Developer ID Application 证书；
-公证还需要一个 App-specific password。仓库里的构建流程已经完整支持签名 + 公证 + 签名链校验
-（host / sidecar / cu-helper 必须签在同一张证书上），只差证书本身。
+**macOS** —— 已就位。Developer ID Application 证书 + App-specific password，构建流程做完签名、
+公证、装订和签名链校验（host / sidecar / cu-helper 必须签在同一张证书上，否则 Computer Use 的
+调用方校验过不了）。
 
 **Windows** —— 两条路：
 
@@ -29,7 +46,7 @@
 
 **Linux / UOS** —— deb 包可以用 GPG 签名以便进入 apt 仓库，但直接分发 `.deb` 文件不需要。
 
-## 在签名就绪之前，怎么确认下载的包没问题
+## Windows / UOS 包怎么自己确认
 
 只从本项目的 [GitHub Releases](https://github.com/berlee-max/SDX/releases) 下载，并核对哈希：
 

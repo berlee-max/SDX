@@ -142,6 +142,38 @@ git push origin main --tags
 必须写前向迁移 + 旧数据 fixture 的回归测试，并跑 `bun run check:persistence-upgrade`。
 这条不遵守，用户升级时会丢数据。
 
+### 签名与公证：发版前必须先配好的 5 个 secret
+
+`release-desktop.yml` 的 macOS 任务在打包前会先检查凭据，缺任何一个就直接退出——这是
+刻意的，一次发版里一半产物签了一半没签，比整个失败更难收拾。
+
+目前仓库里**一个 secret 都没配**，所以从 tag 触发的发版会停在这一步。需要在
+Settings → Secrets and variables → Actions 里加：
+
+| Secret | 是什么 |
+| --- | --- |
+| `MACOS_CERTIFICATE` | Developer ID Application 证书导出的 `.p12`，base64 之后的内容 |
+| `MACOS_CERTIFICATE_PASSWORD` | 导出那个 `.p12` 时设的密码 |
+| `APPLE_ID` | 开发者账号邮箱 |
+| `APPLE_APP_SPECIFIC_PASSWORD` | appleid.apple.com → 登录与安全 → App 专用密码 |
+| `APPLE_TEAM_ID` | 10 位 Team ID |
+
+`SIGNPATH_API_TOKEN` 是 Windows 签名用的，那条路还没走通（见
+[代码签名说明](../start/code-signing.md)），没有它 Windows 产物就是未签名的，不影响发版本身。
+
+本地打一个签名 + 公证的包（凭据从 `.env` 读，`.env` 在 `.gitignore` 第一行）：
+
+```bash
+set -a && . ./.env && set +a
+NOTARIZE=1 bash desktop/scripts/build-macos-arm64.sh
+```
+
+`NOTARIZE=1` 会走两趟 Apple 队列：一趟给 `.app`，一趟给 `.dmg`。第二趟是必要的——
+`electron-builder` 只公证 `.app`，它产出的 `.dmg` 是未签名的，`spctl` 对它的判定是
+`no usable signature`。脚本跑完会自己用 `stapler validate` 和 `spctl` 验一遍，验不过就失败。
+
+首次提交给 Apple 的那一次可能要等 40 分钟以上，之后同一个 team 通常几分钟就回来。
+
 ## 五、接远程仓库
 
 本仓库当前**只有本地历史**。接 GitHub 私有仓库：
