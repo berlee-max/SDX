@@ -173,6 +173,31 @@ else
   echo "[build-macos-arm64] (set SIGN_BUILD=0 to build ad-hoc instead)"
 fi
 
+# Notarization is OFF for local builds by default: it needs an Apple ID, an
+# app-specific password and two round trips through Apple's queue, which most
+# local builds neither have nor want. package.json keeps mac.notarize=true for
+# CI's release path. NOTARIZE=1 opts a local build in.
+#
+# The credential check happens here, beside the identity it depends on, rather
+# than beside the packaging step that uses it — everything between the two takes
+# minutes, and a typo'd Apple ID should not cost a sidecar build to discover.
+if [[ "${NOTARIZE:-0}" == "1" ]]; then
+  if [[ "${SIGN_BUILD_EFFECTIVE}" != "1" ]]; then
+    echo "[build-macos-arm64] NOTARIZE=1 needs a signed build; Apple will not notarize an ad-hoc one." >&2
+    exit 1
+  fi
+  missing=()
+  [[ -n "${APPLE_ID:-}" ]] || missing+=(APPLE_ID)
+  [[ -n "${APPLE_APP_SPECIFIC_PASSWORD:-}" ]] || missing+=(APPLE_APP_SPECIFIC_PASSWORD)
+  [[ -n "${APPLE_TEAM_ID:-}" ]] || missing+=(APPLE_TEAM_ID)
+  if [[ "${#missing[@]}" -gt 0 ]]; then
+    echo "[build-macos-arm64] NOTARIZE=1 but these are unset: ${missing[*]}" >&2
+    echo "[build-macos-arm64] APPLE_APP_SPECIFIC_PASSWORD comes from appleid.apple.com > Sign-In and Security." >&2
+    exit 1
+  fi
+  echo "[build-macos-arm64] Notarizing as ${APPLE_ID} (team ${APPLE_TEAM_ID}). This waits on Apple's queue."
+fi
+
 echo "[build-macos-arm64] Building sidecars for ${TARGET_TRIPLE}..."
 (cd "${DESKTOP_DIR}" && SIDECAR_TARGET_TRIPLE="${TARGET_TRIPLE}" bun run build:sidecars)
 
@@ -196,27 +221,8 @@ if [[ "${SIGN_BUILD_EFFECTIVE}" != "1" ]]; then
   export CSC_IDENTITY_AUTO_DISCOVERY=false
 fi
 
-# Notarization is OFF for local builds by default: it needs an Apple ID + an
-# app-specific password and a round-trip through Apple's queue, which most local
-# builds neither have nor want. package.json keeps mac.notarize=true for CI's
-# release path. NOTARIZE=1 opts a local build in — check the credentials here so
-# the failure is one clear line now rather than a stack trace twenty minutes
-# into packaging.
+# Credentials were already validated next to the signing identity, above.
 if [[ "${NOTARIZE:-0}" == "1" ]]; then
-  if [[ "${SIGN_BUILD_EFFECTIVE}" != "1" ]]; then
-    echo "[build-macos-arm64] NOTARIZE=1 needs a signed build; Apple will not notarize an ad-hoc one." >&2
-    exit 1
-  fi
-  missing=()
-  [[ -n "${APPLE_ID:-}" ]] || missing+=(APPLE_ID)
-  [[ -n "${APPLE_APP_SPECIFIC_PASSWORD:-}" ]] || missing+=(APPLE_APP_SPECIFIC_PASSWORD)
-  [[ -n "${APPLE_TEAM_ID:-}" ]] || missing+=(APPLE_TEAM_ID)
-  if [[ "${#missing[@]}" -gt 0 ]]; then
-    echo "[build-macos-arm64] NOTARIZE=1 but these are unset: ${missing[*]}" >&2
-    echo "[build-macos-arm64] APPLE_APP_SPECIFIC_PASSWORD comes from appleid.apple.com > Sign-In and Security." >&2
-    exit 1
-  fi
-  echo "[build-macos-arm64] Notarizing as ${APPLE_ID} (team ${APPLE_TEAM_ID}). This waits on Apple's queue."
   BUILDER_ARGS+=(-c.mac.notarize=true)
 else
   BUILDER_ARGS+=(-c.mac.notarize=false)
@@ -227,6 +233,41 @@ fi
 
 echo "[build-macos-arm64] Packaging Electron app..."
 (cd "${DESKTOP_DIR}" && "${BUILDER_ARGS[@]}")
+
+# electron-builder notarizes the .app and stops there: it zips the bundle,
+# submits that, staples the ticket back onto the bundle, and only then wraps the
+# result in a disk image. The .dmg it produces is therefore unsigned and unknown
+# to Apple — `spctl` reports "no usable signature" on it, and `stapler` cannot
+# attach a ticket because the app's ticket is keyed to the app's cdhash, not the
+# image's.
+#
+# In practice the app inside still runs, because Gatekeeper evaluates it on
+# launch and finds its stapled ticket. What the unsigned image costs is the
+# offline case: the first check has to reach Apple. Stapling the image makes the
+# download self-contained, which matters most on exactly the networks this fork
+# is aimed at.
+#
+# So: sign the image, submit the image, staple the image. Second trip through
+# the queue, and it only happens on an opt-in NOTARIZE=1 build.
+if [[ "${NOTARIZE:-0}" == "1" ]]; then
+  while IFS= read -r dmg; do
+    echo "[build-macos-arm64] Signing disk image $(basename "${dmg}")..."
+    codesign --sign "${RESOLVED_SIGN_IDENTITY}" --timestamp --force "${dmg}"
+
+    echo "[build-macos-arm64] Notarizing disk image. This waits on Apple's queue again."
+    xcrun notarytool submit "${dmg}" \
+      --apple-id "${APPLE_ID}" \
+      --password "${APPLE_APP_SPECIFIC_PASSWORD}" \
+      --team-id "${APPLE_TEAM_ID}" \
+      --wait
+
+    xcrun stapler staple "${dmg}"
+    # Assert rather than trust: a stapled ticket is the whole point of the extra
+    # round trip, and a silent failure here ships an image that needs the network.
+    xcrun stapler validate "${dmg}"
+    spctl -a -t open --context context:primary-signature -vv "${dmg}"
+  done < <(find "${ELECTRON_OUTPUT_DIR}" -maxdepth 1 -type f -name '*.dmg')
+fi
 
 mkdir -p "${CANONICAL_OUTPUT_DIR}"
 find "${CANONICAL_OUTPUT_DIR}" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
