@@ -35,7 +35,15 @@
 import CoreGraphics
 import Foundation
 import ImageIO
-import ScreenCaptureKit
+// @preconcurrency: this target is pinned to Swift language mode v6, and on SDKs
+// older than the one upstream built against (Xcode 26.5 / Swift 6.3.2) the
+// ScreenCaptureKit headers have not been audited for Sendable — `SCShareableContent`
+// is still non-Sendable there, so `await SCShareableContent.current` from a
+// @MainActor context is a hard error rather than a warning. The attribute scopes
+// that downgrade to types vended by THIS module only; isolation checking of our
+// own code is untouched. Harmless on newer SDKs, and it is what the compiler
+// itself suggests. Without it the helper simply does not build on Xcode 26.3.
+@preconcurrency import ScreenCaptureKit
 import UniformTypeIdentifiers
 
 enum WindowShotCaptureSource: String, Equatable, Sendable {
