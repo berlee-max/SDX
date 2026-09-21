@@ -118,18 +118,31 @@ export function iconSvg(mark: Mark, theme: IconTheme): string {
 const WORDMARK_FONT =
   'SF Pro Display, -apple-system, BlinkMacSystemFont, Avenir Next, Inter, Segoe UI, Helvetica Neue, Arial, sans-serif'
 
+/** The product's full name, written the same way everywhere else. */
+export const WORDMARK = 'AI Agent SDX'
+
 /**
- * How wide "SDX" renders. SVG has no way to measure text, and the font is
- * whatever the viewer has, so this is an estimate: 0.72em per glyph is the
- * advance width of a cap-height letter at weight 800 across the stack above,
- * and the trailing letter-space is dropped because nothing follows the X.
+ * How wide the wordmark renders. SVG has no way to measure text and the font is
+ * whatever the viewer has, so this is an estimate: about 0.62em for a glyph at
+ * weight 800 across the stack above, with spaces narrower, and no trailing
+ * letter-space because nothing follows the last glyph.
  *
- * It only positions the accent rule. Being a few percent out moves the rule a
- * few pixels; the alternative — a hard-coded length — drifts visibly the moment
- * the font size changes or the viewer falls back to Arial.
+ * It sizes the type to its box and positions the accent rule. A few percent of
+ * error moves the rule a few pixels; hard-coded numbers instead drift visibly
+ * the moment the name or the type size changes — which is exactly what happened
+ * when the name grew from three letters to twelve.
  */
-const wordmarkWidth = (fontSize: number, letterSpacing: number) =>
-  'SDX'.length * fontSize * 0.72 + (('SDX'.length - 1) * letterSpacing)
+function wordmarkWidth(fontSize: number, letterSpacing: number, text = WORDMARK) {
+  const glyphs = [...text]
+  const em = glyphs.reduce((total, glyph) => total + (glyph === ' ' ? 0.28 : 0.62), 0)
+  return em * fontSize + (glyphs.length - 1) * letterSpacing
+}
+
+/** The largest type size whose wordmark still fits `available`. */
+function fitWordmark(available: number, letterSpacing: number) {
+  const perEm = wordmarkWidth(1, 0)
+  return Math.floor((available - ([...WORDMARK].length - 1) * letterSpacing) / perEm)
+}
 
 /**
  * Mark plus wordmark on one line. `docs/images/logo-horizontal*.svg`.
@@ -143,13 +156,15 @@ export function lockupSvg(mark: Mark, theme: IconTheme): string {
   const colors = PALETTE[theme]
   const [width, height] = [2200, 640]
   const markHeight = 340
-  const fontSize = 300
-  const letterSpacing = 10
+  const letterSpacing = 6
   const gap = 130
+  const gutter = 120
+  // Fit the type to what the mark and the margins leave, rather than pinning a
+  // size the name has already outgrown once.
+  const fontSize = fitWordmark(width - gutter * 2 - markWidthAt(mark, markHeight) - gap, letterSpacing)
 
   // Centre the mark-plus-wordmark as one unit rather than pinning it to a
-  // gutter: the wordmark is three letters, and left-aligning leaves the right
-  // third of the plate empty.
+  // gutter, so the pair stays optically balanced whatever the name's length.
   const groupWidth = markWidthAt(mark, markHeight) + gap + wordmarkWidth(fontSize, letterSpacing)
   const groupLeft = (width - groupWidth) / 2
   const markCx = groupLeft + markWidthAt(mark, markHeight) / 2
@@ -158,7 +173,7 @@ export function lockupSvg(mark: Mark, theme: IconTheme): string {
   return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" rx="64" fill="${colors.plate}"/>
   ${markGroup(mark, colors, { cx: markCx, cy: height / 2, height: markHeight })}
-  <text x="${textX}" y="404" fill="${colors.ink}" font-family="${WORDMARK_FONT}" font-size="${fontSize}" font-weight="800" letter-spacing="${letterSpacing}">SDX</text>
+  <text x="${textX}" y="404" fill="${colors.ink}" font-family="${WORDMARK_FONT}" font-size="${fontSize}" font-weight="800" letter-spacing="${letterSpacing}">${WORDMARK}</text>
   <path d="M${textX} 478H${textX + wordmarkWidth(fontSize, letterSpacing)}" stroke="${colors.seal}" stroke-width="20" stroke-linecap="round"/>
 </svg>
 `
@@ -180,8 +195,8 @@ export function socialCardSvg(mark: Mark, theme: IconTheme): string {
   <rect width="${width}" height="${height}" fill="${colors.plate}"/>
   <rect x="0" y="0" width="${width}" height="${height}" fill="none" stroke="${theme === 'dark' ? '#15130F' : '#E5DBC3'}" stroke-width="16"/>
   ${markGroup(mark, colors, { cx: width / 2, cy: 218, height: markHeight })}
-  <text x="${width / 2}" y="440" text-anchor="middle" fill="${colors.ink}" font-family="${WORDMARK_FONT}" font-size="150" font-weight="800" letter-spacing="8">SDX</text>
-  <text x="${width / 2}" y="520" text-anchor="middle" fill="${colors.seal}" font-family="${WORDMARK_FONT}" font-size="44" font-weight="600">Claude Code 的本地优先桌面客户端</text>
+  <text x="${width / 2}" y="440" text-anchor="middle" fill="${colors.ink}" font-family="${WORDMARK_FONT}" font-size="112" font-weight="800" letter-spacing="4">${WORDMARK}</text>
+  <text x="${width / 2}" y="520" text-anchor="middle" fill="${colors.seal}" font-family="${WORDMARK_FONT}" font-size="44" font-weight="600">本地优先的桌面 AI 编程工作台</text>
 </svg>
 `
 }
@@ -194,9 +209,10 @@ export function bannerSvg(mark: Mark, theme: IconTheme): string {
   const [width, height] = [2752, 921]
   const markHeight = 470
   const inset = 64
-  const fontSize = 400
-  const letterSpacing = 14
+  const letterSpacing = 8
   const gap = 180
+  const gutter = 180
+  const fontSize = fitWordmark(width - gutter * 2 - markWidthAt(mark, markHeight) - gap, letterSpacing)
   // A second plate one step off the first, so the card still reads as a card
   // when a social feed composites it onto its own background.
   const surround = theme === 'dark' ? '#15130F' : '#E5DBC3'
@@ -210,7 +226,7 @@ export function bannerSvg(mark: Mark, theme: IconTheme): string {
   <rect width="${width}" height="${height}" rx="56" fill="${surround}"/>
   <rect x="${inset}" y="${inset}" width="${width - inset * 2}" height="${height - inset * 2}" rx="48" fill="${colors.plate}"/>
   ${markGroup(mark, colors, { cx: markCx, cy: height / 2, height: markHeight })}
-  <text x="${textX}" y="530" fill="${colors.ink}" font-family="${WORDMARK_FONT}" font-size="${fontSize}" font-weight="800" letter-spacing="${letterSpacing}">SDX</text>
+  <text x="${textX}" y="530" fill="${colors.ink}" font-family="${WORDMARK_FONT}" font-size="${fontSize}" font-weight="800" letter-spacing="${letterSpacing}">${WORDMARK}</text>
   <path d="M${textX} 628H${textX + wordmarkWidth(fontSize, letterSpacing)}" stroke="${colors.seal}" stroke-width="26" stroke-linecap="round"/>
 </svg>
 `

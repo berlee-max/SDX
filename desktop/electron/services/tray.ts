@@ -42,11 +42,16 @@ export async function installTray({
   const { Menu, Tray, nativeImage } = electronRuntime ?? await import('electron')
   const icon = nativeImage.createFromPath(resolveTrayIconPath(desktopRoot))
   const tray = new Tray(icon)
-  tray.setToolTip(app.name || 'SDX')
+  // One name for all three. `app.name` is electron-builder's productName, so
+  // the menu tracks whatever the app was packaged as; the labels used to be
+  // hardcoded beside a tooltip that read app.name, which is how a rename leaves
+  // a tray saying one thing and a Dock saying another.
+  const productName = app.name || 'AI Agent SDX'
+  tray.setToolTip(productName)
   tray.setContextMenu(Menu.buildFromTemplate([
-    { label: 'Show SDX', click: show },
+    { label: `Show ${productName}`, click: show },
     { type: 'separator' },
-    { label: 'Quit SDX', click: quit },
+    { label: `Quit ${productName}`, click: quit },
   ]))
   tray.on('click', show)
 

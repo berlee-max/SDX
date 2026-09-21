@@ -1,8 +1,8 @@
-# SDX
+# AI Agent SDX
 
 <div align="center">
 
-**SDX — 桌面端 AI 编程工作台**
+**AI Agent SDX —— 本地优先的桌面 AI 编程工作台**
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%2010%2B%20%7C%20统信UOS-FF7A00)](#)

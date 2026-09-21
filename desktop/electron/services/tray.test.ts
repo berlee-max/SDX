@@ -62,7 +62,7 @@ describe('Electron tray service', () => {
       const quit = vi.fn()
 
       const controller = await installTray({
-        app: { name: 'SDX' } as never,
+        app: { name: 'AI Agent SDX' } as never,
         desktopRoot: root,
         show,
         quit,
@@ -79,14 +79,17 @@ describe('Electron tray service', () => {
 
       expect(trayMocks.createFromPath).toHaveBeenCalledWith(iconPath)
       expect(trayMocks.Tray).toHaveBeenCalledTimes(1)
-      expect(trayMocks.tray.setToolTip).toHaveBeenCalledWith('SDX')
+      // The tooltip and both labels come from app.name, which is the packaged
+      // productName. Hardcoding the labels is what let a rename ship a tray
+      // menu naming the previous product beside a correctly named Dock icon.
+      expect(trayMocks.tray.setToolTip).toHaveBeenCalledWith('AI Agent SDX')
       expect(trayMocks.buildFromTemplate).toHaveBeenCalledTimes(1)
 
       const template = trayMocks.buildFromTemplate.mock.calls[0]?.[0] as Array<{ label?: string, click?: () => void, type?: string }>
       expect(template.map(item => item.label ?? item.type)).toEqual([
-        'Show SDX',
+        'Show AI Agent SDX',
         'separator',
-        'Quit SDX',
+        'Quit AI Agent SDX',
       ])
 
       template[0]?.click?.()

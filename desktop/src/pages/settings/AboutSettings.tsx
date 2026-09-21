@@ -149,7 +149,7 @@ export function AboutSettings() {
     <div className="w-full min-w-0 max-w-2xl mx-auto flex flex-col items-center py-6">
       {/* Logo + App Name + Version */}
       <BrandSeal size="xl" className="mb-4" />
-      <h1 className="text-xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-headline)' }}>SDX</h1>
+      <h1 className="text-xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-headline)' }}>AI Agent SDX</h1>
       {version && (
         <div className="mt-1 flex items-center gap-2 text-xs text-[var(--color-text-tertiary)]">
           <span>{t('settings.about.version')} {version}</span>

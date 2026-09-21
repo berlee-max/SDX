@@ -260,7 +260,7 @@ function Footer({ c, locale }) {
       <div className="u-shell site-footer__inner">
         <div className="site-footer__brand">
           <img alt="" src={toSiteHref('/images/app-icon.webp')} width="30" height="30" />
-          <strong>SDX</strong>
+          <strong>AI Agent SDX</strong>
           <p>{c.footer.tagline}</p>
           <a className="link-arrow" href={GITHUB_URL} rel="noreferrer" target="_blank">
             <Icon name="github" size={16} />

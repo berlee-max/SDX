@@ -1,8 +1,8 @@
-# SDX
+# AI Agent SDX
 
 <div align="center">
 
-**SDX — a desktop AI coding workbench**
+**AI Agent SDX — a local-first desktop AI coding workbench**
 
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%2010%2B%20%7C%20UOS-FF7A00)](#)

@@ -1,10 +1,10 @@
 <svg width="2752" height="921" viewBox="0 0 2752 921" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="2752" height="921" rx="56" fill="#E5DBC3"/>
   <rect x="64" y="64" width="2624" height="793" rx="48" fill="#F6F0E1"/>
-  <g transform="translate(840 460.5) scale(1.15764) translate(-512.5 -512)">
+  <g transform="translate(451.0799999999999 460.5) scale(1.15764) translate(-512.5 -512)">
     <path d="M390.40 338.34C441.24 450.55 453.80 509.11 461.57 551.40C497.58 571.63 546.91 601.46 633.60 685.66C582.76 573.45 570.20 514.89 562.43 472.60C526.42 452.37 477.09 422.54 390.40 338.34Z" fill="#251E11"/>
     <path d="M738.41 315.18C591.57 404.66 516.39 430.41 461.52 447.38C435.24 500.95 396.91 573.88 285.59 708.82C432.43 619.34 507.61 593.59 562.48 576.62C588.76 523.05 627.09 450.12 738.41 315.18Z" fill="#96442B"/>
   </g>
-  <text x="1289.1502463054187" y="530" fill="#251E11" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, Avenir Next, Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="400" font-weight="800" letter-spacing="14">SDX</text>
-  <path d="M1289.1502463054187 628H2181.1502463054185" stroke="#96442B" stroke-width="26" stroke-linecap="round"/>
+  <text x="900.2302463054186" y="530" fill="#251E11" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, Avenir Next, Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="234" font-weight="800" letter-spacing="8">AI Agent SDX</text>
+  <path d="M900.2302463054186 628H2570.0702463054186" stroke="#96442B" stroke-width="26" stroke-linecap="round"/>
 </svg>

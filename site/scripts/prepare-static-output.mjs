@@ -233,7 +233,7 @@ async function main() {
       alternate: alternateFor(record, records),
       description: record.description,
       path: record.path,
-      title: `${record.title} · SDX`
+      title: `${record.title} · AI Agent SDX`
     })
   }
 

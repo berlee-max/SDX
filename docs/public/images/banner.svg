@@ -5,6 +5,6 @@
     <path d="M390.40 338.34C441.24 450.55 453.80 509.11 461.57 551.40C497.58 571.63 546.91 601.46 633.60 685.66C582.76 573.45 570.20 514.89 562.43 472.60C526.42 452.37 477.09 422.54 390.40 338.34Z" fill="#251E11"/>
     <path d="M738.41 315.18C591.57 404.66 516.39 430.41 461.52 447.38C435.24 500.95 396.91 573.88 285.59 708.82C432.43 619.34 507.61 593.59 562.48 576.62C588.76 523.05 627.09 450.12 738.41 315.18Z" fill="#96442B"/>
   </g>
-  <text x="600" y="440" text-anchor="middle" fill="#251E11" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, Avenir Next, Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="150" font-weight="800" letter-spacing="8">SDX</text>
-  <text x="600" y="520" text-anchor="middle" fill="#96442B" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, Avenir Next, Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="44" font-weight="600">Claude Code 的本地优先桌面客户端</text>
+  <text x="600" y="440" text-anchor="middle" fill="#251E11" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, Avenir Next, Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="112" font-weight="800" letter-spacing="4">AI Agent SDX</text>
+  <text x="600" y="520" text-anchor="middle" fill="#96442B" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, Avenir Next, Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="44" font-weight="600">本地优先的桌面 AI 编程工作台</text>
 </svg>

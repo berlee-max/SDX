@@ -70,7 +70,7 @@ export default function SiteHeader({ activeSection, locale = 'zh', localeHref })
         <div className="site-header__inner">
           <a className="brand" href={toSiteHref(home)}>
             <img alt="" src={toSiteHref('/images/app-icon.webp')} width="26" height="26" />
-            <span><b>SDX</b></span>
+            <span>AI Agent <b>SDX</b></span>
           </a>
 
           <nav aria-label={c.nav} className="site-nav" data-open={open} id="site-nav">

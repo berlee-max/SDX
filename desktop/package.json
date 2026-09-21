@@ -2,7 +2,7 @@
   "name": "sdx-desktop",
   "private": true,
   "version": "0.1.0",
-  "description": "SDX — desktop coding agent workbench.",
+  "description": "AI Agent SDX — a local-first desktop AI coding workbench.",
   "homepage": "https://github.com/berlee-max/SDX",
   "author": {
     "name": "SDX",

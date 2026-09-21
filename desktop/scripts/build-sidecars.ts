@@ -58,7 +58,10 @@ await stageHostRipgrepForOfflineBuild()
 await compileExecutable({
   entrypoint: path.join(desktopRoot, 'sidecars/claude-sidecar.ts'),
   outfileBase: path.join(binariesDir, `claude-sidecar-${targetTriple}`),
-  productName: 'Claude Code Sidecar',
+  // Windows version metadata, shown in the file's Properties dialog and in Task
+  // Manager's Description column. The binary's FILENAME stays claude-sidecar-*:
+  // sidecarManager resolves it by that name and the signing config matches it.
+  productName: 'AI Agent SDX Sidecar',
   bunTarget,
 })
 
@@ -253,7 +256,7 @@ async function compileExecutable({
       autoloadPackageJson: true,
       windows: {
         title: productName,
-        publisher: 'Claude Code',
+        publisher: 'AI Agent SDX',
         description: productName,
         hideConsole: true,
       },
