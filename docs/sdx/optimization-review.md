@@ -39,8 +39,8 @@ electron-builder ──> dmg+zip / nsis / AppImage+deb+rpm
 新目录 `/Users/ber/project/SDX`，已建 git 仓库，三个提交：
 
 ```
-8a2facb  chore: rebrand cc-haha to SDX (identity layer)
-ad2c845  chore: import cc-haha-main snapshot as SDX baseline
+20ac321  chore: rebrand cc-haha to SDX (identity layer)
+upstream-baseline  chore: import cc-haha-main snapshot as SDX baseline
 ```
 
 原目录 `cc-haha-main` **完全没动**，可随时对照。重命名细节与刻意保留项见 [NOTICE.md](../../NOTICE.md)。

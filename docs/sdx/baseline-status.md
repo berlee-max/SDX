@@ -1,14 +1,18 @@
 # SDX 基线验证状态
 
 > 环境：macOS 15（Darwin 24.6.0，arm64）· bun 1.3.14（= `packageManager` 声明的版本）· node v26.8.1
-> 提交：`3cf8e9e`（`main`）· 日期：2026-09-21
+> 提交：`58093f1`（`main`）· 日期：2026-09-21
 
 这份文档记录 **SDX 刚建仓时各条质量车道的真实状态**。目的只有一个：
 以后有人看到某个测试是红的，能立刻分清"我刚改坏的"还是"本来就红的"，
 不用再从头对照上游。
 
-判定方法：对 `ad2c845`（未经任何改动的上游快照）建 git worktree，
+判定方法：对 `upstream-baseline`（未经任何改动的上游快照）建 git worktree，
 共用同一份 `node_modules`，同一条命令在两边各跑一次，比较失败数。
+
+> `upstream-baseline` 是个 **tag**，不是 commit hash。首次 push 前仓库做过一次
+> `git filter-repo`（把 92.6MB 的原始文档图片从历史里剔除），所有 commit hash 都换了；
+> 用 tag 引用就不会再被这类操作打断。
 
 ---
 
@@ -30,17 +34,17 @@
 
 | 文件 | 问题 | 提交 |
 | --- | --- | --- |
-| `scripts/quality-gate/package-smoke/index.test.ts` | 测试靠"带空格的产品名"与"带连字符的安装包名"不同来模拟"更新元数据指向缺失文件"；单词产品名让两者塌缩成同一个字符串，断言失效 | `0dee788` |
-| `src/server/__tests__/mac-installed-apps.test.ts` | 断言的是按显示名排序的列表；`Claude Code Haha` 排第一，`SDX` 排到了 `Notes` 之后 | `3cf8e9e` |
-| `package.json` `packageManager` | 把 bun 提到 1.4.2 导致 `systemProxyBridge` 竞态用例超时；1.3.14 下全绿。已回退并写进 [git-workflow.md](git-workflow.md) | `3492d2d` |
+| `scripts/quality-gate/package-smoke/index.test.ts` | 测试靠"带空格的产品名"与"带连字符的安装包名"不同来模拟"更新元数据指向缺失文件"；单词产品名让两者塌缩成同一个字符串，断言失效 | `0775437` |
+| `src/server/__tests__/mac-installed-apps.test.ts` | 断言的是按显示名排序的列表；`Claude Code Haha` 排第一，`SDX` 排到了 `Notes` 之后 | `58093f1` |
+| `package.json` `packageManager` | 把 bun 提到 1.4.2 导致 `systemProxyBridge` 竞态用例超时；1.3.14 下全绿。已回退并写进 [git-workflow.md](git-workflow.md) | `23f3b39` |
 
 顺带修掉一个继承的缺陷：`src/vendor/computer-use-mcp/toolCalls.test.ts` 重复 import 了
 `bindSessionContext`，Bun 转译器拒绝该文件，导致 `check:policy` 的死代码分析器把它判为
-"无法分析"而整条车道失败（`bd789d6`）。
+"无法分析"而整条车道失败（`3922d54`）。
 
 ## 三、继承的失败清单（27 个 / 10 个文件）
 
-下面每一条都已确认在 `ad2c845` 上以**完全相同的数量**失败。
+下面每一条都已确认在 `upstream-baseline` 上以**完全相同的数量**失败。
 
 | 文件 | 失败数 | 表现 |
 | --- | ---: | --- |
@@ -67,7 +71,7 @@
 
 ```bash
 # 建一个上游原始快照的 worktree，共用 node_modules
-git worktree add --detach /tmp/baseline-wt ad2c845
+git worktree add --detach /tmp/baseline-wt upstream-baseline
 ln -s "$PWD/node_modules" /tmp/baseline-wt/node_modules
 
 # 同一个文件两边各跑一次
