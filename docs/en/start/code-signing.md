@@ -1,6 +1,6 @@
 # Code signing
 
-**Current status: SDX has no code signing configured.** This page explains what that means for you and what it would take to change it.
+**Current status: AI Agent SDX has no code signing configured.** This page explains what that means for you and what it would take to change it.
 
 ## Where things stand
 
@@ -12,7 +12,7 @@
 
 The upstream project [cc-haha](https://github.com/NanmiCoder/cc-haha) obtained free Windows code
 signing through the SignPath Foundation. **That certificate belongs to upstream and has nothing to
-do with SDX** — SDX neither uses nor may use it.
+do with AI Agent SDX** — AI Agent SDX neither uses nor may use it.
 
 ## What proper signing would require
 
@@ -29,7 +29,7 @@ only the certificate itself is missing.
   build reputation first.
 
 The configuration under `.github/signpath/` is inherited from upstream and must be replaced wholesale
-when SDX has its own signing channel.
+when AI Agent SDX has its own signing channel.
 
 ## Verifying a download until then
 

@@ -1,4 +1,4 @@
-# Claude Code IM Adapters
+# AI Agent SDX IM Adapters
 
 当前目录只放 IM Adapter 运行时代码。
 

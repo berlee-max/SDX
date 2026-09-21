@@ -33,7 +33,7 @@ First, one check: make sure you're on the latest stable build from [GitHub Relea
 
 1. Quit the main window, and quit the tray icon too.
 2. Give background processes a few seconds to exit.
-3. Still stuck? End any remaining SDX processes in Task Manager.
+3. Still stuck? End any remaining AI Agent SDX processes in Task Manager.
 4. Run the installer again. **Don't** use "Run as administrator", and **don't** manually delete data from the old install directory.
 
 ### The Linux AppImage does nothing when I run it
@@ -191,7 +191,7 @@ Scanning only binds the platform account; it doesn't authorize everyone who can 
 2. Did the Python 3 check pass? If not, install it, or point "Python Interpreter Path" at one you already have — conda and pyenv both work.
 3. Are the virtual environment and dependencies ready and installed? If not, click "Install Environment".
 4. On macOS, both "Accessibility Permission" and "Screen Recording Permission" must show as granted. Grant them under System Settings → Privacy & Security.
-5. **Restart SDX after granting them.** System permissions don't apply to an already-running process.
+5. **Restart AI Agent SDX after granting them.** System permissions don't apply to an already-running process.
 6. Is the app you want to control listed under "Authorized Apps"?
 
 Full details in [Computer Use](../desktop/computer-use.md).

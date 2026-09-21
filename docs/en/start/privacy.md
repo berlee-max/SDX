@@ -1,7 +1,7 @@
 ---
 title: Privacy and network access
 nav_title: Privacy
-description: What SDX stores locally, when it uses the network, and how to remove its data.
+description: What AI Agent SDX stores locally, when it uses the network, and how to remove its data.
 order: 6
 ---
 
@@ -32,7 +32,7 @@ The project maintainers do not sell user data or place advertising based on pers
 
 ## Removing data
 
-Uninstalling the application does not automatically delete sessions and configuration under `~/.claude`. To remove local data completely, first back up anything you want to keep, then manually delete `~/.claude` and the SDX data in your operating system's application-data directory. To remove data already sent to a third-party service, follow that provider's process.
+Uninstalling the application does not automatically delete sessions and configuration under `~/.claude`. To remove local data completely, first back up anything you want to keep, then manually delete `~/.claude` and the AI Agent SDX data in your operating system's application-data directory. To remove data already sent to a third-party service, follow that provider's process.
 
 ## Contact
 

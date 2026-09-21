@@ -167,9 +167,13 @@ describe('release desktop workflow', () => {
 
     expect(desktopPackage.description).toBeTruthy()
     expect(desktopPackage.homepage).toBe('https://github.com/berlee-max/SDX')
-    expect(desktopPackage.author?.name).toBe('SDX')
+    // Publisher and product name are pinned to the same string on purpose:
+    // author.name shows in package metadata and linux.maintainer becomes the
+    // deb Maintainer field, and a rename that moves one but not the other
+    // ships a package attributed to a product that no longer exists.
+    expect(desktopPackage.author?.name).toBe('AI Agent SDX')
     expect(desktopPackage.author?.email).toBe('ribbernlee@gmail.com')
-    expect(desktopPackage.build?.linux?.maintainer).toBe('SDX <ribbernlee@gmail.com>')
+    expect(desktopPackage.build?.linux?.maintainer).toBe('AI Agent SDX <ribbernlee@gmail.com>')
     // The updater feed must never point at upstream: a release there would be
     // offered to SDX users as an update into a different product.
     expect(desktopPackage.build?.publish?.[0]?.owner).toBe('berlee-max')

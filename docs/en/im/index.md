@@ -7,7 +7,7 @@ order: 0
 
 # IM Integrations
 
-A session running in the Desktop app can be reached from a private chat on your phone. Once bound, a message in Feishu, Telegram, WeChat, DingTalk, WhatsApp, WeCom, QQ, or Slack drives the Claude Code session on your own machine: start a long task before you leave, then follow the progress, approve permissions, and switch projects from the road.
+A session running in the Desktop app can be reached from a private chat on your phone. Once bound, a message in Feishu, Telegram, WeChat, DingTalk, WhatsApp, WeCom, QQ, or Slack drives the AI Agent SDX session on your own machine: start a long task before you leave, then follow the progress, approve permissions, and switch projects from the road.
 
 The chat partner is a bot or account you bound yourself. Messages reach your local Desktop app; no intermediate service holds your code.
 
@@ -15,7 +15,7 @@ The chat partner is a bot or account you bound yourself. Messages reach your loc
 
 ## What you get
 
-- **The same session, continued.** Messages sent from your phone enter the Claude Code session on your computer, where file edits, commands, and reads really happen.
+- **The same session, continued.** Messages sent from your phone enter the AI Agent SDX session on your computer, where file edits, commands, and reads really happen.
 - **Resume history.** `/sessions` lists history in the current project; `/sessions <project name or absolute path>` opens another project. Use `/resume <number>` to continue, including sessions created on Desktop.
 - **Project switching.** `/projects` lists recent projects and switches to the one you pick; `/new` starts a fresh session.
 - **Permission approval.** When Claude wants to write a file or run a risky command, the request is pushed to the chat. Feishu and DingTalk send interactive cards, Telegram sends buttons, and every other platform expects a text reply.

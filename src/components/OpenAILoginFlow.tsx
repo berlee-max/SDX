@@ -149,7 +149,7 @@ export function OpenAILoginFlow({
       setStatus({ state: 'success', warning })
       void sendNotification(
         {
-          message: 'SDX OpenAI login successful',
+          message: 'AI Agent SDX OpenAI login successful',
           notificationType: 'auth_success',
         },
         terminal,

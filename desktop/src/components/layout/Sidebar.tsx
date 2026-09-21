@@ -952,15 +952,20 @@ export function Sidebar({
               Collapsed, the mark is centered on the rail instead. */}
           <div className={`flex min-w-0 items-center ${expanded ? 'gap-2.5 pl-3' : 'justify-center'}`}>
             {!expanded ? <BrandSeal size="sm" /> : null}
-            {/* One form, at every width. The header used to carry "Claude Code
-                Haha" and swap to this below ~230px of title region, which meant
-                the app answered to two names depending on how the sidebar was
-                dragged. It goes by the short one. */}
+            {/* One form, at every width. This used to swap between a long name
+                and a short one below ~230px of title region, so the app answered
+                to two names depending on how the sidebar was dragged.
+                The full name fits: measured at 98.3px against the 128px the
+                header row has left at SIDEBAR_MIN_WIDTH (240px, minus px-3,
+                pl-3, gap-3 and the two trailing icon buttons). `sidebar-copy`
+                clips with overflow:hidden rather than wrapping, so a name that
+                outgrew that budget would truncate mid-word instead of falling
+                back — re-measure before making it longer. */}
             <span
               className={`sidebar-copy ${expanded ? 'sidebar-copy--visible' : 'sidebar-copy--hidden'} text-base font-bold tracking-tight text-[var(--color-text-primary)]`}
               style={{ fontFamily: 'var(--font-headline)' }}
             >
-              SD<span className="text-[var(--color-brand)]">X</span>
+              AI Agent SD<span className="text-[var(--color-brand)]">X</span>
             </span>
           </div>
           <div className={`flex items-center ${expanded ? 'gap-1.5' : 'flex-col gap-2'}`}>

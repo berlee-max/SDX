@@ -144,7 +144,7 @@ async function sendWhatsAppText(jid: string, text: string): Promise<void> {
 }
 
 async function sendHelp(jid: string): Promise<void> {
-  await sendWhatsAppText(jid, `Claude Code WhatsApp 已就绪。\n\n${formatImHelp()}`)
+  await sendWhatsAppText(jid, `AI Agent SDX WhatsApp 已就绪。\n\n${formatImHelp()}`)
 }
 
 async function handlePermissionDecision(chatId: string, decision: PermissionDecision): Promise<void> {
@@ -441,7 +441,7 @@ async function routeUserMessage(
       chatId,
       success
         ? '配对成功！现在可以开始聊天了。\n\n发送消息即可与 Claude 对话。'
-        : '未授权。请在 Claude Code 桌面端生成配对码后发送给我。',
+        : '未授权。请在 AI Agent SDX 桌面端生成配对码后发送给我。',
     )
     return
   }

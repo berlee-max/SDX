@@ -35,7 +35,7 @@ function printHelp(): void {
 }
 
 function printVersion(): void {
-  process.stdout.write('999.0.0-local (Claude Code local recovery)\n')
+  process.stdout.write('999.0.0-local (AI Agent SDX local recovery)\n')
 }
 
 function parseArgs(argv: string[]) {
@@ -249,7 +249,7 @@ async function runInteractive(parsed: {
   })
 
   process.stdout.write(
-    `Claude Haha local interactive mode\nmodel: ${model}\ncommands: /exit, /clear\n\n`,
+    `AI Agent SDX local interactive mode\nmodel: ${model}\ncommands: /exit, /clear\n\n`,
   )
   rl.prompt()
 

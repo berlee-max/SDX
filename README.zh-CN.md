@@ -11,14 +11,14 @@
 
 </div>
 
-> **关于本项目**：SDX 基于开源项目 [cc-haha](https://github.com/NanmiCoder/cc-haha)（MIT 协议，作者 NanmiCoder）
+> **关于本项目**：AI Agent SDX 基于开源项目 [cc-haha](https://github.com/NanmiCoder/cc-haha)（MIT 协议，作者 NanmiCoder）
 > 二次开发，起始于上游桌面端 v0.6.5。本仓库保留上游版权与许可声明，详见 [LICENSE](LICENSE) 和 [NOTICE.md](NOTICE.md)。
-> 下文大部分内容继承自上游文档，会随 SDX 的开发逐步替换。上游的赞助、打赏、交流群和作者联系方式已全部移除；
+> 下文大部分内容继承自上游文档，会随 AI Agent SDX 的开发逐步替换。上游的赞助、打赏、交流群和作者联系方式已全部移除；
 > 文中仅剩的 `github.com/NanmiCoder/cc-haha` 链接是出于许可要求保留的来源标注。
 >
 > 界面截图仍是上游版本（侧边栏显示 `cc-haha`），需要重新截图后替换，暂未纳入 README。
 
-SDX 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、分支 / Worktree 启动、Diff 审阅、内置浏览器预览、图形化权限审批、模型自选（Claude / ChatGPT / Grok / 预设 / 本地端点）、图片生成、MCP 与 SubAgent 可视化管理、Agent Teams 协作工作台、动态 Workflow 编排、模型请求追踪、Computer Use、技能市场、多主题、桌面宠物、H5 远程访问、IM 接入和定时任务，集中在一个 macOS / Windows / Linux APP 里。
+AI Agent SDX 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、分支 / Worktree 启动、Diff 审阅、内置浏览器预览、图形化权限审批、模型自选（Claude / ChatGPT / Grok / 预设 / 本地端点）、图片生成、MCP 与 SubAgent 可视化管理、Agent Teams 协作工作台、动态 Workflow 编排、模型请求追踪、Computer Use、技能市场、多主题、桌面宠物、H5 远程访问、IM 接入和定时任务，集中在一个 macOS / Windows / Linux APP 里。
 
 <p align="center">
   <a href="#安装桌面端">安装桌面端</a> · <a href="#从源码启动-cli">从源码启动 CLI</a> · <a href="#桌面端亮点">桌面端亮点</a> · <a href="#更多文档">更多文档</a>
@@ -27,7 +27,7 @@ SDX 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、�
 ## 安装桌面端
 
 1. 前往 [Releases](https://github.com/berlee-max/SDX/releases) 下载安装包（macOS / Windows 10+ / 统信 UOS 20）。
-   **SDX 尚未发布任何版本**，当前请按下文从源码构建。
+   **AI Agent SDX 尚未发布任何版本**，当前请按下文从源码构建。
 2. 首次启动后，在桌面端设置里配置模型提供商、API Key 和默认模型。
 3. 正式 macOS Release 需要经过签名和公证；如果安装的是 draft/unsigned 临时包，首次打开可能仍需手动放行。Windows 未签名安装包可能出现 SmartScreen 提示，点「更多信息」→「仍要运行」即可。详见 [桌面端安装指南](docs/start/install.md)。
 
@@ -106,4 +106,4 @@ cp .env.example .env
 - [Electron](https://github.com/electron/electron)：跨端桌面应用能力与工程实践。
 - [cc-switch](https://github.com/farion1231/cc-switch)：模型供应商配置能力参考。
 - [LINUX DO](https://linux.do/)：新的理想型开发者社区。
-- [cc-haha](https://github.com/NanmiCoder/cc-haha)：本项目的上游，SDX 从它的 v0.6.5 分叉而来。
+- [cc-haha](https://github.com/NanmiCoder/cc-haha)：本项目的上游，AI Agent SDX 从它的 v0.6.5 分叉而来。

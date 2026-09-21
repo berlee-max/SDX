@@ -950,13 +950,13 @@ fn show_main_window(app: &AppHandle) {
 
 fn setup_system_tray(app: &mut tauri::App) -> tauri::Result<()> {
     let menu = MenuBuilder::new(app)
-        .text(TRAY_SHOW_ID, "Show SDX")
+        .text(TRAY_SHOW_ID, "Show AI Agent SDX")
         .separator()
-        .text(TRAY_QUIT_ID, "Quit SDX")
+        .text(TRAY_QUIT_ID, "Quit AI Agent SDX")
         .build()?;
 
     let mut tray = TrayIconBuilder::with_id("main-tray")
-        .tooltip("SDX")
+        .tooltip("AI Agent SDX")
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id().as_ref() {
@@ -2642,12 +2642,12 @@ pub fn run() {
     let builder = builder
         .menu(|app| {
             let about_item =
-                MenuItemBuilder::with_id("nav_about", "关于 SDX").build(app)?;
+                MenuItemBuilder::with_id("nav_about", "关于 AI Agent SDX").build(app)?;
             let settings_item = MenuItemBuilder::with_id("nav_settings", "设置...")
                 .accelerator("CmdOrCtrl+,")
                 .build(app)?;
 
-            let app_submenu = SubmenuBuilder::new(app, "SDX")
+            let app_submenu = SubmenuBuilder::new(app, "AI Agent SDX")
                 .item(&about_item)
                 .separator()
                 .item(&settings_item)

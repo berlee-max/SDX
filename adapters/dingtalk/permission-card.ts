@@ -18,7 +18,7 @@ export function buildDingTalkPermissionCardParams(
   const denyValue = { action: 'permit', requestId, allowed: false }
 
   return {
-    title: 'Claude Code 需要权限确认',
+    title: 'AI Agent SDX 需要权限确认',
     toolName,
     requestId,
     inputPreview: truncateInput(input, 600),

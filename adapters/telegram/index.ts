@@ -546,7 +546,7 @@ async function routeUserMessage(
     if (success) {
       await ctx.reply('✅ 配对成功！现在可以开始聊天了。\n\n发送消息即可与 Claude 对话。')
     } else {
-      await ctx.reply('🔒 未授权。请在 Claude Code 桌面端生成配对码后发送给我。')
+      await ctx.reply('🔒 未授权。请在 AI Agent SDX 桌面端生成配对码后发送给我。')
     }
     return
   }

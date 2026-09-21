@@ -5,7 +5,7 @@
   "description": "AI Agent SDX — a local-first desktop AI coding workbench.",
   "homepage": "https://github.com/berlee-max/SDX",
   "author": {
-    "name": "SDX",
+    "name": "AI Agent SDX",
     "email": "ribbernlee@gmail.com"
   },
   "type": "module",
@@ -74,7 +74,7 @@
       ],
       "icon": "src-tauri/icons",
       "category": "Development",
-      "maintainer": "SDX <ribbernlee@gmail.com>"
+      "maintainer": "AI Agent SDX <ribbernlee@gmail.com>"
     },
     "publish": [
       {

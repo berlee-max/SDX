@@ -7,7 +7,7 @@ order: 1
 
 # Command Reference
 
-SDX starts an interactive session by default. With `--print`, it can also run as a non-interactive agent in scripts, CI, or another program. The command in a source checkout is `./bin/sdx`; the installed executable name depends on the installation method.
+AI Agent SDX starts an interactive session by default. With `--print`, it can also run as a non-interactive agent in scripts, CI, or another program. The command in a source checkout is `./bin/sdx`; the installed executable name depends on the installation method.
 
 ```bash
 ./bin/sdx --help

@@ -71,7 +71,7 @@ const DATE_LOCALES: Record<Locale, string> = {
   kr: 'ko-KR',
 }
 const DEFAULT_PROFILE: DesktopProfilePreferences = {
-  displayName: 'SDX',
+  displayName: 'AI Agent SDX',
   subtitle: 'github.com/berlee-max/SDX',
   avatarFile: null,
   avatarUpdatedAt: null,

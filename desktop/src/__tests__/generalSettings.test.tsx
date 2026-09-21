@@ -1474,7 +1474,7 @@ describe('Settings > General tab', () => {
       expect(desktopNotificationsMock.requestDesktopNotificationPermission).toHaveBeenCalledTimes(1)
     })
     expect(desktopNotificationsMock.notifyDesktop).toHaveBeenCalledWith({
-      title: 'SDX notifications are enabled',
+      title: 'AI Agent SDX notifications are enabled',
       body: 'Permission prompts and completed agent replies will now use system notifications.',
     })
   })

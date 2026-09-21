@@ -26,7 +26,7 @@ This step only gives the Desktop app the bot's credentials. It does **not** auth
 
 Back at the top of the page, under **Pairing**, select **Generate Code** to get a six-character code. This takes effect immediately; no **Save** is needed.
 
-Send that code to the new bot in a private WeCom chat. Once pairing is confirmed, anything you type goes to Claude Code.
+Send that code to the new bot in a private WeCom chat. Once pairing is confirmed, anything you type goes to AI Agent SDX.
 
 A code is valid for 60 minutes, works once, and is invalidated the moment a new one is generated. Five failed attempts within five minutes trigger rate limiting.
 

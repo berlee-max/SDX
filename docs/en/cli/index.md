@@ -7,7 +7,7 @@ order: 0
 
 # Install and Run
 
-The CLI is the core of SDX — every desktop session runs one underneath. If you only want the graphical app, installing that is enough; see [Download and install](../start/install.md). The steps below are for people who want a terminal workflow, `--print` automation, or a source checkout to read and contribute to.
+The CLI is the core of AI Agent SDX — every desktop session runs one underneath. If you only want the graphical app, installing that is enough; see [Download and install](../start/install.md). The steps below are for people who want a terminal workflow, `--print` automation, or a source checkout to read and contribute to.
 
 The CLI runs from source only. There is no separate installer for it.
 
@@ -64,7 +64,7 @@ On macOS and Linux, add this to `~/.bashrc` or `~/.zshrc`:
 
 ```bash
 # Option 1: add to PATH (recommended)
-export PATH="$HOME/path/to/claude-code-haha/bin:$PATH"
+export PATH="$HOME/path/to/sdx/bin:$PATH"
 
 # Option 2: alias
 alias sdx="$HOME/path/to/claude-code-haha/bin/sdx"

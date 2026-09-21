@@ -1,6 +1,6 @@
 # 代码签名说明
 
-**当前状态：SDX 尚未配置任何代码签名。** 本页说明这对你意味着什么，以及计划怎么做。
+**当前状态：AI Agent SDX 尚未配置任何代码签名。** 本页说明这对你意味着什么，以及计划怎么做。
 
 ## 现状
 
@@ -11,7 +11,7 @@
 | 统信 UOS 20 | 未签名（Linux 生态本就不依赖代码签名） | 正常安装，无额外提示 |
 
 上游项目 [cc-haha](https://github.com/NanmiCoder/cc-haha) 通过 SignPath Foundation 获得了 Windows
-免费代码签名。**那份证书属于上游，与 SDX 无关**，SDX 不会也不能使用它。
+免费代码签名。**那份证书属于上游，与 AI Agent SDX 无关**，AI Agent SDX 不会也不能使用它。
 
 ## 要做正式签名，各平台需要什么
 
@@ -25,7 +25,7 @@
   社区基础；
 - 或自行购买 OV / EV 代码签名证书。EV 证书能立刻消除 SmartScreen 警告，OV 证书需要累积信誉。
 
-仓库里 `.github/signpath/` 下的配置继承自上游，接入 SDX 自己的签名渠道时需要整体替换。
+仓库里 `.github/signpath/` 下的配置继承自上游，接入 AI Agent SDX 自己的签名渠道时需要整体替换。
 
 **Linux / UOS** —— deb 包可以用 GPG 签名以便进入 apt 仓库，但直接分发 `.deb` 文件不需要。
 

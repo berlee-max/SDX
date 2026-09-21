@@ -11,17 +11,17 @@
 
 </div>
 
-> **About this project**: SDX is a downstream fork of [cc-haha](https://github.com/NanmiCoder/cc-haha)
+> **About this project**: AI Agent SDX is a downstream fork of [cc-haha](https://github.com/NanmiCoder/cc-haha)
 > (MIT, by NanmiCoder), branched from upstream desktop v0.6.5. Upstream copyright and licence notices are
 > preserved — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md). Most of the text below is inherited from
-> upstream documentation and is being replaced as SDX develops. Upstream sponsorship, donation, chat-group and
+> upstream documentation and is being replaced as AI Agent SDX develops. Upstream sponsorship, donation, chat-group and
 > author-contact sections have all been removed; the remaining `github.com/NanmiCoder/cc-haha` links are the
 > attribution the licence requires.
 >
 > UI screenshots still show the upstream build (the sidebar reads `cc-haha`) and need to be retaken, so they
 > are not included here yet.
 
-SDX is a **desktop Claude Code workspace** for macOS, Windows, and Linux: multi-session workspaces, global search, branch / Worktree launch, diff review, built-in browser preview, GUI permission approval, any model — Claude, ChatGPT, Grok, presets, or local endpoints — image generation, visual MCP & SubAgent managers, an Agent Teams workbench, dynamic Workflow orchestration, model trace, Computer Use, skill marketplace, colour themes, desktop pets, H5 remote access, IM integration, and scheduled tasks, all in one app.
+AI Agent SDX is a **desktop Claude Code workspace** for macOS, Windows, and Linux: multi-session workspaces, global search, branch / Worktree launch, diff review, built-in browser preview, GUI permission approval, any model — Claude, ChatGPT, Grok, presets, or local endpoints — image generation, visual MCP & SubAgent managers, an Agent Teams workbench, dynamic Workflow orchestration, model trace, Computer Use, skill marketplace, colour themes, desktop pets, H5 remote access, IM integration, and scheduled tasks, all in one app.
 
 <p align="center">
   <a href="#install-the-desktop-app">Install</a> · <a href="#run-the-cli-from-source">Run the CLI</a> · <a href="#desktop-highlights">Highlights</a> · <a href="#more-documentation">Docs</a>
@@ -30,7 +30,7 @@ SDX is a **desktop Claude Code workspace** for macOS, Windows, and Linux: multi-
 ## Install the Desktop App
 
 1. Download the installer from [Releases](https://github.com/berlee-max/SDX/releases) (macOS / Windows 10+ / UOS 20).
-   **SDX has not published a release yet** — build from source as described below.
+   **AI Agent SDX has not published a release yet** — build from source as described below.
 2. On first launch, configure your model provider, API key, and default model in Settings.
 3. Public macOS releases require signing and notarization. Draft or unsigned temporary builds may still need one-time manual approval. Unsigned Windows installers may show SmartScreen; click "More info" -> "Run anyway". See the [desktop installation guide](docs/en/start/install.md).
 

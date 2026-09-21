@@ -28,11 +28,11 @@ export const SLACK_BOT_SCOPES = [
 
 export type SlackManifest = Record<string, unknown>
 
-export function buildSlackAppManifest(appName = 'SDX'): SlackManifest {
+export function buildSlackAppManifest(appName = 'AI Agent SDX'): SlackManifest {
   return {
     display_information: {
       name: appName,
-      description: 'Drive a local Claude Code session from Slack direct messages.',
+      description: 'Drive a local AI Agent SDX session from Slack direct messages.',
       background_color: '#1a1a1a',
     },
     features: {
