@@ -9,7 +9,7 @@ order: 8
 
 深度剖析 Skills 如何被发现、加载、注入、执行和管理。
 
-![Skills 架构概览](./images/04-skills-architecture.png)
+![Skills 架构概览](./images/04-skills-architecture.webp)
 
 ## 整体架构
 
@@ -83,7 +83,7 @@ const loadAllCommands = memoize(async (cwd: string): Promise<Command[]> => {
 
 ### 目录 Skill 加载流程
 
-![Skill 加载流程](./images/05-skill-loading.png)
+![Skill 加载流程](./images/05-skill-loading.webp)
 
 `getSkillDirCommands()` 是目录 Skills 的核心加载函数：
 
@@ -310,7 +310,7 @@ async getPromptForCommand(args, toolUseContext) {
 
 ### 注入流程
 
-![Skill 列表注入](./images/06-skill-injection.png)
+![Skill 列表注入](./images/06-skill-injection.webp)
 
 Skills 通过 `system-reminder` 消息注入到对话中：
 
@@ -410,7 +410,7 @@ export const SkillTool = buildTool({
 
 ### 执行流程
 
-![SkillTool 执行流程](./images/07-skill-execution.png)
+![SkillTool 执行流程](./images/07-skill-execution.webp)
 
 ```
 SkillTool.call({ skill, args })
@@ -601,7 +601,7 @@ export async function prepareForkedCommandContext(
 
 ### 条件 Skills
 
-![条件激活机制](./images/08-conditional-activation.png)
+![条件激活机制](./images/08-conditional-activation.webp)
 
 带 `paths` frontmatter 的 Skills 不会立即暴露给模型：
 
@@ -767,7 +767,7 @@ SAFE_SKILL_PROPERTIES = {
 
 ### 数据流总览
 
-![完整生命周期](./images/09-skill-lifecycle.png)
+![完整生命周期](./images/09-skill-lifecycle.webp)
 
 ```
 第一阶段: 发现与注册

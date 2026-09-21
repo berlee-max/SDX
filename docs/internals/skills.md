@@ -9,7 +9,7 @@ order: 7
 
 Skills 是 Claude Code 的扩展能力引擎，让你用 Markdown 文件定义专属的自动化工作流。
 
-![Skills 系统概览](./images/01-skills-overview.png)
+![Skills 系统概览](./images/01-skills-overview.webp)
 
 ## 什么是 Skills？
 
@@ -28,7 +28,7 @@ Skills 是 Claude Code 的**可扩展能力插件系统**。每个 Skill 是一�
 
 ## 六种 Skill 来源
 
-![Skill 来源类型](./images/02-skill-sources.png)
+![Skill 来源类型](./images/02-skill-sources.webp)
 
 Claude Code 从 6 个不同来源加载 Skills，按优先级从高到低：
 
@@ -201,7 +201,7 @@ hooks:
 
 ## 调用方式
 
-![Skill 调用流程](./images/03-skill-invocation.png)
+![Skill 调用流程](./images/03-skill-invocation.webp)
 
 ### 方式一：用户斜杠命令
 

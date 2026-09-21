@@ -9,7 +9,7 @@ order: 9
 
 让 Claude Code 跨会话记住你是谁、你偏好什么、项目正在发生什么。
 
-![记忆系统概览](./images/01-memory-overview.png)
+![记忆系统概览](./images/01-memory-overview.webp)
 
 ## 什么是记忆系统？
 
@@ -26,7 +26,7 @@ Claude Code 的记忆系统是一套**基于文件的持久化知识库**，让 
 
 ## 四种记忆类型
 
-![四种记忆类型](./images/02-memory-types.png)
+![四种记忆类型](./images/02-memory-types.webp)
 
 Claude Code 将记忆严格分为四类：
 
@@ -72,7 +72,7 @@ Claude 保存：grafana.internal/d/api-latency 是 oncall 延迟仪表板 — �
 
 ## 如何触发记忆保存
 
-![记忆触发流程](./images/03-memory-trigger.png)
+![记忆触发流程](./images/03-memory-trigger.webp)
 
 ### 方式一：自动提取（最常用）
 
@@ -210,7 +210,7 @@ Claude：[本次对话中不使用任何记忆内容]
 
 ## 记忆的生命周期
 
-![记忆生命周期](./images/04-memory-lifecycle.png)
+![记忆生命周期](./images/04-memory-lifecycle.webp)
 
 ```
 对话中学到新信息

@@ -9,7 +9,7 @@ order: 11
 
 Claude 会"做梦"——在后台静默回顾近期会话，整合、更新、修剪记忆，就像人类睡眠中整理白天的记忆一样。
 
-![AutoDream 概览](./images/11-autodream-overview.png)
+![AutoDream 概览](./images/11-autodream-overview.webp)
 
 ## 什么是 AutoDream？
 
@@ -33,7 +33,7 @@ AutoDream 是 Claude Code 的 **后台记忆整合机制**，内部代号 **"Dre
 
 ## 触发条件
 
-![AutoDream 触发流程](./images/12-autodream-trigger.png)
+![AutoDream 触发流程](./images/12-autodream-trigger.webp)
 
 AutoDream 采用 **五重门控** 机制，按开销从低到高逐级检查：
 
@@ -88,7 +88,7 @@ if (!toolUseContext.agentId) {
 
 ## 四阶段整合流程
 
-![AutoDream 四阶段流程](./images/13-autodream-phases.png)
+![AutoDream 四阶段流程](./images/13-autodream-phases.webp)
 
 一旦所有门控通过，AutoDream 启动一个 **分叉子 Agent**，按照 `consolidationPrompt.ts` 定义的 4 阶段提示词工作：
 

@@ -9,7 +9,7 @@ order: 10
 
 From system prompt injection to background auto-extraction, dissecting every technical detail of the memory system.
 
-![Implementation Architecture Overview](./images/05-architecture-overview.png)
+![Implementation Architecture Overview](./images/05-architecture-overview.webp)
 
 ## Overall Architecture
 
@@ -36,7 +36,7 @@ Auxiliary modules:
 
 ## Path Resolution System
 
-![Path Resolution Flow](./images/06-path-resolution.png)
+![Path Resolution Flow](./images/06-path-resolution.webp)
 
 ### Core Function: `getAutoMemPath()`
 
@@ -90,7 +90,7 @@ Default                            -> Enabled
 
 ## System Prompt Injection
 
-![Prompt Injection Flow](./images/07-prompt-injection.png)
+![Prompt Injection Flow](./images/07-prompt-injection.webp)
 
 ### Entry Point: `loadMemoryPrompt()`
 
@@ -147,7 +147,7 @@ The prompt explicitly tells the model the directory already exists, avoiding was
 
 ## Automatic Memory Extraction
 
-![Auto-Extraction Flow](./images/08-auto-extraction.png)
+![Auto-Extraction Flow](./images/08-auto-extraction.webp)
 
 ### Trigger Timing
 
@@ -233,7 +233,7 @@ If a previous extraction is still running:
 
 ## Intelligent Memory Retrieval
 
-![Memory Retrieval Flow](./images/09-memory-retrieval.png)
+![Memory Retrieval Flow](./images/09-memory-retrieval.webp)
 
 ### How It Works
 
@@ -323,7 +323,7 @@ Generates a manifest consumed by Sonnet or the extraction agent:
 
 ## Agent Memory
 
-![Agent Memory Three-Level Scoping](./images/10-agent-memory.png)
+![Agent Memory Three-Level Scoping](./images/10-agent-memory.webp)
 
 Subagents (launched via the Agent tool) have an independent three-level memory system:
 

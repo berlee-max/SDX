@@ -69,7 +69,7 @@ export default function SiteHeader({ activeSection, locale = 'zh', localeHref })
       <header className="site-header">
         <div className="site-header__inner">
           <a className="brand" href={toSiteHref(home)}>
-            <img alt="" src={toSiteHref('/images/app-icon.png')} width="26" height="26" />
+            <img alt="" src={toSiteHref('/images/app-icon.webp')} width="26" height="26" />
             <span>Claude Code <b>Haha</b></span>
           </a>
 

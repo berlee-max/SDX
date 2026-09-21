@@ -9,7 +9,7 @@ order: 11
 
 Claude "dreams" -- silently reviewing recent sessions in the background to consolidate, update, and prune memories, much like the human brain organizes memories during sleep.
 
-![AutoDream Overview](./images/11-autodream-overview.png)
+![AutoDream Overview](./images/11-autodream-overview.webp)
 
 ## What Is AutoDream?
 
@@ -33,7 +33,7 @@ When you're inactive (default interval: 24 hours with 5 accumulated sessions), C
 
 ## Trigger Conditions
 
-![AutoDream Trigger Flow](./images/12-autodream-trigger.png)
+![AutoDream Trigger Flow](./images/12-autodream-trigger.webp)
 
 AutoDream uses a **five-gate** mechanism, checking in order of increasing cost:
 
@@ -88,7 +88,7 @@ AutoDream will not trigger in the following situations:
 
 ## Four-Phase Consolidation Process
 
-![AutoDream Four Phases](./images/13-autodream-phases.png)
+![AutoDream Four Phases](./images/13-autodream-phases.webp)
 
 Once all gates pass, AutoDream launches a **forked subagent** that operates according to the 4-phase prompt defined in `consolidationPrompt.ts`:
 

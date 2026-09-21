@@ -259,7 +259,7 @@ function Footer({ c, locale }) {
     <footer className="site-footer">
       <div className="u-shell site-footer__inner">
         <div className="site-footer__brand">
-          <img alt="" src={toSiteHref('/images/app-icon.png')} width="30" height="30" />
+          <img alt="" src={toSiteHref('/images/app-icon.webp')} width="30" height="30" />
           <strong>SDX</strong>
           <p>{c.footer.tagline}</p>
           <a className="link-arrow" href={GITHUB_URL} rel="noreferrer" target="_blank">

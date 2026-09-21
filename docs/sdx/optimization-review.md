@@ -137,13 +137,41 @@ curl -fsSL https://bun.sh/install | bash
 
 ### P2 — 仓库瘦身
 
-**9. `docs/` 99MB，其中 141 张 PNG 占 85.7MB**
+**9. `docs/` 图片瘦身 —— ✅ 已完成**
 
-- 最大的单张 5.0MB（`docs/en/internals/images/11-agent-framework-overview.png`），2MB+ 的有 6 张；
-- 中英文档各存一份图：抽样比对 `docs/internals/images/` 与 `docs/en/internals/images/`，**40 张同名图里至少 21 张字节完全相同**；
-- 仓库里另有 50 张 webp 只占 4.1MB —— 说明团队已经知道该用 webp，只是没铺开。
+原状：`docs/` 99MB，其中 141 张 PNG + 12 张 JPG 占 92.6MB，最大单张 5.0MB。
 
-去重 + 转 webp 预计能砍掉 60MB 以上。**现在动手最划算**：`.git` 目录已经 115MB，越晚做历史里沉淀的大文件越多。
+已做：152 张 PNG/JPG 用 `cwebp -q 90 -m 6` 转成 webp，原图删除，**129 处引用**在
+`docs/**/*.md`、两个 README 和 `site/` 里同步重写。
+
+| | 之前 | 之后 |
+| --- | ---: | ---: |
+| `docs/` 图片 | 92.6 MB | 23.9 MB |
+| `docs/` 整体 | 99 MB | 30 MB |
+
+q90 的画质在 1:1 像素比对下与原图无可见差异（含流程图里的小字）。JPG 源文件收益较小
+（有损再编码），PNG 流程图收益最大（2.24 MB → 134 KB）。
+
+两个刻意的例外：
+
+- `docs/public/images/banner.png` 保留 PNG —— 它是 `site/index.html` 的 `og:image`，
+  微信、微博等平台对 webp 社交卡片支持不稳。
+- `site/` 用 `/images/x.png` 这种**根路径**引用 `docs/` 下的图（见 `site/vite.config.js`
+  的 docsManifestPlugin）。首轮重写漏了这条约定，由链接校验发现后补修。
+
+验证：`npm --prefix site run check:docs` → *Documentation check passed: 99 pages,
+342 local links and images, 25 bilingual app screenshot pairs.*
+
+**关于"去重"：不需要做，而且做了也不省仓库体积。**
+
+中英文档各存一份同样的图，转换后仍有 27 组完全重复、工作区多占 5.27 MB。但
+**git 是按内容寻址的，相同内容只存一个 blob** —— 实测 `docs/internals/images/03-spawn-flow`
+和 `docs/en/internals/images/03-spawn-flow` 在 git 里指向同一个对象。所以这 5.27 MB
+只存在于工作区（占 1.4GB 检出的 0.4%），`.git`、clone 体积、推送流量都不受影响。
+
+要消除它得让英文文档跨目录引用中文目录的图（`../../internals/images/...`），
+而 `site/scripts/prepare-static-output.mjs` 只扫根路径形式的图片引用，跨目录相对路径
+有打包漏拷的风险。**用 0.4% 的工作区空间换这个风险不划算，建议保持现状。**
 
 **10. 根目录杂物**
 

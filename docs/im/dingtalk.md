@@ -16,7 +16,7 @@ order: 4
 3. 用钉钉手机 App 扫码，并在钉钉里确认创建和授权。
 4. 等页面显示「钉钉机器人已绑定」。
 
-![扫码绑定与手动填写凭据](../images/im/dingding/dingding01.png)
+![扫码绑定与手动填写凭据](../images/im/dingding/dingding01.webp)
 
 授权成功后 `Client ID` 和 `Client Secret` 会自动填好并写入本机配置，adapter 随即用新凭据重连。
 
@@ -40,7 +40,7 @@ order: 4
 2. 在钉钉里私聊机器人，把这枚 6 位码发过去。
 3. 看到配对成功提示后就能开始聊。
 
-![在钉钉里发送配对码并开始对话](../images/im/dingding/dingding02.png)
+![在钉钉里发送配对码并开始对话](../images/im/dingding/dingding02.webp)
 
 配对码 60 分钟内有效、只能用一次。配对成功的人会出现在「已配对用户」列表里，随时可以解绑；被解绑的人要重新发一枚新码。
 

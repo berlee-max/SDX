@@ -25,19 +25,19 @@ Three facts are worth holding onto:
 
 ## How the CLI core is layered
 
-![The layered structure of the CLI core](../../images/01-overall-architecture.png)
+![The layered structure of the CLI core](../../images/01-overall-architecture.webp)
 
 After bootstrap, the entry layer splits in two. On the left is the path that carries one request to completion: terminal UI, query engine, tool system, subagents. On the right are the cross-cutting capabilities that path calls into: state management, skills and plugins, and the service layer holding MCP, OAuth, and memory. The desktop app replaces the terminal UI box and reuses everything else as-is.
 
 ## What happens to one message
 
-![The lifecycle of a single request](../../images/02-request-lifecycle.png)
+![The lifecycle of a single request](../../images/02-request-lifecycle.webp)
 
 Input is parsed, context is assembled, and the request goes to the model. The moment a tool call appears in the stream, it passes a permission check before it runs; the result is folded back into the context and the next turn starts, until the model stops asking for tools. The tool cards and permission prompts you see in the desktop app are two nodes of this path, rendered.
 
 ## How tools and permissions relate
 
-![The tool system and its permission gate](../../images/03-tool-system.png)
+![The tool system and its permission gate](../../images/03-tool-system.webp)
 
 Every tool registers in one registry, grouped by capability: files, shell, system, subagents, external integrations, and communication. The fixed pipeline underneath is what actually defines the safety boundary — any call passes argument validation and the permission gate before it reaches the sandbox. Adding a tool to the registry is easy; deciding which side of that gate it belongs on is the real work.
 

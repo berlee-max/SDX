@@ -9,7 +9,7 @@ order: 5
 
 深入剖析多 Agent 编排的架构设计、生成流程、上下文传递和协作机制。
 
-![实现架构总览](./images/05-architecture.png)
+![实现架构总览](./images/05-architecture.webp)
 
 ## 架构总览
 
@@ -140,7 +140,7 @@ registerAsyncAgent()
 
 **核心优化**：通过字节级一致的 API 请求前缀，实现 **prompt cache 命中**。
 
-![Fork 缓存优化](./images/10-fork-cache.png)
+![Fork 缓存优化](./images/10-fork-cache.webp)
 
 **流程**：
 
@@ -197,7 +197,7 @@ runAgent(promptMessages, toolUseContext, options)
 
 ## 工具池系统 — 三层过滤
 
-![工具池系统](./images/07-tool-pool.png)
+![工具池系统](./images/07-tool-pool.webp)
 
 ### 第一层：全局禁止
 
@@ -266,7 +266,7 @@ function resolveAgentTools(agentDef, availableTools) {
 
 ## 上下文传递机制
 
-![上下文传递](./images/06-context-passing.png)
+![上下文传递](./images/06-context-passing.webp)
 
 ### CacheSafeParams — 缓存安全参数
 
@@ -421,7 +421,7 @@ agentDefinition.model               ← Agent 定义
 
 ### 邮箱系统
 
-![Teams 邮箱系统](./images/09-teams-mailbox.png)
+![Teams 邮箱系统](./images/09-teams-mailbox.webp)
 
 **存储路径**：`~/.claude/teams/{team_name}/inboxes/{agent_name}.json`
 
@@ -507,7 +507,7 @@ SendMessage({ to, message })
 
 ## 后台任务引擎
 
-![后台任务引擎](./images/08-background-task.png)
+![后台任务引擎](./images/08-background-task.webp)
 
 ### LocalAgentTask 状态机
 

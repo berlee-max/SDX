@@ -61,7 +61,7 @@ This project is maintained in the author's spare time. Corporate or individual s
     <tr>
       <td align="center" valign="middle">
         <a href="https://aruhub.com/sign-up?aff=Z54g">
-          <img src="docs/images/sponsors/aruhub-logo.png" width="180" alt="AruHub">
+          <img src="docs/images/sponsors/aruhub-logo.webp" width="180" alt="AruHub">
         </a>
       </td>
       <td valign="middle">
@@ -71,8 +71,8 @@ This project is maintained in the author's spare time. Corporate or individual s
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=cc-haha">
-          <img src="docs/images/sponsors/atlascloud-logo-black.png#gh-light-mode-only" width="180" alt="Atlas Cloud">
-          <img src="docs/images/sponsors/atlascloud-logo-white.png#gh-dark-mode-only" width="180" alt="Atlas Cloud">
+          <img src="docs/images/sponsors/atlascloud-logo-black.webp#gh-light-mode-only" width="180" alt="Atlas Cloud">
+          <img src="docs/images/sponsors/atlascloud-logo-white.webp#gh-dark-mode-only" width="180" alt="Atlas Cloud">
         </a>
       </td>
       <td valign="middle">
@@ -82,7 +82,7 @@ This project is maintained in the author's spare time. Corporate or individual s
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.apismart.ai">
-          <img src="docs/images/sponsors/apismart-logo.png" width="180" alt="ApiSmart">
+          <img src="docs/images/sponsors/apismart-logo.webp" width="180" alt="ApiSmart">
         </a>
       </td>
       <td valign="middle">
@@ -123,7 +123,7 @@ See [environment variables](docs/en/cli/env.md) and [CLI setup](docs/en/cli/inde
 Scan the QR code below to join the cc-haha user group on WeCom (WeChat Work) — the conversation there is mostly in Chinese. For questions and bug reports in English, [Issues](https://github.com/NanmiCoder/cc-haha/issues) is the better place. For enterprise deployment, customization, or Agent development needs, contact the author [NanmiCoder](https://github.com/NanmiCoder).
 
 <p align="center">
-  <img src="docs/images/community/wechat-group-qr.png" width="300" alt="cc-haha WeCom user group QR code">
+  <img src="docs/images/community/wechat-group-qr.webp" width="300" alt="cc-haha WeCom user group QR code">
 </p>
 
 ---
@@ -135,16 +135,16 @@ If this project helps you, consider buying me a coffee — every bit of support 
 <table>
 <tr>
 <td align="center" width="33%">
-<img src="docs/images/donate/wechat_pay.jpeg" width="250" alt="WeChat Pay"><br>
+<img src="docs/images/donate/wechat_pay.webp" width="250" alt="WeChat Pay"><br>
 <b>WeChat Pay</b>
 </td>
 <td align="center" width="33%">
-<img src="docs/images/donate/zfb_pay.png" width="250" alt="Alipay"><br>
+<img src="docs/images/donate/zfb_pay.webp" width="250" alt="Alipay"><br>
 <b>Alipay</b>
 </td>
 <td align="center" width="33%">
 <a href="https://buymeacoffee.com/relakkes" target="_blank">
-<img src="docs/images/donate/bmc_button.png" width="250" alt="Buy Me a Coffee">
+<img src="docs/images/donate/bmc_button.webp" width="250" alt="Buy Me a Coffee">
 </a><br>
 <b>Buy Me a Coffee</b>
 </td>

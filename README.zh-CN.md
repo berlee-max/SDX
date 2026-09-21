@@ -60,7 +60,7 @@ SDX 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、�
     <tr>
       <td align="center" valign="middle">
         <a href="https://aruhub.com/sign-up?aff=Z54g">
-          <img src="docs/images/sponsors/aruhub-logo.png" width="180" alt="AruHub">
+          <img src="docs/images/sponsors/aruhub-logo.webp" width="180" alt="AruHub">
         </a>
       </td>
       <td valign="middle">
@@ -70,8 +70,8 @@ SDX 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、�
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=cc-haha">
-          <img src="docs/images/sponsors/atlascloud-logo-black.png#gh-light-mode-only" width="180" alt="Atlas Cloud">
-          <img src="docs/images/sponsors/atlascloud-logo-white.png#gh-dark-mode-only" width="180" alt="Atlas Cloud">
+          <img src="docs/images/sponsors/atlascloud-logo-black.webp#gh-light-mode-only" width="180" alt="Atlas Cloud">
+          <img src="docs/images/sponsors/atlascloud-logo-white.webp#gh-dark-mode-only" width="180" alt="Atlas Cloud">
         </a>
       </td>
       <td valign="middle">
@@ -81,7 +81,7 @@ SDX 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、�
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.apismart.ai">
-          <img src="docs/images/sponsors/apismart-logo.png" width="180" alt="ApiSmart">
+          <img src="docs/images/sponsors/apismart-logo.webp" width="180" alt="ApiSmart">
         </a>
       </td>
       <td valign="middle">
@@ -122,7 +122,7 @@ cp .env.example .env
 使用过程中有问题、想反馈 Bug，或者想看看别人怎么用，欢迎扫码加入 cc-haha 企业微信用户群。也可以直接来 [Issues](https://github.com/NanmiCoder/cc-haha/issues) 提问。企业定制 / 私有化部署 / Agent 定制需求，请联系作者 [NanmiCoder](https://github.com/NanmiCoder)。
 
 <p align="center">
-  <img src="docs/images/community/wechat-group-qr.png" width="300" alt="cc-haha 企业微信用户群二维码">
+  <img src="docs/images/community/wechat-group-qr.webp" width="300" alt="cc-haha 企业微信用户群二维码">
 </p>
 
 ---
@@ -134,16 +134,16 @@ cp .env.example .env
 <table>
 <tr>
 <td align="center" width="33%">
-<img src="docs/images/donate/wechat_pay.jpeg" width="250" alt="微信赞赏"><br>
+<img src="docs/images/donate/wechat_pay.webp" width="250" alt="微信赞赏"><br>
 <b>微信赞赏</b>
 </td>
 <td align="center" width="33%">
-<img src="docs/images/donate/zfb_pay.png" width="250" alt="支付宝"><br>
+<img src="docs/images/donate/zfb_pay.webp" width="250" alt="支付宝"><br>
 <b>支付宝</b>
 </td>
 <td align="center" width="33%">
 <a href="https://buymeacoffee.com/relakkes" target="_blank">
-<img src="docs/images/donate/bmc_button.png" width="250" alt="Buy Me a Coffee">
+<img src="docs/images/donate/bmc_button.webp" width="250" alt="Buy Me a Coffee">
 </a><br>
 <b>Buy Me a Coffee</b>
 </td>

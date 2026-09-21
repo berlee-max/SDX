@@ -9,7 +9,7 @@ order: 9
 
 Let Claude Code remember who you are, what you prefer, and what's happening in your project across sessions.
 
-![Memory System Overview](./images/01-memory-overview.png)
+![Memory System Overview](./images/01-memory-overview.webp)
 
 ## What Is the Memory System?
 
@@ -26,7 +26,7 @@ Core principle: **Only remember things that cannot be inferred from the code its
 
 ## Four Memory Types
 
-![Four Memory Types](./images/02-memory-types.png)
+![Four Memory Types](./images/02-memory-types.webp)
 
 Claude Code strictly categorizes memories into four types:
 
@@ -72,7 +72,7 @@ Claude saves: grafana.internal/d/api-latency is the on-call latency dashboard â€
 
 ## How to Trigger Memory Saving
 
-![Memory Trigger Flow](./images/03-memory-trigger.png)
+![Memory Trigger Flow](./images/03-memory-trigger.webp)
 
 ### Method 1: Automatic Extraction (Most Common)
 
@@ -210,7 +210,7 @@ Supports `~/` expansion. For security reasons, the project-level `.claude/settin
 
 ## Memory Lifecycle
 
-![Memory Lifecycle](./images/04-memory-lifecycle.png)
+![Memory Lifecycle](./images/04-memory-lifecycle.webp)
 
 ```
 New information learned during conversation

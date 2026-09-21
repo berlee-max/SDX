@@ -9,7 +9,7 @@ order: 13
 
 从源码视角深度剖析 Claude Code 如何通过 IM 平台远程控制 Agent
 
-![Channel System Overview](./images/01-channel-overview.png)
+![Channel System Overview](./images/01-channel-overview.webp)
 
 ## 什么是 Channel
 
@@ -39,7 +39,7 @@ type ChannelEntry =
 
 ## 整体架构
 
-![Message Flow](./images/02-message-flow.png)
+![Message Flow](./images/02-message-flow.webp)
 
 ### 消息流转全链路
 
@@ -176,7 +176,7 @@ SleepTool 每约 1 秒轮询一次 `hasCommandsInQueue()`，发现新消息后�
 
 ## 六层访问控制
 
-![Access Control](./images/03-access-control.png)
+![Access Control](./images/03-access-control.webp)
 
 Channel 系统采用**六层递进式访问控制**，每一层都可以独立阻断 Channel 注册。这是整个系统安全性的基石。
 
@@ -291,7 +291,7 @@ type ChannelGateResult =
 
 ## 权限中继系统
 
-![Permission Relay](./images/04-permission-relay.png)
+![Permission Relay](./images/04-permission-relay.webp)
 
 ### 为什么需要权限中继
 

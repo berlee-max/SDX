@@ -13,11 +13,11 @@ order: 2
 
 在 Telegram 里搜索官方账号 `@BotFather`。
 
-![搜索 BotFather](../images/im/telegram/01-search-botfather.png)
+![搜索 BotFather](../images/im/telegram/01-search-botfather.webp)
 
 给它发送 `/newbot`。
 
-![发送 newbot 命令](../images/im/telegram/02-newbot-command.png)
+![发送 newbot 命令](../images/im/telegram/02-newbot-command.webp)
 
 按提示走完两步：
 
@@ -26,7 +26,7 @@ order: 2
 
 创建成功后复制 BotFather 返回的**Bot Token**。这枚 Token 等同于机器人的密码，别贴到公开的地方。
 
-![复制 Bot Token](../images/im/telegram/03-bot-token.png)
+![复制 Bot Token](../images/im/telegram/03-bot-token.webp)
 
 ## 在桌面端填 Token
 
@@ -34,7 +34,7 @@ order: 2
 2. 把 Bot Token 粘进「Bot Token」。
 3. 点「保存」。
 
-![填写 Bot Token](../images/im/telegram/04-fill-bot-token.png)
+![填写 Bot Token](../images/im/telegram/04-fill-bot-token.webp)
 
 「允许的用户」可以留空。留空时只有完成配对的人能用。要直接放行已知账号，就填 Telegram 数字用户 ID，多个用逗号分隔。
 
@@ -42,11 +42,11 @@ order: 2
 
 回到页面顶部的「配对管理」，点「生成配对码」，拿到一枚 6 位码。这一步立即生效，不需要再点保存。
 
-![生成配对码](../images/im/telegram/05-generate-pairing-code.png)
+![生成配对码](../images/im/telegram/05-generate-pairing-code.webp)
 
 在 Telegram 里私聊刚创建的机器人，随便发一条消息，按提示把这枚码发过去。看到配对成功提示就可以开始对话。
 
-![配对成功](../images/im/telegram/06-pair-success.png)
+![配对成功](../images/im/telegram/06-pair-success.webp)
 
 配对码 60 分钟内有效、只能用一次，重新生成后旧码立刻作废。连续输错会被限流，等几分钟再试。
 

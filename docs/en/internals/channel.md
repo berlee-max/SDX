@@ -9,7 +9,7 @@ order: 13
 
 A deep dive into how Claude Code enables remote Agent control via IM platforms
 
-![Channel System Overview](./images/01-channel-overview.png)
+![Channel System Overview](./images/01-channel-overview.webp)
 
 ## What is a Channel
 
@@ -39,7 +39,7 @@ type ChannelEntry =
 
 ## Architecture Overview
 
-![Message Flow](./images/02-message-flow.png)
+![Message Flow](./images/02-message-flow.webp)
 
 ### End-to-End Message Flow
 
@@ -176,7 +176,7 @@ SleepTool polls `hasCommandsInQueue()` every ~1 second, waking the Agent when ne
 
 ## Six-Layer Access Control
 
-![Access Control](./images/03-access-control.png)
+![Access Control](./images/03-access-control.webp)
 
 The Channel system employs **six progressive access control layers**, each capable of independently blocking Channel registration. This is the cornerstone of the system's security.
 
@@ -291,7 +291,7 @@ type ChannelGateResult =
 
 ## Permission Relay System
 
-![Permission Relay](./images/04-permission-relay.png)
+![Permission Relay](./images/04-permission-relay.webp)
 
 ### Why Permission Relay Exists
 

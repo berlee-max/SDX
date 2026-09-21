@@ -9,7 +9,7 @@ order: 6
 
 Deconstructing the architecture behind the world's most popular AI code editor — from source code to design philosophy.
 
-![Agent Framework Architecture Overview](./images/11-agent-framework-overview.png)
+![Agent Framework Architecture Overview](./images/11-agent-framework-overview.webp)
 
 ## What This Framework Solves
 
@@ -63,7 +63,7 @@ type State = {
 
 The entire `while (true)` loop (`src/query.ts:307-1728`) consists of five phases:
 
-![Agent Core Loop](./images/12-agent-core-loop.png)
+![Agent Core Loop](./images/12-agent-core-loop.webp)
 
 #### Phase 1: Message Preparation & Smart Compression (lines 365-543)
 
@@ -145,7 +145,7 @@ No recursion, no callback hell — just simple `state = next` followed by `conti
 
 The system prompt isn't a static string — it's dynamically assembled through a **layered pipeline** (`src/constants/prompts.ts:444-577`):
 
-![System Prompt Pipeline](./images/13-system-prompt-pipeline.png)
+![System Prompt Pipeline](./images/13-system-prompt-pipeline.webp)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -306,7 +306,7 @@ The model dynamically retrieves full definitions via the `ToolSearch` tool when 
 
 The model's context window remains finite. `src/query.ts` contains four kinds of processing entry points, whose availability depends on build features, model, and configuration. The diagram does not mean every path is implemented or enabled in the current build.
 
-![Context Compression Strategy](./images/14-context-compression.png)
+![Context Compression Strategy](./images/14-context-compression.webp)
 
 #### Level 1: Snip Compression
 

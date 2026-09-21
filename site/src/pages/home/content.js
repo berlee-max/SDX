@@ -19,10 +19,10 @@ import petDesktopEn from '../../../../docs/images/app/en/pet-desktop.webp'
 
 // 吉祥物与截图一样从 docs/ 取 —— docs/ 是站点唯一的媒体源。
 // 原图是桌面端的 agent-mascots，改动那边时记得同步这四张。
-import dada from '../../../../docs/images/mascots/dada.png'
-import huhu from '../../../../docs/images/mascots/huhu.png'
-import bubu from '../../../../docs/images/mascots/bubu.png'
-import huihui from '../../../../docs/images/mascots/huihui.png'
+import dada from '../../../../docs/images/mascots/dada.webp'
+import huhu from '../../../../docs/images/mascots/huhu.webp'
+import bubu from '../../../../docs/images/mascots/bubu.webp'
+import huihui from '../../../../docs/images/mascots/huihui.webp'
 
 const localizedImages = {
   zh: {

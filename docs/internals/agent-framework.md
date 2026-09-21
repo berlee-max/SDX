@@ -9,7 +9,7 @@ order: 6
 
 从源码视角剖析全球最流行 AI Code Editor 背后的 Agent 架构设计哲学。
 
-![Agent 框架架构总览](./images/11-agent-framework-overview.png)
+![Agent 框架架构总览](./images/11-agent-framework-overview.webp)
 
 ## 这套框架要解决什么
 
@@ -63,7 +63,7 @@ type State = {
 
 整个 `while (true)` 循环（`src/query.ts:307-1728`）分为五个阶段：
 
-![Agent 核心循环](./images/12-agent-core-loop.png)
+![Agent 核心循环](./images/12-agent-core-loop.webp)
 
 #### 阶段 1：消息准备与智能压缩（第 365-543 行）
 
@@ -145,7 +145,7 @@ state = next
 
 系统提示词不是一个静态字符串，而是通过**分层管道**动态组装的（`src/constants/prompts.ts:444-577`）：
 
-![系统提示词构建流程](./images/13-system-prompt-pipeline.png)
+![系统提示词构建流程](./images/13-system-prompt-pipeline.webp)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -306,7 +306,7 @@ Claude Code 有 48+ 个内置工具。如果每次 API 调用都把所有工具�
 
 模型的上下文窗口仍然有限。`src/query.ts` 中保留了以下四类处理入口，其可用性取决于构建特性、模型和配置；图中的入口不代表当前构建全部实现或启用。
 
-![上下文压缩策略](./images/14-context-compression.png)
+![上下文压缩策略](./images/14-context-compression.webp)
 
 #### 第 1 级：Snip 压缩
 

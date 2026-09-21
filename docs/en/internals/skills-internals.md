@@ -9,7 +9,7 @@ order: 8
 
 A deep dive into how Skills are discovered, loaded, injected, executed, and managed.
 
-![Skills Architecture Overview](./images/04-skills-architecture.png)
+![Skills Architecture Overview](./images/04-skills-architecture.webp)
 
 ## Overall Architecture
 
@@ -83,7 +83,7 @@ const loadAllCommands = memoize(async (cwd: string): Promise<Command[]> => {
 
 ### Directory Skill Loading Flow
 
-![Skill Loading Flow](./images/05-skill-loading.png)
+![Skill Loading Flow](./images/05-skill-loading.webp)
 
 `getSkillDirCommands()` is the core loading function for directory Skills:
 
@@ -310,7 +310,7 @@ async getPromptForCommand(args, toolUseContext) {
 
 ### Injection Flow
 
-![Skill Listing Injection](./images/06-skill-injection.png)
+![Skill Listing Injection](./images/06-skill-injection.webp)
 
 Skills are injected into conversations via `system-reminder` messages:
 
@@ -410,7 +410,7 @@ export const SkillTool = buildTool({
 
 ### Execution Flow
 
-![SkillTool Execution Flow](./images/07-skill-execution.png)
+![SkillTool Execution Flow](./images/07-skill-execution.webp)
 
 ```
 SkillTool.call({ skill, args })
@@ -601,7 +601,7 @@ export async function prepareForkedCommandContext(
 
 ### Conditional Skills
 
-![Conditional Activation Mechanism](./images/08-conditional-activation.png)
+![Conditional Activation Mechanism](./images/08-conditional-activation.webp)
 
 Skills with `paths` frontmatter are not immediately exposed to the model:
 
@@ -767,7 +767,7 @@ SAFE_SKILL_PROPERTIES = {
 
 ### Data Flow Overview
 
-![Complete Lifecycle](./images/09-skill-lifecycle.png)
+![Complete Lifecycle](./images/09-skill-lifecycle.webp)
 
 ```
 Phase 1: Discovery and Registration

@@ -9,7 +9,7 @@ order: 7
 
 Skills are the extensible capability engine of Claude Code, allowing you to define custom automated workflows using Markdown files.
 
-![Skills System Overview](./images/01-skills-overview.png)
+![Skills System Overview](./images/01-skills-overview.webp)
 
 ## What Are Skills?
 
@@ -28,7 +28,7 @@ Core capabilities:
 
 ## Six Skill Sources
 
-![Skill Source Types](./images/02-skill-sources.png)
+![Skill Source Types](./images/02-skill-sources.webp)
 
 Claude Code loads Skills from 6 different sources, ordered by priority from highest to lowest:
 
@@ -205,7 +205,7 @@ Supported special syntax:
 
 ## Invocation Methods
 
-![Skill Invocation Flow](./images/03-skill-invocation.png)
+![Skill Invocation Flow](./images/03-skill-invocation.webp)
 
 ### Method 1: User Slash Commands
 

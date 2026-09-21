@@ -9,7 +9,7 @@ order: 4
 
 让 Claude Code 同时调度多个专业 Agent，并行处理复杂任务。
 
-![多 Agent 系统概览](./images/01-agent-overview.png)
+![多 Agent 系统概览](./images/01-agent-overview.webp)
 
 ## 什么是多 Agent 系统？
 
@@ -26,7 +26,7 @@ Claude Code 的多 Agent 系统是一套**智能任务编排框架**，让主 Ag
 
 ## 六种内置 Agent
 
-![六种内置 Agent](./images/02-agent-types.png)
+![六种内置 Agent](./images/02-agent-types.webp)
 
 Claude Code 内置了 6 种专业 Agent，每种都有特定的工具池和适用场景：
 
@@ -207,7 +207,7 @@ Agent({
 
 ## 后台任务管理
 
-![Agent 生成流程](./images/03-spawn-flow.png)
+![Agent 生成流程](./images/03-spawn-flow.webp)
 
 ### 任务状态
 
@@ -248,7 +248,7 @@ Agent({
 
 ## Agent Teams — 多 Agent 协作
 
-![Agent Teams 协作](./images/04-agent-teams.png)
+![Agent Teams 协作](./images/04-agent-teams.webp)
 
 Agent Teams 是更高级的多 Agent 协作模式，多个 Agent 以团队形式工作，通过消息通信协调任务。
 

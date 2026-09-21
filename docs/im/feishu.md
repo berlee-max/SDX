@@ -26,11 +26,11 @@ order: 1
 不想扫码，或者要复用已有机器人，就用[官方 OpenClaw 模板](https://open.feishu.cn/page/openclaw?form=multiAgent)建一个，再把 App ID 和 App Secret 填进「飞书」Tab 下方的输入框。桌面端在没有凭据时也会显示这个入口。
 :::
 
-![模板创建入口](../images/im/feishu/01-create-app-entry.png)
+![模板创建入口](../images/im/feishu/01-create-app-entry.webp)
 
 给机器人取个名字，点创建。
 
-![给机器人取名](../images/im/feishu/02-name-bot.png)
+![给机器人取名](../images/im/feishu/02-name-bot.webp)
 
 创建成功后把**App ID**和**App Secret**留着，下一步要填进桌面端。
 
@@ -40,11 +40,11 @@ order: 1
 
 进入[飞书开放平台](https://open.feishu.cn/app?lang=zh-CN)，选中刚创建的机器人。
 
-![开放平台里的机器人](../images/im/feishu/03-dev-console.png)
+![开放平台里的机器人](../images/im/feishu/03-dev-console.webp)
 
 打开「机器人菜单」。
 
-![进入机器人菜单](../images/im/feishu/04-menu-enter.png)
+![进入机器人菜单](../images/im/feishu/04-menu-enter.webp)
 
 依次添加三个命令，每个都是一样的填法：菜单名称自定，命令填下面的值。
 
@@ -52,15 +52,15 @@ order: 1
 - `/new` — 开一条新会话
 - `/clear` — 清空当前上下文
 
-![添加 menu 命令](../images/im/feishu/05-menu-projects.png)
+![添加 menu 命令](../images/im/feishu/05-menu-projects.webp)
 
 三个都加完后保存。
 
-![保存菜单](../images/im/feishu/08-menu-save.png)
+![保存菜单](../images/im/feishu/08-menu-save.webp)
 
 菜单只有发布后才生效，点「创建新版本并发布」。
 
-![创建新版本并发布](../images/im/feishu/09-publish-version.png)
+![创建新版本并发布](../images/im/feishu/09-publish-version.webp)
 
 ## 手动填凭据
 
@@ -72,7 +72,7 @@ order: 1
 4. 需要长时间流式更新同一张卡片时，勾上「流式卡片模式」。
 5. 点「保存」。
 
-![填写 App ID 和 App Secret](../images/im/feishu/10-fill-app-credentials.png)
+![填写 App ID 和 App Secret](../images/im/feishu/10-fill-app-credentials.webp)
 
 「允许的用户」可以留空。留空时只有完成配对的人能用，这通常就是你想要的。
 
@@ -80,15 +80,15 @@ order: 1
 
 回到页面顶部的「配对管理」，点「生成配对码」，会出现一枚 6 位码。这一步会立即写入本机配置，不需要再点保存。
 
-![生成配对码](../images/im/feishu/11-generate-pairing-code.png)
+![生成配对码](../images/im/feishu/11-generate-pairing-code.webp)
 
 在飞书里私聊刚创建的机器人，随便发一条消息，按提示把这枚码发过去。
 
-![在飞书里发送配对码](../images/im/feishu/13-send-code-in-feishu.png)
+![在飞书里发送配对码](../images/im/feishu/13-send-code-in-feishu.webp)
 
 看到配对成功提示，就可以直接对话了。
 
-![配对成功](../images/im/feishu/14-pair-success.png)
+![配对成功](../images/im/feishu/14-pair-success.webp)
 
 配对码 60 分钟内有效、只能用一次，重新生成后旧码立刻作废。
 

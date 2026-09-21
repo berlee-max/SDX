@@ -154,9 +154,9 @@ git push -u origin main
 
 推之前留意两件事：
 
-1. **仓库体积**。`.git` 目前约 115MB，主要是 `docs/` 里 86MB 的 PNG（其中中英文档有大量重复图）。
-   如果打算瘦身（见 [optimization-review.md](optimization-review.md) P2-9），**在第一次 push 之前做**
-   最划算 —— 推上去之后再删，大文件仍然留在历史里，清理就得改写已发布的历史。
+1. **仓库体积**。已在首次 push 前完成图片瘦身（`docs/` 99MB → 30MB，见
+   [optimization-review.md](optimization-review.md) P2-9）。以后往 `docs/` 加图请直接提交
+   webp：`cwebp -q 90 -m 6 in.png -o out.webp`。
 2. **上游残留的发布配置**。`desktop/package.json` 的 `publish` 段、`build.linux.maintainer`、
    `homepage`、以及 `.github/signpath/` 仍指向上游的仓库和签名项目。自动更新和代码签名要能用，
    得换成 SDX 自己的（见 [NOTICE.md](../../NOTICE.md) 末节）。

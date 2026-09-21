@@ -9,7 +9,7 @@ order: 10
 
 从系统提示词注入到后台自动提取，拆解记忆系统的每一个技术细节。
 
-![实现架构总览](./images/05-architecture-overview.png)
+![实现架构总览](./images/05-architecture-overview.webp)
 
 ## 整体架构
 
@@ -36,7 +36,7 @@ order: 10
 
 ## 路径解析系统
 
-![路径解析流程](./images/06-path-resolution.png)
+![路径解析流程](./images/06-path-resolution.webp)
 
 ### 核心函数：`getAutoMemPath()`
 
@@ -90,7 +90,7 @@ settings.json autoMemoryEnabled    → 跟随设置
 
 ## 系统提示词注入
 
-![提示词注入流程](./images/07-prompt-injection.png)
+![提示词注入流程](./images/07-prompt-injection.webp)
 
 ### 入口：`loadMemoryPrompt()`
 
@@ -147,7 +147,7 @@ if (bytes > 25,000) → 在最后一个换行符处截断
 
 ## 自动记忆提取
 
-![自动提取流程](./images/08-auto-extraction.png)
+![自动提取流程](./images/08-auto-extraction.webp)
 
 ### 触发时机
 
@@ -233,7 +233,7 @@ function hasMemoryWritesSince(messages, sinceUuid): boolean {
 
 ## 智能记忆检索
 
-![记忆检索流程](./images/09-memory-retrieval.png)
+![记忆检索流程](./images/09-memory-retrieval.webp)
 
 ### 工作原理
 
@@ -323,7 +323,7 @@ async function scanMemoryFiles(memoryDir, signal): Promise<MemoryHeader[]> {
 
 ## Agent 记忆（Agent Memory）
 
-![Agent 记忆三级作用域](./images/10-agent-memory.png)
+![Agent 记忆三级作用域](./images/10-agent-memory.webp)
 
 子 Agent（通过 Agent 工具启动的）有独立的三级记忆系统：
 
