@@ -23,6 +23,19 @@ Rules closer to the code take precedence. For the directory you are changing, re
 | React documentation site and build tooling | [site/AGENTS.md](site/AGENTS.md) |
 | CI and quality policy | [.github/AGENTS.md](.github/AGENTS.md), `scripts/pr/`, `scripts/quality-gate/` |
 | Desktop releases and auto-update | `release-notes/`, `scripts/release.ts`, [release guide](docs/internals/contributing.md#发版与自动更新) |
+| SDX fork: branching, commits, release flow, bun pin | [docs/sdx/git-workflow.md](docs/sdx/git-workflow.md) |
+| SDX fork: provenance, applied and deferred renames | [NOTICE.md](NOTICE.md) |
+
+## SDX Fork
+
+This repository is SDX, a downstream fork of cc-haha. Most of the guidance in these `AGENTS.md`
+files came from upstream and still applies. Two fork-specific rules:
+
+- **Use the bun version in `packageManager`.** It is load-bearing, not housekeeping — see the
+  toolchain section of [docs/sdx/git-workflow.md](docs/sdx/git-workflow.md).
+- **Do not bulk-rename the identifiers [NOTICE.md](NOTICE.md) lists as deferred** (`CC_HAHA_*`,
+  `~/.claude/cc-haha`, `cc-haha-computer-use`, `dev.cchaha.cu-helper`, upstream repo URLs).
+  Each needs a compatibility shim or a migration, and each is its own task.
 
 ## Implementation Rules
 
