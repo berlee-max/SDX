@@ -9,7 +9,7 @@ type RecoveryInput = NodeJS.ReadableStream & { isTTY?: boolean }
 function printHelp(): void {
   process.stdout.write(
     [
-      'Usage: claude-haha [options] [prompt]',
+      'Usage: sdx [options] [prompt]',
       '',
       'Local recovery mode for this leaked source tree.',
       '',

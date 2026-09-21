@@ -1741,7 +1741,7 @@ export class ConversationService {
             // running/idle boundary or a disconnected renderer can kill that
             // follow-up after the fixed idle grace period.
             CLAUDE_CODE_EMIT_SESSION_STATE_EVENTS: '1',
-            CC_HAHA_COMPUTER_USE_HOST_BUNDLE_ID: 'com.claude-code-haha.desktop',
+            CC_HAHA_COMPUTER_USE_HOST_BUNDLE_ID: 'com.sdx.desktop',
           }
         : {}),
       ...(sdkUrl && traceCaptureEnabled
@@ -2018,7 +2018,7 @@ export class ConversationService {
           ...baseArgs,
         ]
       }
-      return [path.resolve(import.meta.dir, '../../../bin/claude-haha'), ...baseArgs]
+      return [path.resolve(import.meta.dir, '../../../bin/sdx'), ...baseArgs]
     }
 
     return buildClaudeCliArgs(launcher, baseArgs, process.env.CLAUDE_APP_ROOT)
@@ -2070,7 +2070,7 @@ export class ConversationService {
       )
     ) {
       return new ConversationStartupError(
-        'Desktop chat could not start because Claude CLI is not authenticated. Run `./bin/claude-haha /login` or provide valid API credentials, then retry.',
+        'Desktop chat could not start because Claude CLI is not authenticated. Run `./bin/sdx /login` or provide valid API credentials, then retry.',
         'CLI_AUTH_REQUIRED',
       )
     }

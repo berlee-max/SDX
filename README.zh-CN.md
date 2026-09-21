@@ -1,25 +1,22 @@
-# Claude Code Haha
-
-<p align="center">
-  <img src="docs/images/readme-cover-zh.jpg" alt="cc-haha — Claude Code 开源桌面端" width="960">
-</p>
+# SDX
 
 <div align="center">
 
-[![GitHub Stars](https://img.shields.io/github/stars/NanmiCoder/cc-haha?style=social)](https://github.com/NanmiCoder/cc-haha/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/NanmiCoder/cc-haha?style=social)](https://github.com/NanmiCoder/cc-haha/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/pulls)
-[![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/NanmiCoder/cc-haha/blob/main/LICENSE)
-[![中文](https://img.shields.io/badge/🇨🇳_简体中文-当前-blue)](README.zh-CN.md)
-[![English](https://img.shields.io/badge/🇺🇸_English-Available-green)](README.md)
-[![Docs](https://img.shields.io/badge/📖_文档站点-Visit-FF7A00)](https://cchaha.ai)
+**SDX — 桌面端 AI 编程工作台**
+
+[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%2010%2B%20%7C%20统信UOS-FF7A00)](#)
 
 **简体中文** · [English](README.md)
 
 </div>
 
-Claude Code Haha 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、分支 / Worktree 启动、Diff 审阅、内置浏览器预览、图形化权限审批、模型自选（Claude / ChatGPT / Grok / 预设 / 本地端点）、图片生成、MCP 与 SubAgent 可视化管理、Agent Teams 协作工作台、动态 Workflow 编排、模型请求追踪、Computer Use、技能市场、多主题、桌面宠物、H5 远程访问、IM 接入和定时任务，集中在一个 macOS / Windows / Linux APP 里。
+> **关于本项目**：SDX 基于开源项目 [cc-haha](https://github.com/NanmiCoder/cc-haha)（MIT 协议，作者 NanmiCoder）
+> 二次开发，起始于上游桌面端 v0.6.5。本仓库保留上游版权与许可声明，详见 [LICENSE](LICENSE) 和 [NOTICE.md](NOTICE.md)。
+> 下文大部分内容继承自上游文档，会随 SDX 的开发逐步替换；文中指向 `github.com/NanmiCoder/cc-haha`
+> 的链接仍然指向上游仓库。
+
+SDX 是一个**桌面端 Claude Code 工作台**：多会话与全局搜索、分支 / Worktree 启动、Diff 审阅、内置浏览器预览、图形化权限审批、模型自选（Claude / ChatGPT / Grok / 预设 / 本地端点）、图片生成、MCP 与 SubAgent 可视化管理、Agent Teams 协作工作台、动态 Workflow 编排、模型请求追踪、Computer Use、技能市场、多主题、桌面宠物、H5 远程访问、IM 接入和定时任务，集中在一个 macOS / Windows / Linux APP 里。
 
 <p align="center">
   <a href="#桌面端预览">桌面端预览</a> · <a href="#安装桌面端">安装桌面端</a> · <a href="#桌面端亮点">桌面端亮点</a> · <a href="#更多文档">更多文档</a> · <a href="#赞助与合作">赞助与合作</a> · <a href="#用户交流群">用户交流群</a>
@@ -113,7 +110,7 @@ Claude Code Haha 是一个**桌面端 Claude Code 工作台**：多会话与全�
 ```bash
 bun install
 cp .env.example .env
-./bin/claude-haha
+./bin/sdx
 ```
 
 更多配置见 [环境变量](docs/cli/env.md) 和 [命令行安装与启动](docs/cli/index.md)。
@@ -221,7 +218,7 @@ cp .env.example .env
 
 ## ⭐ Star History
 
-如果这个项目对你有帮助，欢迎点一个 ⭐ Star，让更多人发现 Claude Code Haha。
+如果这个项目对你有帮助，欢迎点一个 ⭐ Star，让更多人发现 SDX。
 
 <a href="https://www.repostars.dev/?repos=NanmiCoder%2Fcc-haha&theme=ocean">
   <img alt="Star History Chart" src="https://www.repostars.dev/api/embed?repo=NanmiCoder%2Fcc-haha&theme=ocean" />

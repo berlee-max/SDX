@@ -233,7 +233,7 @@ async function main() {
       alternate: alternateFor(record, records),
       description: record.description,
       path: record.path,
-      title: `${record.title} · Claude Code Haha`
+      title: `${record.title} · SDX`
     })
   }
 
@@ -241,7 +241,7 @@ async function main() {
     alternate: '/',
     description: 'A local-first desktop client for Claude Code. Sessions, diffs, agents and scheduled runs all sit in the open.',
     path: '/en',
-    title: 'Claude Code Haha — a local-first desktop client for Claude Code'
+    title: 'SDX — a local-first desktop client for Claude Code'
   })
 
   for (const legacy of legacyRoutes) {

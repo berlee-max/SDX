@@ -7,7 +7,7 @@ order: 0
 
 # Install and Run
 
-The CLI is the core of Claude Code Haha — every desktop session runs one underneath. If you only want the graphical app, installing that is enough; see [Download and install](../start/install.md). The steps below are for people who want a terminal workflow, `--print` automation, or a source checkout to read and contribute to.
+The CLI is the core of SDX — every desktop session runs one underneath. If you only want the graphical app, installing that is enough; see [Download and install](../start/install.md). The steps below are for people who want a terminal workflow, `--print` automation, or a source checkout to read and contribute to.
 
 The CLI runs from source only. There is no separate installer for it.
 
@@ -44,8 +44,8 @@ Never commit a real API key, and never paste one into an issue, a screenshot, or
 macOS, Linux, or Git Bash:
 
 ```bash
-./bin/claude-haha
-./bin/claude-haha -p "Summarize the directory structure of this project"
+./bin/sdx
+./bin/sdx -p "Summarize the directory structure of this project"
 ```
 
 Windows PowerShell or cmd:
@@ -58,7 +58,7 @@ Once you see streaming output and tool calls, the provider, the project director
 
 ## Run from any directory
 
-`./bin/claude-haha` only works inside the checkout. Put it on your `PATH` and you can type `claude-haha` in any project directory — the CLI treats the current working directory as the project root.
+`./bin/sdx` only works inside the checkout. Put it on your `PATH` and you can type `sdx` in any project directory — the CLI treats the current working directory as the project root.
 
 On macOS and Linux, add this to `~/.bashrc` or `~/.zshrc`:
 
@@ -67,7 +67,7 @@ On macOS and Linux, add this to `~/.bashrc` or `~/.zshrc`:
 export PATH="$HOME/path/to/claude-code-haha/bin:$PATH"
 
 # Option 2: alias
-alias claude-haha="$HOME/path/to/claude-code-haha/bin/claude-haha"
+alias sdx="$HOME/path/to/claude-code-haha/bin/sdx"
 ```
 
 Reload the shell config:
@@ -86,12 +86,12 @@ To verify, start it from a different directory and ask what the current director
 
 ```bash
 cd ~/your-other-project
-claude-haha
+sdx
 ```
 
 ### Windows with a WSL toolchain
 
-If `claude-haha` runs on Windows or Git Bash while Node, Python, uv, and bun live inside WSL, call them through WSL explicitly:
+If `sdx` runs on Windows or Git Bash while Node, Python, uv, and bun live inside WSL, call them through WSL explicitly:
 
 ```bash
 wsl -e bash -lc 'node --version && python3 --version'

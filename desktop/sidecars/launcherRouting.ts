@@ -3,7 +3,14 @@ import path from 'node:path'
 export type SidecarMode = 'server' | 'cli' | 'adapters'
 
 const EXPLICIT_MODES = new Set<SidecarMode>(['server', 'cli', 'adapters'])
-const DESKTOP_CLI_NAMES = new Set(['claude-haha', 'claude-haha.exe'])
+const DESKTOP_CLI_NAMES = new Set([
+  'sdx',
+  'sdx.exe',
+  // Legacy names from the cc-haha upstream: PATH shims created by older
+  // installs still invoke the sidecar under these argv[0] values.
+  'claude-haha',
+  'claude-haha.exe',
+])
 
 export function resolveSidecarInvocation(
   rawArgs: string[],

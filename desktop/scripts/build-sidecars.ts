@@ -272,7 +272,7 @@ async function compileExecutable({
  * The identifier is the reason this is not just `codesign -s -`. Ad-hoc signing
  * derives the identifier from the file name plus a content hash
  * (`claude-sidecar-aarch64-apple-darwin-5555…`), which never matches
- * `com.claude-code-haha.desktop.sidecar`. `ClientAttestation.swift` compares
+ * `com.sdx.desktop.sidecar`. `ClientAttestation.swift` compares
  * that identifier exactly, so a hash-suffixed one makes every Computer Use call
  * fail closed with `unauthorized_client`.
  *

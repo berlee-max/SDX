@@ -90,7 +90,7 @@ if hasattr(sys.stderr, "reconfigure"):
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
 
-DESKTOP_HOST_BUNDLE_ID = "com.claude-code-haha.desktop"
+DESKTOP_HOST_BUNDLE_ID = "com.sdx.desktop"
 
 # ---------------------------------------------------------------------------
 # Key mapping — Windows uses 'win' instead of 'command'

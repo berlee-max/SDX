@@ -13,15 +13,15 @@ const outputDir = path.resolve('build-artifacts', 'electron')
 const bundledMainCommand = path.join(
   outputDir,
   'mac-arm64',
-  'Claude Code Haha.app',
+  'SDX.app',
   'Contents',
   'MacOS',
-  'Claude Code Haha',
+  'SDX',
 )
 const bundledSidecarCommand = path.join(
   outputDir,
   'mac-arm64',
-  'Claude Code Haha.app',
+  'SDX.app',
   'Contents',
   'Resources',
   'app.asar.unpacked',
@@ -34,13 +34,13 @@ const scriptsDir = import.meta.dirname
 describe('Electron output guard', () => {
   it('parses the ps process table into individual snapshots', () => {
     expect(parseProcessSnapshots([
-      '  20641 /workspace/Claude Code Haha.app/Contents/MacOS/Claude Code Haha',
+      '  20641 /workspace/SDX.app/Contents/MacOS/SDX',
       '    321 /usr/bin/example --flag',
       '',
     ].join('\n'))).toEqual([
       {
         pid: 20641,
-        command: '/workspace/Claude Code Haha.app/Contents/MacOS/Claude Code Haha',
+        command: '/workspace/SDX.app/Contents/MacOS/SDX',
       },
       { pid: 321, command: '/usr/bin/example --flag' },
     ])
@@ -58,7 +58,7 @@ describe('Electron output guard', () => {
       },
       {
         pid: 99,
-        command: '/Applications/Claude Code Haha.app/Contents/MacOS/Claude Code Haha',
+        command: '/Applications/SDX.app/Contents/MacOS/SDX',
       },
     ])
 
@@ -84,7 +84,7 @@ describe('Electron output guard', () => {
   it('allows cleanup when only packaged apps outside the output directory are running', () => {
     expect(() => assertElectronOutputIdle(outputDir, [{
       pid: 99,
-      command: '/Applications/Claude Code Haha.app/Contents/MacOS/Claude Code Haha',
+      command: '/Applications/SDX.app/Contents/MacOS/SDX',
     }])).not.toThrow()
   })
 

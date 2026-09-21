@@ -117,7 +117,7 @@ describe('macOS installed app enumeration', () => {
 
   it('includes the built-in host, helper, and an additional configured host like any other app', async () => {
     const metadata = new Map([
-      ['Desktop.app', { bundleId: 'com.claude-code-haha.desktop', displayName: 'Claude Code Haha' }],
+      ['Desktop.app', { bundleId: 'com.sdx.desktop', displayName: 'SDX' }],
       ['Helper.app', { bundleId: 'dev.cchaha.cu-helper', displayName: 'Computer Use Helper' }],
       ['Custom.app', { bundleId: 'com.example.custom-host', displayName: 'Custom Host' }],
       ['Notes.app', { bundleId: 'com.example.notes', displayName: 'Notes' }],
@@ -139,8 +139,8 @@ describe('macOS installed app enumeration', () => {
 
     expect(apps).toEqual([
       {
-        bundleId: 'com.claude-code-haha.desktop',
-        displayName: 'Claude Code Haha',
+        bundleId: 'com.sdx.desktop',
+        displayName: 'SDX',
         path: '/Applications/Desktop.app',
       },
       {

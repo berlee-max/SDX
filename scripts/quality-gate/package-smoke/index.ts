@@ -737,8 +737,8 @@ function addMacosComputerUseAttestationCheck(
   }
 
   const targets = [
-    { name: 'host', path: appBundle, identifier: 'com.claude-code-haha.desktop', deep: true },
-    { name: 'sidecar', path: sidecar, identifier: 'com.claude-code-haha.desktop.sidecar', deep: false },
+    { name: 'host', path: appBundle, identifier: 'com.sdx.desktop', deep: true },
+    { name: 'sidecar', path: sidecar, identifier: 'com.sdx.desktop.sidecar', deep: false },
     { name: 'helper', path: helperApp, identifier: 'dev.cchaha.cu-helper', deep: true },
   ] as const
   const metadata: CodesignMetadata[] = []

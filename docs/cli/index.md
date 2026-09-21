@@ -7,7 +7,7 @@ order: 0
 
 # 安装与启动
 
-CLI 是 Claude Code Haha 的内核，桌面端每个会话背后跑的都是它。如果你只想用图形界面，装桌面端就够了，见 [下载与安装](../start/install.md)；下面这些步骤是给需要终端交互、`--print` 脚本自动化，或者准备读源码、提 PR 的人看的。
+CLI 是 SDX 的内核，桌面端每个会话背后跑的都是它。如果你只想用图形界面，装桌面端就够了，见 [下载与安装](../start/install.md)；下面这些步骤是给需要终端交互、`--print` 脚本自动化，或者准备读源码、提 PR 的人看的。
 
 CLI 目前只从源码运行，没有单独的安装包。
 
@@ -44,8 +44,8 @@ ANTHROPIC_MODEL=provider-model
 macOS、Linux 或 Git Bash：
 
 ```bash
-./bin/claude-haha
-./bin/claude-haha -p "概括当前项目的目录结构"
+./bin/sdx
+./bin/sdx -p "概括当前项目的目录结构"
 ```
 
 Windows PowerShell 或 cmd：
@@ -58,7 +58,7 @@ bun --env-file=.env ./src/entrypoints/cli.tsx
 
 ## 在任意目录启动
 
-`./bin/claude-haha` 只在仓库里能用。把它加进 `PATH`，就能在任何项目目录直接敲 `claude-haha`，CLI 会自动把当前工作目录当成项目根。
+`./bin/sdx` 只在仓库里能用。把它加进 `PATH`，就能在任何项目目录直接敲 `sdx`，CLI 会自动把当前工作目录当成项目根。
 
 macOS 和 Linux 在 `~/.bashrc` 或 `~/.zshrc` 中添加：
 
@@ -67,7 +67,7 @@ macOS 和 Linux 在 `~/.bashrc` 或 `~/.zshrc` 中添加：
 export PATH="$HOME/path/to/claude-code-haha/bin:$PATH"
 
 # 方式二：alias
-alias claude-haha="$HOME/path/to/claude-code-haha/bin/claude-haha"
+alias sdx="$HOME/path/to/claude-code-haha/bin/sdx"
 ```
 
 改完重新加载：
@@ -86,12 +86,12 @@ export PATH="$HOME/path/to/claude-code-haha/bin:$PATH"
 
 ```bash
 cd ~/your-other-project
-claude-haha
+sdx
 ```
 
 ### Windows 配 WSL 工具链
 
-如果 `claude-haha` 跑在 Windows 或 Git Bash 里，而 Node、Python、uv、bun 这些工具装在 WSL 中，可以显式经 WSL 调用：
+如果 `sdx` 跑在 Windows 或 Git Bash 里，而 Node、Python、uv、bun 这些工具装在 WSL 中，可以显式经 WSL 调用：
 
 ```bash
 wsl -e bash -lc 'node --version && python3 --version'

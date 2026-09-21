@@ -230,7 +230,7 @@ describe('release desktop workflow', () => {
     expect(signedBuildStep).toContain('xcrun stapler staple "$app_path"')
     expect(signedBuildStep).toContain('xcrun stapler validate "$app_path"')
     expect(signedBuildStep).toContain('spctl -a -vv -t execute "$app_path"')
-    expect(signedBuildStep).toContain('app_path="build-artifacts/electron/${{ matrix.app_bundle_dir }}/Claude Code Haha.app"')
+    expect(signedBuildStep).toContain('app_path="build-artifacts/electron/${{ matrix.app_bundle_dir }}/SDX.app"')
     expect(signedBuildStep).toContain('package_args=( ${{ matrix.builder_args }} --prepackaged "$app_path" --publish never -c.mac.notarize=false )')
     expect(signedBuildStep).toContain('find build-artifacts/electron -maxdepth 1 -type f -delete')
     expect(signedBuildStep).toContain('Signed electron-builder timed out')
@@ -420,7 +420,7 @@ describe('release desktop workflow', () => {
     expect(workflow.indexOf('Verify Windows updater config before SignPath')).toBeLessThan(
       workflow.indexOf('Stage project-owned Windows application executables'),
     )
-    expect(stageApplicationStep).toContain('Claude Code Haha.exe')
+    expect(stageApplicationStep).toContain('SDX.exe')
     expect(stageApplicationStep).toContain('claude-sidecar-${{ matrix.target_triple }}.exe')
     expect(stageApplicationStep).not.toContain('rg.exe')
     expect(stageApplicationStep).not.toContain('node-pty')
@@ -438,10 +438,10 @@ describe('release desktop workflow', () => {
     expect(restoreInstallerStep).toContain('A trusted production signature is required')
     expect(refreshMetadataStep).toContain('scripts/refresh-windows-update-metadata.ts')
     expect(refreshMetadataStep).toContain('desktop/build-artifacts/electron/latest.yml')
-    expect(applicationConfiguration).toContain('<pe-file path="Claude Code Haha.exe">')
+    expect(applicationConfiguration).toContain('<pe-file path="SDX.exe">')
     expect(applicationConfiguration).toContain('<pe-file path="claude-sidecar-*.exe">')
     expect(applicationConfiguration).not.toContain('rg.exe')
-    expect(installerConfiguration).toContain('<pe-file path="Claude-Code-Haha-*-win-*.exe">')
+    expect(installerConfiguration).toContain('<pe-file path="SDX-*-win-*.exe">')
     expect(workflow).not.toContain('WINDOWS_CERTIFICATE')
     expect(workflow).not.toContain('WINDOWS_CERTIFICATE_PASSWORD')
     expect(workflow.indexOf('Restore and verify signed Windows application executables')).toBeLessThan(workflow.indexOf('Package NSIS installer from signed Windows application'))
@@ -472,7 +472,7 @@ describe('release desktop workflow', () => {
     expect(buildJob).toContain('builder_args: --win nsis --arm64')
     expect(buildJob).toContain('builder_args: --linux AppImage deb rpm --x64')
     expect(buildJob).toContain('builder_args: --linux AppImage deb rpm --arm64')
-    expect(buildJob).toContain('Claude-Code-Haha-${APP_VERSION}-win-arm64.exe')
+    expect(buildJob).toContain('SDX-${APP_VERSION}-win-arm64.exe')
     expect(buildJob).toContain('Upload release artifacts for final publish')
     expect(buildJob).toContain('actions/upload-artifact@v4')
     expect(buildJob).toContain('name: desktop-release-artifacts-${{ matrix.label }}')
@@ -549,27 +549,27 @@ describe('release desktop workflow', () => {
       }
     }
     const version = desktopPackage.version
-    expect(desktopPackage.build.artifactName).toBe('Claude-Code-Haha-${version}-${os}-${arch}.${ext}')
+    expect(desktopPackage.build.artifactName).toBe('SDX-${version}-${os}-${arch}.${ext}')
 
     const expectedReleaseAssets = [
-      `Claude-Code-Haha-${version}-mac-arm64.dmg`,
-      `Claude-Code-Haha-${version}-mac-arm64.dmg.blockmap`,
-      `Claude-Code-Haha-${version}-mac-arm64.zip`,
-      `Claude-Code-Haha-${version}-mac-arm64.zip.blockmap`,
-      `Claude-Code-Haha-${version}-mac-x64.dmg`,
-      `Claude-Code-Haha-${version}-mac-x64.dmg.blockmap`,
-      `Claude-Code-Haha-${version}-mac-x64.zip`,
-      `Claude-Code-Haha-${version}-mac-x64.zip.blockmap`,
-      `Claude-Code-Haha-${version}-linux-x86_64.AppImage`,
-      `Claude-Code-Haha-${version}-linux-amd64.deb`,
-      `Claude-Code-Haha-${version}-linux-x86_64.rpm`,
-      `Claude-Code-Haha-${version}-linux-arm64.AppImage`,
-      `Claude-Code-Haha-${version}-linux-arm64.deb`,
-      `Claude-Code-Haha-${version}-linux-aarch64.rpm`,
-      `Claude-Code-Haha-${version}-win-x64.exe`,
-      `Claude-Code-Haha-${version}-win-x64.exe.blockmap`,
-      `Claude-Code-Haha-${version}-win-arm64.exe`,
-      `Claude-Code-Haha-${version}-win-arm64.exe.blockmap`,
+      `SDX-${version}-mac-arm64.dmg`,
+      `SDX-${version}-mac-arm64.dmg.blockmap`,
+      `SDX-${version}-mac-arm64.zip`,
+      `SDX-${version}-mac-arm64.zip.blockmap`,
+      `SDX-${version}-mac-x64.dmg`,
+      `SDX-${version}-mac-x64.dmg.blockmap`,
+      `SDX-${version}-mac-x64.zip`,
+      `SDX-${version}-mac-x64.zip.blockmap`,
+      `SDX-${version}-linux-x86_64.AppImage`,
+      `SDX-${version}-linux-amd64.deb`,
+      `SDX-${version}-linux-x86_64.rpm`,
+      `SDX-${version}-linux-arm64.AppImage`,
+      `SDX-${version}-linux-arm64.deb`,
+      `SDX-${version}-linux-aarch64.rpm`,
+      `SDX-${version}-win-x64.exe`,
+      `SDX-${version}-win-x64.exe.blockmap`,
+      `SDX-${version}-win-arm64.exe`,
+      `SDX-${version}-win-arm64.exe.blockmap`,
     ]
     const namespacedMetadata = [
       'latest-mac-macOS-ARM64.yml',
@@ -614,20 +614,20 @@ describe('release desktop workflow', () => {
     const buildJob = extractJob(workflow, 'build')
     const publishJob = extractJob(workflow, 'publish-release')
     const expectedFiles = [
-      'Claude-Code-Haha-${APP_VERSION}-mac-arm64.dmg',
-      'Claude-Code-Haha-${APP_VERSION}-mac-arm64.zip',
-      'Claude-Code-Haha-${APP_VERSION}-mac-x64.dmg',
-      'Claude-Code-Haha-${APP_VERSION}-mac-x64.zip',
-      'Claude-Code-Haha-${APP_VERSION}-linux-x86_64.AppImage',
-      'Claude-Code-Haha-${APP_VERSION}-linux-amd64.deb',
-      'Claude-Code-Haha-${APP_VERSION}-linux-x86_64.rpm',
-      'Claude-Code-Haha-${APP_VERSION}-linux-arm64.AppImage',
-      'Claude-Code-Haha-${APP_VERSION}-linux-arm64.deb',
-      'Claude-Code-Haha-${APP_VERSION}-linux-aarch64.rpm',
-      'Claude-Code-Haha-${APP_VERSION}-win-x64.exe',
-      'Claude-Code-Haha-${APP_VERSION}-win-x64.exe.blockmap',
-      'Claude-Code-Haha-${APP_VERSION}-win-arm64.exe',
-      'Claude-Code-Haha-${APP_VERSION}-win-arm64.exe.blockmap',
+      'SDX-${APP_VERSION}-mac-arm64.dmg',
+      'SDX-${APP_VERSION}-mac-arm64.zip',
+      'SDX-${APP_VERSION}-mac-x64.dmg',
+      'SDX-${APP_VERSION}-mac-x64.zip',
+      'SDX-${APP_VERSION}-linux-x86_64.AppImage',
+      'SDX-${APP_VERSION}-linux-amd64.deb',
+      'SDX-${APP_VERSION}-linux-x86_64.rpm',
+      'SDX-${APP_VERSION}-linux-arm64.AppImage',
+      'SDX-${APP_VERSION}-linux-arm64.deb',
+      'SDX-${APP_VERSION}-linux-aarch64.rpm',
+      'SDX-${APP_VERSION}-win-x64.exe',
+      'SDX-${APP_VERSION}-win-x64.exe.blockmap',
+      'SDX-${APP_VERSION}-win-arm64.exe',
+      'SDX-${APP_VERSION}-win-arm64.exe.blockmap',
     ]
 
     for (const file of expectedFiles) {
@@ -709,7 +709,7 @@ describe('release desktop workflow', () => {
   // `unauthorized_client` — the settings page just said "checking…" forever.
   //
   // The causal chain: `build-sidecars.ts` signs the sidecar with an explicit
-  // `--identifier com.claude-code-haha.desktop.sidecar`, because
+  // `--identifier com.sdx.desktop.sidecar`, because
   // `ClientAttestation.swift` compares that identifier EXACTLY when it walks the
   // helper -> sidecar -> desktop process chain. If electron-builder re-signs the
   // sidecar it drops that flag, and codesign falls back to deriving the
@@ -741,10 +741,10 @@ describe('release desktop workflow', () => {
     // ClientAttestation.swift's `sidecarIdentifier` has to move with it.
     expect(
       readFileSync('desktop/scripts/sign-identity.ts', 'utf8'),
-    ).toContain("SIDECAR_SIGNING_IDENTIFIER = 'com.claude-code-haha.desktop.sidecar'")
+    ).toContain("SIDECAR_SIGNING_IDENTIFIER = 'com.sdx.desktop.sidecar'")
     expect(
       readFileSync('native/cu-helper/Sources/cu-helper/ClientAttestation.swift', 'utf8'),
-    ).toContain('sidecarIdentifier = "com.claude-code-haha.desktop.sidecar"')
+    ).toContain('sidecarIdentifier = "com.sdx.desktop.sidecar"')
   })
 
   test('Windows NSIS installer lets users choose the install directory', () => {
@@ -815,7 +815,7 @@ describe('release desktop workflow', () => {
     expect(recoveryHelper).toContain('robocopy.exe')
     expect(recoveryHelper).not.toMatch(/\/XC|\/XN|\/XO/)
     expect(recoveryHelper).toContain('Multiple distinct legacy data sources')
-    expect(recoveryHelper).toContain('Active CLAUDE_CONFIG_DIR is managed outside Claude Code Haha')
+    expect(recoveryHelper).toContain('Active CLAUDE_CONFIG_DIR is managed outside SDX')
     expect(recoveryHelper).toContain('Test-LexicalPathAtOrBelow')
     expect(recoveryHelper).toContain('-SharedInstallDirs @($PerMachineInstallDir)')
     expect(normalizedRecoveryHelper).toContain("function Invoke-LegacyRecovery {\n  param(\n    [Parameter(Mandatory = $true)][AllowEmptyCollection()][AllowEmptyString()][string[]]$InstallDirs")
@@ -856,7 +856,7 @@ describe('release desktop workflow', () => {
     expect(installerSmoke).toContain('$Stage completed successfully.')
     expect(installerSmoke).toContain('Fresh install did not create the application executable')
     expect(installerSmoke).toContain('Reinstall removed the application executable')
-    expect(installerSmoke).toContain("'中文 安装目录\\Claude Code Haha'")
+    expect(installerSmoke).toContain("'中文 安装目录\\SDX'")
     expect(installerSmoke).toContain('Invoke-InstalledApplicationSmoke')
     expect(installerSmoke).toContain('CC_HAHA_ELECTRON_WINDOW_SMOKE_LOG')
     expect(installerSmoke).toContain('desktop-server-state.json')

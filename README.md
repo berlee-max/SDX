@@ -1,25 +1,23 @@
-# Claude Code Haha
-
-<p align="center">
-  <img src="docs/images/readme-cover-en.jpg" alt="cc-haha — Open-source desktop for Claude Code" width="960">
-</p>
+# SDX
 
 <div align="center">
 
-[![GitHub Stars](https://img.shields.io/github/stars/NanmiCoder/cc-haha?style=social)](https://github.com/NanmiCoder/cc-haha/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/NanmiCoder/cc-haha?style=social)](https://github.com/NanmiCoder/cc-haha/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/pulls)
-[![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/NanmiCoder/cc-haha/blob/main/LICENSE)
-[![English](https://img.shields.io/badge/🇺🇸_English-Current-blue)](README.md)
-[![中文](https://img.shields.io/badge/🇨🇳_简体中文-Available-green)](README.zh-CN.md)
-[![Docs](https://img.shields.io/badge/📖_Documentation-Visit-FF7A00)](https://cchaha.ai)
+**SDX — a desktop AI coding workbench**
+
+[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%2010%2B%20%7C%20UOS-FF7A00)](#)
 
 [简体中文](README.zh-CN.md) · **English**
 
 </div>
 
-Claude Code Haha is a **desktop Claude Code workspace** for macOS, Windows, and Linux: multi-session workspaces, global search, branch / Worktree launch, diff review, built-in browser preview, GUI permission approval, any model — Claude, ChatGPT, Grok, presets, or local endpoints — image generation, visual MCP & SubAgent managers, an Agent Teams workbench, dynamic Workflow orchestration, model trace, Computer Use, skill marketplace, colour themes, desktop pets, H5 remote access, IM integration, and scheduled tasks, all in one app.
+> **About this project**: SDX is a downstream fork of [cc-haha](https://github.com/NanmiCoder/cc-haha)
+> (MIT, by NanmiCoder), branched from upstream desktop v0.6.5. Upstream copyright and licence notices are
+> preserved — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md). Most of the text below is inherited from
+> upstream documentation and is being replaced as SDX develops; links to `github.com/NanmiCoder/cc-haha`
+> still point at the upstream repository.
+
+SDX is a **desktop Claude Code workspace** for macOS, Windows, and Linux: multi-session workspaces, global search, branch / Worktree launch, diff review, built-in browser preview, GUI permission approval, any model — Claude, ChatGPT, Grok, presets, or local endpoints — image generation, visual MCP & SubAgent managers, an Agent Teams workbench, dynamic Workflow orchestration, model trace, Computer Use, skill marketplace, colour themes, desktop pets, H5 remote access, IM integration, and scheduled tasks, all in one app.
 
 <p align="center">
   <a href="#desktop-preview">Desktop Preview</a> · <a href="#install-the-desktop-app">Install</a> · <a href="#desktop-highlights">Highlights</a> · <a href="#more-documentation">More Docs</a> · <a href="#sponsorship--partnership">Sponsorship</a> · <a href="#user-group">User Group</a>
@@ -113,7 +111,7 @@ For users who want to debug the underlying CLI, server, or local development flo
 ```bash
 bun install
 cp .env.example .env
-./bin/claude-haha
+./bin/sdx
 ```
 
 See [environment variables](docs/en/cli/env.md) and [CLI setup](docs/en/cli/index.md) for more configuration options.
@@ -221,7 +219,7 @@ Thanks to the following open-source projects and community practices for referen
 
 ## ⭐ Star History
 
-If this project helps you, please support it with a ⭐ Star so more people can discover Claude Code Haha.
+If this project helps you, please support it with a ⭐ Star so more people can discover SDX.
 
 <a href="https://www.repostars.dev/?repos=NanmiCoder%2Fcc-haha&theme=ocean">
   <img alt="Star History Chart" src="https://www.repostars.dev/api/embed?repo=NanmiCoder%2Fcc-haha&theme=ocean" />
