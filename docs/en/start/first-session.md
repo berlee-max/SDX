@@ -13,11 +13,10 @@ Your model is connected. Now let it actually do something. Find a project you do
 
 Click "New session" in the sidebar, or press `Cmd/Ctrl + N`.
 
-![Empty session, with permission mode, launch location, and model controls in the composer](../../images/app/en/session-new.webp)
 
 Look at the row along the bottom of the composer: `+` for attachments, then **permission mode**, **launch location**, **model and effort**, and finally "Run".
 
-Start with the **launch location** pill in the middle (it reads `task-board / main` in the screenshot) and pick a project folder. This sets the agent's boundary: reading files, searching, running commands, checking Git status — all of it happens inside this directory and nowhere else.
+Start with the **launch location** pill in the middle and pick a project folder. This sets the agent's boundary: reading files, searching, running commands, checking Git status — all of it happens inside this directory and nowhere else.
 
 If the folder is a Git repository, the same pill also lets you choose a branch and whether to use an isolated worktree. Skip the worktree for now — working directly in the folder makes the changes easiest to follow.
 
@@ -25,7 +24,6 @@ If the folder is a Git repository, the same pill also lets you choose a branch a
 
 Click the permission mode button and all five levels open up.
 
-![The five permission modes](../../images/app/en/permission-modes.webp)
 
 | Mode | What the app says it does |
 |---|---|
@@ -68,7 +66,6 @@ Press `Enter` to send (`Shift + Enter` for a newline).
 
 ## 4. Watch it work
 
-![A full turn: collapsed tool calls, thinking, a permission prompt, an inline diff](../../images/app/en/session-main.webp)
 
 It orients itself before it starts editing, and you'll see several kinds of card go by:
 

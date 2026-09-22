@@ -38,16 +38,18 @@ function Hero({ c, locale }) {
           </ul>
         </div>
 
-        <figure className="hero__figure">
-          <img
-            alt={c.tour.tabs[0].title}
-            fetchPriority="high"
-            height="1436"
-            src={c.tour.tabs[0].image}
-            width="2000"
-          />
-          <figcaption>{c.hero.caption}</figcaption>
-        </figure>
+        {c.tour.tabs[0].image && (
+          <figure className="hero__figure">
+            <img
+              alt={c.tour.tabs[0].title}
+              fetchPriority="high"
+              height="1436"
+              src={c.tour.tabs[0].image}
+              width="2000"
+            />
+            <figcaption>{c.hero.caption}</figcaption>
+          </figure>
+        )}
       </div>
     </section>
   )
@@ -75,24 +77,30 @@ function Capabilities({ c }) {
 }
 
 function Tour({ c, locale }) {
-  const [activeId, setActiveId] = useState(c.tour.tabs[0].id)
-  useEffect(() => setActiveId(c.tour.tabs[0].id), [c])
+  // Only tabs that actually have a screenshot. While the upstream-branded set
+  // is being re-captured this can be empty, and an empty tour renders nothing
+  // rather than a strip of broken images.
+  const tabs = c.tour.tabs.filter((tab) => tab.image)
+  const [activeId, setActiveId] = useState(tabs[0]?.id)
+  useEffect(() => setActiveId(tabs[0]?.id), [c])
 
-  const active = c.tour.tabs.find((tab) => tab.id === activeId) || c.tour.tabs[0]
+  if (tabs.length === 0) return null
+
+  const active = tabs.find((tab) => tab.id === activeId) || tabs[0]
 
   function onKeyDown(event, index) {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
     event.preventDefault()
 
-    const count = c.tour.tabs.length
+    const count = tabs.length
     let next = index
     if (event.key === 'Home') next = 0
     if (event.key === 'End') next = count - 1
     if (event.key === 'ArrowLeft') next = (index - 1 + count) % count
     if (event.key === 'ArrowRight') next = (index + 1) % count
 
-    setActiveId(c.tour.tabs[next].id)
-    event.currentTarget.parentElement?.querySelector(`#tour-${c.tour.tabs[next].id}`)?.focus()
+    setActiveId(tabs[next].id)
+    event.currentTarget.parentElement?.querySelector(`#tour-${tabs[next].id}`)?.focus()
   }
 
   return (
@@ -108,7 +116,7 @@ function Tour({ c, locale }) {
           className="tour__tabs"
           role="tablist"
         >
-          {c.tour.tabs.map((tab, index) => (
+          {tabs.map((tab, index) => (
             <button
               aria-controls={`tourpanel-${tab.id}`}
               aria-selected={tab.id === active.id}

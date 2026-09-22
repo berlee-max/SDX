@@ -16,7 +16,6 @@ Both require your computer to be on with the app running. Tasks execute on your 
 
 ## H5 Access
 
-![Settings → H5 Access: LAN access toggle and connection settings](../../images/app/en/settings-h5.webp)
 
 ### Turning it on
 
@@ -27,7 +26,6 @@ Both require your computer to be on with the app running. Tasks execute on your 
 
 The scanned link carries the server address and token. Scan with your phone camera and open it in your usual Safari, Chrome, or system browser. Successful verification stores the connection in that browser's localStorage and removes the token from the address bar. Scanning again or opening a bookmark reconnects automatically. Temporary network failures do not forget pairing; choose **Retry** to use the saved credential. A revoked or regenerated token requires a fresh QR code.
 
-![The mobile conversation view with a file-changes card](../../images/app/en/h5-session.webp)
 
 ### The token is the credential
 
@@ -88,7 +86,6 @@ Automatic restoration on desktop startup is off by default. Enable it to reconne
 
 ## IM Adapters
 
-![Settings → IM Adapters: pairing and the five platforms](../../images/app/en/settings-im.webp)
 
 **Settings → IM Adapters** supports five platforms, each connected differently:
 

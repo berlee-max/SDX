@@ -168,9 +168,14 @@ async function collectAppScreenshots(locale, problems) {
     screenshots.set(basename, path.join(directory, entry.name))
   }
 
-  if (screenshots.size === 0) {
-    problems.push(`docs/images/app/${directoryName}: no WebP screenshots found`)
-  }
+  // Deliberately not an error when empty. The 0.1.0 screenshots were all
+  // captured from the upstream UI — every one showed its wordmark — so they
+  // were removed rather than shipped on a site for a different product. They
+  // come back a page at a time, re-captured from a real build.
+  //
+  // The rules that matter still apply to whatever is present: a missing
+  // directory is still an error, en/zh must stay paired, and widths are still
+  // pinned. Those are what keep a partial set honest.
 
   return screenshots
 }

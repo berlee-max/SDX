@@ -9,9 +9,8 @@ order: 0
 
 It's an app on your computer. You hand it a project folder, describe what you want in plain language, and it goes off to read the code, edit files, and run commands — with every change laid out in front of you, waiting for your approval.
 
-![A full session: prompt, tool calls, file edits, inline diff](../../images/app/en/session-main.webp)
 
-That's a real session. Projects and history on the left, the conversation in the middle, and when Claude edits a file the diff appears right underneath, line by line.
+The window has three columns: projects and history on the left, the conversation in the middle, and when the agent edits a file the diff appears right underneath, line by line.
 
 ## How this relates to the Claude Code CLI
 

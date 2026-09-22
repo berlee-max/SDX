@@ -1,21 +1,3 @@
-import sessionNewZh from '../../../../docs/images/app/zh-CN/session-new.webp'
-import sessionMainZh from '../../../../docs/images/app/zh-CN/session-main.webp'
-import workspaceDiffZh from '../../../../docs/images/app/zh-CN/workspace-diff.webp'
-import workspacePreviewZh from '../../../../docs/images/app/zh-CN/workspace-preview.webp'
-import modelPickerZh from '../../../../docs/images/app/zh-CN/model-picker.webp'
-import skillMarketZh from '../../../../docs/images/app/zh-CN/skill-market.webp'
-import scheduleCreateZh from '../../../../docs/images/app/zh-CN/schedule-create.webp'
-import h5SessionZh from '../../../../docs/images/app/zh-CN/h5-session.webp'
-import petDesktopZh from '../../../../docs/images/app/zh-CN/pet-desktop.webp'
-import sessionNewEn from '../../../../docs/images/app/en/session-new.webp'
-import sessionMainEn from '../../../../docs/images/app/en/session-main.webp'
-import workspaceDiffEn from '../../../../docs/images/app/en/workspace-diff.webp'
-import workspacePreviewEn from '../../../../docs/images/app/en/workspace-preview.webp'
-import modelPickerEn from '../../../../docs/images/app/en/model-picker.webp'
-import skillMarketEn from '../../../../docs/images/app/en/skill-market.webp'
-import scheduleCreateEn from '../../../../docs/images/app/en/schedule-create.webp'
-import h5SessionEn from '../../../../docs/images/app/en/h5-session.webp'
-import petDesktopEn from '../../../../docs/images/app/en/pet-desktop.webp'
 
 // 吉祥物与截图一样从 docs/ 取 —— docs/ 是站点唯一的媒体源。
 // 原图是桌面端的 agent-mascots，改动那边时记得同步这四张。
@@ -24,28 +6,34 @@ import huhu from '../../../../docs/images/mascots/huhu.webp'
 import bubu from '../../../../docs/images/mascots/bubu.webp'
 import huihui from '../../../../docs/images/mascots/huihui.webp'
 
+// 产品截图暂时全部缺席。0.1.0 那批是从上游 UI 采集的，每一张都带着 cc-haha
+// 字标，不能挂在一个叫别的名字的产品站点上，所以先整批撤下，再按页面逐张从真实
+// 构建重拍补回。
+//
+// 补回一张就把对应的 null 换成 import 进来的图：首页的 hero 和巡览会自己恢复，
+// 一张图都没有时它们整块不渲染，而不是留下裂图。
 const localizedImages = {
   zh: {
-    h5Session: h5SessionZh,
-    modelPicker: modelPickerZh,
-    petDesktop: petDesktopZh,
-    scheduleCreate: scheduleCreateZh,
-    sessionMain: sessionMainZh,
-    sessionNew: sessionNewZh,
-    skillMarket: skillMarketZh,
-    workspaceDiff: workspaceDiffZh,
-    workspacePreview: workspacePreviewZh
+    h5Session: null,
+    modelPicker: null,
+    petDesktop: null,
+    scheduleCreate: null,
+    sessionMain: null,
+    sessionNew: null,
+    skillMarket: null,
+    workspaceDiff: null,
+    workspacePreview: null
   },
   en: {
-    h5Session: h5SessionEn,
-    modelPicker: modelPickerEn,
-    petDesktop: petDesktopEn,
-    scheduleCreate: scheduleCreateEn,
-    sessionMain: sessionMainEn,
-    sessionNew: sessionNewEn,
-    skillMarket: skillMarketEn,
-    workspaceDiff: workspaceDiffEn,
-    workspacePreview: workspacePreviewEn
+    h5Session: null,
+    modelPicker: null,
+    petDesktop: null,
+    scheduleCreate: null,
+    sessionMain: null,
+    sessionNew: null,
+    skillMarket: null,
+    workspaceDiff: null,
+    workspacePreview: null
   }
 }
 
