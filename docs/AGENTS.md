@@ -36,7 +36,7 @@ Put a space between Chinese characters and adjacent Latin letters or digits: 「
 
 ## Screenshots
 
-Product screenshots live in `docs/images/app/` as WebP at 2000px wide, captured from a real build. Never ship a screenshot from an older UI generation; re-capture instead. Redact tokens, QR codes, API keys and paired account names before committing. Cap feature pages at roughly three screenshots.
+Product screenshots live in `docs/images/app/` as WebP at 2000px wide, captured from a real build. Never ship a screenshot from an older UI generation; re-capture instead — `bun run scripts/docs/capture-screenshots.mjs --help`. That script drives a real build in headless Chrome at exact pixel dimensions, against a throwaway `CLAUDE_CONFIG_DIR` with invented fixture projects; it refuses to run without that redirection, because these images get published and the real config directory holds real work. Redact tokens, QR codes, API keys and paired account names before committing. Cap feature pages at roughly three screenshots.
 
 Step-by-step setup walkthroughs are the exception: `docs/im/` embeds console screenshots from `docs/images/im/<platform>/` and needs one per step. Judge those by whether a reader could follow along without them.
 

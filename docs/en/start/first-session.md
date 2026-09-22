@@ -13,6 +13,8 @@ Your model is connected. Now let it actually do something. Find a project you do
 
 Click "New session" in the sidebar, or press `Cmd/Ctrl + N`.
 
+![The empty session: projects and history on the left, permission mode and launch location under the composer](../../images/app/en/session-new.webp)
+
 
 Look at the row along the bottom of the composer: `+` for attachments, then **permission mode**, **launch location**, **model and effort**, and finally "Run".
 

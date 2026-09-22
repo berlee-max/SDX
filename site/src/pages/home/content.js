@@ -6,6 +6,9 @@ import huhu from '../../../../docs/images/mascots/huhu.webp'
 import bubu from '../../../../docs/images/mascots/bubu.webp'
 import huihui from '../../../../docs/images/mascots/huihui.webp'
 
+import sessionNewZh from '../../../../docs/images/app/zh-CN/session-new.webp'
+import sessionNewEn from '../../../../docs/images/app/en/session-new.webp'
+
 // 产品截图暂时全部缺席。0.1.0 那批是从上游 UI 采集的，每一张都带着 cc-haha
 // 字标，不能挂在一个叫别的名字的产品站点上，所以先整批撤下，再按页面逐张从真实
 // 构建重拍补回。
@@ -19,7 +22,7 @@ const localizedImages = {
     petDesktop: null,
     scheduleCreate: null,
     sessionMain: null,
-    sessionNew: null,
+    sessionNew: sessionNewZh,
     skillMarket: null,
     workspaceDiff: null,
     workspacePreview: null
@@ -30,7 +33,7 @@ const localizedImages = {
     petDesktop: null,
     scheduleCreate: null,
     sessionMain: null,
-    sessionNew: null,
+    sessionNew: sessionNewEn,
     skillMarket: null,
     workspaceDiff: null,
     workspacePreview: null
@@ -47,7 +50,7 @@ export const content = {
       primary: '下载桌面端',
       secondary: '三步跑通第一条会话',
       badges: ['macOS · Windows · Linux', '开源免费', '本地优先'],
-      caption: '真实 App 的空会话首屏：100% 界面缩放、纯白主题，项目、权限与模型一眼可见。'
+      caption: '真实 App 的空会话首屏：100% 界面缩放、纯白主题，左边是项目与历史，下面是权限模式和运行位置。'
     },
     capabilities: {
       title: '它替你做的事',
@@ -65,13 +68,13 @@ export const content = {
     },
     tour: {
       title: '真实 App、真实任务，没有概念图',
-      lede: '截图统一使用纯白主题与 100% 界面缩放；任务由 ChatGPT 官方服务商的 GPT-5.6-Luna 在真实测试项目中执行。',
+      lede: '截图统一使用纯白主题与 100% 界面缩放，全部取自真实构建。',
       tabs: [
         {
           id: 'start',
           label: '开始',
           title: '第一眼，就是空会话',
-          body: '刚打开项目时不塞演示内容。输入框、权限模式、运行位置和 GPT-5.6-Luna 都在首屏直接可见。',
+          body: '刚打开时不塞演示内容。左边是项目与历史，输入框下面是权限模式和运行位置，模型还没接就直接提示你去接。',
           image: localizedImages.zh.sessionNew
         },
         {
@@ -189,7 +192,7 @@ export const content = {
       primary: 'Download the app',
       secondary: 'Run your first session',
       badges: ['macOS · Windows · Linux', 'Open source', 'Local-first'],
-      caption: 'The real empty-session screen at 100% UI zoom in Pure White, with project, permissions and model visible up front.'
+      caption: 'The real empty-session screen at 100% UI zoom in Pure White: projects and history on the left, permission mode and launch location along the composer.'
     },
     capabilities: {
       title: 'What it does for you',
@@ -207,9 +210,9 @@ export const content = {
     },
     tour: {
       title: 'Real app, real tasks, no concept art',
-      lede: 'Every shot uses Pure White at 100% UI zoom. The task flow ran in a real test project through ChatGPT Official and GPT-5.6-Luna.',
+      lede: 'Every shot uses Pure White at 100% UI zoom, captured from a real build.',
       tabs: [
-        { id: 'start', label: 'Start', title: 'The first screen is an empty session', body: 'No staged demo content. The composer, permission mode, working location and GPT-5.6-Luna are visible before the first task starts.', image: localizedImages.en.sessionNew },
+        { id: 'start', label: 'Start', title: 'The first screen is an empty session', body: 'No staged demo content. Projects and history on the left; permission mode and launch location sit under the composer, and until you connect a model it says so.', image: localizedImages.en.sessionNew },
         { id: 'session', label: 'Run', title: 'Say it once. Watch it get done.', body: 'Pick a project, a permission mode and a model. Every file it read, every command it ran and every line it changed stays in the thread.', image: localizedImages.en.sessionMain },
         { id: 'review', label: 'Review', title: 'Know exactly what changed', body: 'The workspace lists this turn’s edits; open any file for a syntax-highlighted diff. Don’t like it? Undo the whole turn.', image: localizedImages.en.workspaceDiff },
         { id: 'preview', label: 'Preview', title: 'Check the page without leaving', body: 'Open your dev server in the built-in browser, see the result immediately, and bring screenshots or picked elements back into the thread.', image: localizedImages.en.workspacePreview },
