@@ -641,7 +641,7 @@ describe('AskUserQuestion', () => {
       fireEvent.click(screen.getByRole('button', { name: /^Tabs$/ }))
       fireEvent.click(screen.getByRole('button', { name: /chat about this/i }))
 
-      expect(screen.getByText(/Handed back to Claude/)).toBeTruthy()
+      expect(screen.getByText(/Handed back to SDX/)).toBeTruthy()
       expect(screen.queryByText(/Answered:/)).toBeNull()
       expect(screen.queryByRole('button', { name: /chat about this/i })).toBeNull()
     })

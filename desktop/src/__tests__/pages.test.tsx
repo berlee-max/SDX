@@ -335,7 +335,7 @@ describe('Content-only pages render without errors', () => {
     render(<ActiveSession />)
 
     const composer = screen.getByRole('textbox')
-    expect(composer).toHaveAttribute('data-placeholder', 'Ask Claude to edit, debug or explain...')
+    expect(composer).toHaveAttribute('data-placeholder', 'Ask SDX to edit, debug or explain...')
 
     resetPageStores()
   })

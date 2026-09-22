@@ -768,7 +768,7 @@ describe('ChatInput file mentions', () => {
       expect(getComposerElement()).toHaveAttribute('contenteditable', 'false')
       expect(getComposerElement()).toHaveAttribute(
         'data-placeholder',
-        'Answer the question above first — Claude is waiting on it.',
+        'Answer the question above first — SDX is waiting on it.',
       )
     })
 
@@ -815,7 +815,7 @@ describe('ChatInput file mentions', () => {
       expect(getComposerElement()).toHaveAttribute('contenteditable', 'true')
       expect(getComposerElement()).toHaveAttribute(
         'data-placeholder',
-        'Ask Claude to edit, debug or explain...',
+        'Ask SDX to edit, debug or explain...',
       )
     })
   })

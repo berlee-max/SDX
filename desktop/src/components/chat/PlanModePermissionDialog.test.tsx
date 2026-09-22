@@ -171,7 +171,7 @@ describe('plan mode permission UI', () => {
       />,
     )
 
-    fireEvent.change(screen.getByPlaceholderText('Tell Claude what to change'), {
+    fireEvent.change(screen.getByPlaceholderText('Tell SDX what to change'), {
       target: { value: 'Add a rollback step before implementation.' },
     })
     fireEvent.click(screen.getByRole('button', { name: 'Keep planning' }))
@@ -311,7 +311,7 @@ describe('plan mode permission UI', () => {
 
     expect(container.textContent).toContain('Plan rejected')
     expect(container.textContent).toContain('Tool permission request failed: AbortError')
-    expect(container.textContent).not.toContain("Claude's plan")
+    expect(container.textContent).not.toContain("SDX's plan")
     expect(container.textContent).not.toContain('No plan content available.')
   })
 
