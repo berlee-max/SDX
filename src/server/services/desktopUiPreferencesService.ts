@@ -19,7 +19,7 @@ const MIN_PET_SIZE = 96
 const MAX_PET_SIZE = 192
 const DEFAULT_PET_SIZE = 144
 const MAX_PET_SESSION_ID_LENGTH = 200
-const DEFAULT_PROFILE_SUBTITLE = 'github.com/NanmiCoder/cc-haha'
+const DEFAULT_PROFILE_SUBTITLE = 'github.com/berlee-max/SDX'
 const DEFAULT_PET_ID = 'dada-code'
 
 const AVATAR_CONTENT_TYPES = {
@@ -78,7 +78,7 @@ const DEFAULT_SIDEBAR_PROJECT_PREFERENCES: SidebarProjectPreferences = {
 }
 
 const DEFAULT_PROFILE_PREFERENCES: DesktopProfilePreferences = {
-  displayName: 'cc-haha',
+  displayName: 'AI Agent SDX',
   subtitle: DEFAULT_PROFILE_SUBTITLE,
   avatarFile: null,
   avatarUpdatedAt: null,
