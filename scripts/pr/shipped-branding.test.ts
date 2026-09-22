@@ -87,6 +87,27 @@ describe('shipped bundles do not point at the upstream project', () => {
     expect(readFileSync(join(repoRoot, 'src/utils/http.ts'), 'utf8')).toContain('Claude-User')
   })
 
+  test('the Windows default install directory is the short, space-free one', () => {
+    // electron-builder derives it from productName, which would give
+    // "...\\Programs\\AI Agent SDX". The override lives in customInit because
+    // that is the only hook that runs AFTER initMultiUser has resolved $INSTDIR.
+    const nsh = readFileSync(join(repoRoot, 'desktop/build/installer.nsh'), 'utf8')
+    expect(nsh).toContain('!define /ifndef SDX_INSTALL_DIR_NAME "sdx-aiagent"')
+
+    const customInit = nsh.slice(nsh.indexOf('!macro customInit'))
+    expect(customInit).toContain('StrCpy $INSTDIR "$R2\\${SDX_INSTALL_DIR_NAME}"')
+
+    // The two cases that must still win over the default. Losing the registry
+    // check relocates an upgrade and orphans the old copy; losing the /D check
+    // breaks silent installs and the Windows installer smoke test.
+    expect(customInit).toMatch(/ReadRegStr \$R1 HKCU "\$\{INSTALL_REGISTRY_KEY\}" InstallLocation/)
+    expect(customInit).toContain('!insertmacro GetDParameter $R0')
+
+    // Exactly one definition — NSIS errors on a duplicate macro name, and this
+    // file already had a customInit for the legacy-data recovery.
+    expect(nsh.match(/^!macro customInit$/gm)).toHaveLength(1)
+  })
+
   test('settings descriptions name this product', () => {
     // Schema `.describe()` text surfaces in the settings UI and in generated docs.
     const source = readFileSync(join(repoRoot, 'src/utils/settings/types.ts'), 'utf8')

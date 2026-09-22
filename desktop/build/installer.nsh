@@ -2,6 +2,13 @@
 !include "getProcessInfo.nsh"
 !define /ifndef INSTALL_REGISTRY_KEY "Software\${APP_GUID}"
 !define /ifndef UNINSTALL_REGISTRY_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UNINSTALL_APP_KEY}"
+
+# Default installation directory.
+#
+# electron-builder derives it from productName, so "AI Agent SDX" would install
+# to "...\Programs\AI Agent SDX". A lowercase, space-free directory is easier to
+# type, to script against, and to paste into a shell without quoting.
+!define /ifndef SDX_INSTALL_DIR_NAME "sdx-aiagent"
 Var pid
 Var ccHahaProcessDiagnostic
 
@@ -418,5 +425,46 @@ FunctionEnd
   ${AndIf} ${Silent}
     !insertmacro CcHahaRunLegacyRecovery
   ${EndIf}
+
+  # Default install directory. `.onInit` runs preInit -> initMultiUser ->
+  # customInit, so $INSTDIR is already resolved here and is the last chance to
+  # change it before the user sees it. preInit would be the wrong hook: it runs
+  # before initMultiUser, so anything it sets there is overwritten.
+  #
+  # initMultiUser sets $INSTDIR to whichever of these applies:
+  #   1. a previous install's path from the registry — an upgrade must never
+  #      relocate itself, or the old copy is orphaned
+  #   2. a /D= path from the command line — an explicit choice, and what
+  #      windows-installer-smoke.ps1 relies on
+  #   3. the default derived from APP_FILENAME, i.e. productName
+  # Only the third is ours, so the other two are ruled out first.
+  #
+  # The final segment is swapped rather than the path rebuilt, which keeps
+  # whatever base initMultiUser resolved: Program Files vs Program Files (x86)
+  # per-machine, and the per-user known folder, which is not always
+  # $LocalAppData\Programs.
+  Push $R0
+  Push $R1
+  Push $R2
+
+  ${If} $installMode == CurrentUser
+    ReadRegStr $R1 HKCU "${INSTALL_REGISTRY_KEY}" InstallLocation
+  ${Else}
+    ReadRegStr $R1 HKLM "${INSTALL_REGISTRY_KEY}" InstallLocation
+  ${EndIf}
+
+  # Not $R5-$R9: GetDParameter assigns its out variable before restoring those,
+  # so one of them would be overwritten by the restore.
+  !insertmacro GetDParameter $R0
+
+  ${If} $R1 == ""
+  ${AndIf} $R0 == ""
+    ${GetParent} "$INSTDIR" $R2
+    StrCpy $INSTDIR "$R2\${SDX_INSTALL_DIR_NAME}"
+  ${EndIf}
+
+  Pop $R2
+  Pop $R1
+  Pop $R0
 !macroend
 !endif

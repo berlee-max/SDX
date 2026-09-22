@@ -350,7 +350,7 @@ async function signMacBinary(outputPath: string) {
   // then succeeded four times, while a build seconds earlier failed four for
   // four. A 2/4/6s ladder fits entirely inside one bad burst; this rides out
   // roughly two minutes.
-  const backoffScheduleMs = [5_000, 15_000, 30_000, 60_000]
+  const backoffScheduleMs = [5_000, 15_000, 30_000, 60_000, 120_000]
   const attempts = backoffScheduleMs.length + 1
   let lastFailure = ''
   for (let attempt = 1; attempt <= attempts; attempt++) {

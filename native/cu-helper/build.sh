@@ -373,9 +373,9 @@ sign() {
   # and retrying it would just delay a clear error.
   # Long backoff on purpose: the outages arrive in bursts of tens of seconds,
   # so a short ladder can sit entirely inside one. 5/15/30/60 rides out ~2min.
-  local backoffs="5 15 30 60"
+  local backoffs="5 15 30 60 120"
   local attempt=1
-  local max_attempts=5
+  local max_attempts=6
   local codesign_output
   while :; do
     if codesign_output="$(codesign \

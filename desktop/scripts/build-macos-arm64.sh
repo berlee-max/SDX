@@ -93,7 +93,7 @@ echo "[build-macos-arm64] bun ${ACTUAL_BUN} matches the pin."
 codesign_with_timestamp_retry() {
   local description="$1"
   shift
-  local backoffs=(5 15 30 60)
+  local backoffs=(5 15 30 60 120)
   local attempt=1
   local output
   while :; do
