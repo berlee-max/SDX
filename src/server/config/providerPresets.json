@@ -358,7 +358,7 @@
       }
     ],
     "upstreamHeaders": {
-      "User-Agent": "cc-haha/$VERSION",
+      "User-Agent": "sdx/$VERSION",
       "x-opencode-session": "$SESSION_ID"
     },
     "modelContextWindows": {

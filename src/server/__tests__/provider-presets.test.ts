@@ -432,12 +432,12 @@ describe('provider presets API', () => {
 
     test('sends the session id the gateway requires plus a client-identifying user agent', () => {
       expect(opencodeGo.upstreamHeaders).toEqual({
-        'User-Agent': 'cc-haha/$VERSION',
+        'User-Agent': 'sdx/$VERSION',
         'x-opencode-session': '$SESSION_ID',
       })
       const resolved = resolveUpstreamHeaders(opencodeGo.upstreamHeaders, { sessionId: 's-1' })
       expect(resolved['x-opencode-session']).toBe('s-1')
-      expect(resolved['User-Agent']).toMatch(/^cc-haha\//)
+      expect(resolved['User-Agent']).toMatch(/^sdx\//)
     })
 
     test('publishes a context window for every model it offers as a default', () => {

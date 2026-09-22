@@ -3493,7 +3493,7 @@ describe('OpenCode Go preset request contract', () => {
         // Without this the gateway answers 400 MissingSessionID on every path.
         expect(calls[0].headers.get('x-opencode-session'), `${model} session`).toBe(SESSION_ID)
         // Identify as this client, never as a generic HTTP library or the CLI we fork.
-        expect(calls[0].headers.get('user-agent'), `${model} ua`).toMatch(/^cc-haha\//)
+        expect(calls[0].headers.get('user-agent'), `${model} ua`).toMatch(/^sdx\//)
         expect(calls[0].headers.get('user-agent'), `${model} ua`).not.toContain('claude-cli/')
       }
     } finally {
@@ -3581,7 +3581,7 @@ describe('OpenCode Go preset request contract', () => {
       expect(response.status).toBe(200)
       expect(calls[0].url).toBe('https://opencode.ai/zen/go/v1/chat/completions')
       expect(calls[0].headers.get('x-opencode-session')).toBeNull()
-      expect(calls[0].headers.get('user-agent') ?? '').not.toMatch(/^cc-haha\//)
+      expect(calls[0].headers.get('user-agent') ?? '').not.toMatch(/^sdx\//)
     } finally {
       restore()
     }
@@ -3655,7 +3655,7 @@ describe('OpenCode Go preset request contract', () => {
         { 'user-agent': 'some-third-party-sdk/1.0', 'x-opencode-session': 'caller-supplied-bogus' },
       )
       expect(response.status).toBe(200)
-      expect(calls[0].headers.get('user-agent')).toMatch(/^cc-haha\//)
+      expect(calls[0].headers.get('user-agent')).toMatch(/^sdx\//)
       expect(calls[0].headers.get('x-opencode-session')).toBe(SESSION_ID)
     } finally {
       restore()

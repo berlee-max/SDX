@@ -67,6 +67,26 @@ describe('shipped bundles do not point at the upstream project', () => {
     expect(source).not.toContain("'cc-haha diagnostics bundle'")
   })
 
+  test('outbound User-Agents do not claim to be the upstream project', () => {
+    // These go to third parties on every request, so they are the one place the
+    // old name is not just stale but a false claim about who is calling. Two
+    // existed: `cc-haha/$VERSION` to opencode.ai and `cc-haha-grok-oauth/1.0`
+    // to Grok's OAuth endpoint.
+    //
+    // Lowercase and space-free on purpose — RFC 7231 product tokens cannot
+    // contain spaces, so "AI Agent SDX/1.0" would be a malformed header.
+    const presets = readFileSync(join(repoRoot, 'src/server/config/providerPresets.json'), 'utf8')
+    expect(presets).toContain('"User-Agent": "sdx/$VERSION"')
+    expect(presets).not.toMatch(/"User-Agent":\s*"cc-haha/)
+
+    const grok = readFileSync(join(repoRoot, 'src/services/grokAuth/client.ts'), 'utf8')
+    expect(grok).toContain("'User-Agent': 'sdx-grok-oauth/1.0'")
+
+    // The Claude Code user agents are a different thing and stay: they identify
+    // the engine this wraps, and Anthropic's API keys behaviour off `claude-cli/`.
+    expect(readFileSync(join(repoRoot, 'src/utils/http.ts'), 'utf8')).toContain('Claude-User')
+  })
+
   test('settings descriptions name this product', () => {
     // Schema `.describe()` text surfaces in the settings UI and in generated docs.
     const source = readFileSync(join(repoRoot, 'src/utils/settings/types.ts'), 'utf8')
