@@ -19,7 +19,7 @@ branched from upstream desktop **v0.6.5**.
 | 原值 (cc-haha) | 新值 (SDX) |
 | --- | --- |
 | 产品名 `Claude Code Haha` | `AI Agent SDX` |
-| 打包显示名 `productName` | `AI Agent SDX`（决定 `AI Agent SDX.app` / `AI Agent SDX.exe`、开始菜单项，以及 Electron 的 `app.getPath('userData')`：Windows `%APPDATA%\AI Agent SDX`、macOS `~/Library/Application Support/AI Agent SDX`。本仓库尚未发过正式版，没有需要迁移的用户数据；再改一次就需要迁移了）|
+| 打包显示名 `productName` | `AI Agent SDX`（决定 `AI Agent SDX.app` / `AI Agent SDX.exe` 和开始菜单项。它也决定 Electron 的 `app.getPath('userData')`，但**会话、项目、设置全在 `~/.claude`，不在那里**——userData 里只有 `app-mode.json`（便携模式开关）和 node-pty 原生缓存，所以改名的代价是「便携模式设置回落到默认、node-pty 重建一次」，不是丢数据。已实测：改名后 userData 目录压根没被创建）|
 | Bundle / AppUserModelID `com.claude-code-haha.desktop` | `com.sdx.desktop` |
 | Sidecar 签名标识 `com.claude-code-haha.desktop.sidecar` | `com.sdx.desktop.sidecar` |
 | 安装包命名 `Claude-Code-Haha-${version}-...` | `SDX-${version}-...` |
