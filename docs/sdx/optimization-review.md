@@ -51,41 +51,47 @@ upstream-baseline  chore: import cc-haha-main snapshot as SDX baseline
 
 ### P0 — 挡住后续开发/发版的
 
-**1. 本机没装 bun，整个项目跑不起来**
+**1. 本机没装 bun —— ✅ 已解决**
 
-`packageManager` 指定 `bun@1.3.14`，`bin/sdx` 的 shebang 是 `#!/usr/bin/env -S bun`，所有 `check:*`、`quality:*` 脚本都靠 bun。当前机器只有 node v26.8.1。第 4 步开工前先装：
+`packageManager` 指定 `bun@1.3.14`，`bin/sdx` 的 shebang 是 `#!/usr/bin/env -S bun`。现在已装，
+版本对得上。注意这个版本号是**承重的**，不是随便写的——1.4.2 会让 `systemProxyBridge` 的竞态
+测试必挂，详见 [git-workflow.md](git-workflow.md) 的工具链一节。
 
-```bash
-curl -fsSL https://bun.sh/install | bash
-```
+**2. `src/` 的 79 万行代码没有任何静态检查 —— 🟡 已能跑，尚未清零**
 
-**2. `src/` 的 79 万行代码，没有任何静态检查**
+原始结论仍然成立，而且比当时写的更糟：根目录**根本跑不了 `tsc`**——`tsconfig.json` 里写的
+`types: ["bun-types"]` 是个没安装的包（上游已改名 `@types/bun`），而且 devDependencies 里
+压根没有 typescript。所以 `tsc -p tsconfig.json` 在读第一个源文件之前就失败了，没人跑得起来。
 
-这是本次审查最值得处理的一条：
+对比依然刺眼：`desktop/` 有 lint + tsc 车道，25 处 `any`；`src/` 没有车道，665 处 `any`，
+外加 457 条 `eslint-disable`——因为根本没有 eslint，这些注释是死的。
 
-- 根目录**没有 eslint 配置**（只有 `desktop/eslint.config.js`）；
-- 全仓库搜不到任何对 `src/` 跑 `tsc` 的地方——`package.json`、`scripts/`、`.github/workflows/` 里 `tsc` 只出现在 `desktop/` 的 lint 和 electron 子配置里；
-- 根 `tsconfig.json` 没有 `strict`、没有 `include`/`exclude`、没有 `noEmit`；
-- 后果：`src/` 里 **665 处 `any`**、**457 条 `eslint-disable`**（因为根本没有 eslint，这些注释是死的），类型错误只能等运行时暴露。而 `desktop/src/` 因为有 lint，只有 25 处 `any`、11 条 disable —— 对比非常明显。
+已经做的（`build: make the CLI core's tooling runnable...`）：
 
-建议分两步，不要一次开 strict：
+- 装 `typescript@^5.9.3`（和 `desktop/` 对齐，两边诊断才可比）和 `@types/bun`
+- 修掉 `tsconfig.json` 里那个指向不存在包的 `bun-types`
+- 新增 `tsconfig.typecheck.json`（strict 关、skipLibCheck、只查 `src/**`）
+- `bun run typecheck` 走棘轮：对着 `scripts/pr/typecheck-baseline.json` 里记的 **2498** 比，
+  只升不降就失败，降了用 `--update` 锁进去
 
-```jsonc
-// tsconfig.json —— 先只加 noEmit + skipLibCheck，量一下错误基数
-{ "compilerOptions": { "noEmit": true, "skipLibCheck": true, /* ...原有 */ } }
-```
+**2498 这个数被高估了**：其中 692 条是 TS2614「no exported member」，来自 `src/` 下
+**137 个重构桩模块**（`export default stub; export const __stubMissing = true`，共 4658 行）。
+从桩里 import 具名导出必然报错，这不是调用方能修的，得把桩补成真实现。
 
-```jsonc
-// package.json
-"typecheck": "tsc -p tsconfig.json",
-"lint": "eslint src adapters scripts"
-```
+还没做：接进 PR 阻塞车道。等数字走低到大部分是真缺陷再接，否则每个不相干的 PR 都被 2498 条
+噪音挡住。开 strict 更要等在这之后，一次开两个会把信号埋掉。
 
-先把错误数量打印出来（大概率是四位数），然后按目录逐个开 `strict`，用 `tsconfig.strict.json` 白名单递增。同时在 `scripts/pr/change-policy.ts` 里把 `typecheck` 挂成 PR 必跑车道。
+**3. 四个锁文件、三个包管理器并存 —— ✅ 已解决**
 
-**3. 四个锁文件、三个包管理器并存**
+导入快照同时带了根目录的 `bun.lock` + `package-lock.json`，和 `desktop/` 的
+`bun.lock` + `pnpm-lock.yaml`。**只有 bun 那两个在更新**，npm 和 pnpm 的文件一直冻在导入那次
+提交上——所以同一份 `package.json`，取决于本地跑了哪个包管理器，会解析出不同的依赖树。
+CI 全程 `bun install --frozen-lockfile`，那两个文件纯粹是等着被本地 `npm install` 捡起来的陷阱。
 
-`bun.lock` + `package-lock.json`（根）、`desktop/bun.lock` + `desktop/pnpm-lock.yaml`、`site/` 走 `npm ci`。同一份 `package.json` 在不同机器上会解析出不同依赖树。建议统一到 bun，删掉 `package-lock.json` 和 `desktop/pnpm-lock.yaml`，在 CI 加一条"禁止新增其它锁文件"的检查。
+已删 `package-lock.json` 和 `desktop/pnpm-lock.yaml`，新增
+`scripts/pr/lockfile-hygiene.test.ts`（已接入 `check:policy`）：bun 工作区里再冒出任何
+非 bun 锁文件就失败。`site/package-lock.json` 保留并显式断言存在——它走
+`npm --prefix site ci` 部署，是承重的。
 
 ---
 
