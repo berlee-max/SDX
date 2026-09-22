@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Icon from '../../components/icons'
-import SiteHeader, { DOWNLOAD_URL, GITHUB_URL } from '../../components/SiteHeader'
+import SiteHeader, { downloadHref, GITHUB_URL } from '../../components/SiteHeader'
 import { toSiteHref } from '../../content/docs'
 import { rememberLocale } from '../../lib/locale'
 import { setPageMeta } from '../../lib/meta'
@@ -21,7 +21,7 @@ function Hero({ c, locale }) {
           <h1>{c.hero.title}</h1>
           <p className="u-lede">{c.hero.lede}</p>
           <div className="hero__actions">
-            <a className="btn btn--primary btn--lg" href={DOWNLOAD_URL}>
+            <a className="btn btn--primary btn--lg" href={downloadHref(locale)}>
               <Icon name="download" size={17} />
               {c.hero.primary}
             </a>
@@ -225,7 +225,7 @@ function Install({ c, locale }) {
           <h2>{c.install.title}</h2>
           <p className="u-lede">{c.install.lede}</p>
           <div className="install__actions">
-            <a className="btn btn--primary btn--lg" href={DOWNLOAD_URL}>
+            <a className="btn btn--primary btn--lg" href={downloadHref(locale)}>
               <Icon name="download" size={17} />
               {c.install.primary}
             </a>

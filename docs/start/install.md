@@ -11,7 +11,7 @@ order: 1
 
 ## 挑对安装包
 
-所有安装包都在 [GitHub Releases](https://github.com/NanmiCoder/cc-haha/releases/latest)，按系统和 CPU 架构选一个：
+目前还没有公开发布，安装包由维护者直接分发。按你的系统和 CPU 架构，向维护者索取对应的那一个：
 
 | 你的系统 | 下载 |
 |---|---|
@@ -24,7 +24,7 @@ order: 1
 
 不确定自己是哪种架构：macOS 看「关于本机」里的芯片型号，Windows 看「设置 → 系统 → 系统信息」里的系统类型。别只凭机器牌子猜。
 
-`.blockmap` 和 `latest*.yml` 是应用自动更新用的，不用手动下载。
+应用内的自动更新在公开发布之前不会生效：它要去 GitHub Releases 查新版本，而那里目前是空的。新版本仍然由维护者直接发给你。
 
 ## macOS
 
@@ -38,7 +38,7 @@ order: 1
 
 **办法一：用官方脚本（推荐）**
 
-从同一个 Release 里把 `install-macos-unsigned.sh` 下载到和 DMG **同一个文件夹**（比如「下载」），然后在终端里跑：
+向维护者要一份 `install-macos-unsigned.sh`，放到和 DMG **同一个文件夹**（比如「下载」），然后在终端里跑：
 
 ```bash
 cd ~/Downloads
@@ -52,10 +52,10 @@ bash install-macos-unsigned.sh
 已经把应用拖进「应用程序」了，就直接执行：
 
 ```bash
-xattr -dr com.apple.quarantine "/Applications/SDX.app"
+xattr -dr com.apple.quarantine "/Applications/AI Agent SDX.app"
 ```
 
-只对你确认来自本仓库 Release 的安装包这么做。来路不明的应用不要绕过 Gatekeeper。
+只对你确认是维护者发给你的安装包这么做。来路不明的应用不要绕过 Gatekeeper。
 
 ## Windows
 
@@ -63,7 +63,7 @@ xattr -dr com.apple.quarantine "/Applications/SDX.app"
 2. 双击 `.exe` 安装。
 3. **不要**右键选「以管理员身份运行」——安装器是给当前用户装的，用管理员身份反而会让数据目录对不上。
 
-未签名的安装包会触发 SmartScreen 蓝屏提示。确认文件确实来自本仓库 Release 后，点「更多信息」→「仍要运行」。
+未签名的安装包会触发 SmartScreen 蓝屏提示。确认文件确实是维护者发给你的之后，点「更多信息」→「仍要运行」。
 
 覆盖升级时安装器会检查旧安装目录里的用户数据。如果它提示「程序仍在运行」，退出主窗口和托盘图标，等几秒让后台的 sidecar、终端和 IM adapter 退干净，再重新运行安装器。别先手动删掉旧安装目录。
 

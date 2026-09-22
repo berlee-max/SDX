@@ -34,7 +34,7 @@
    helper 的客户端核验（`ClientAttestation.swift`）要求调用链能被密码学地认定为本应用：**host、sidecar、helper 必须签在同一张证书上**（同 team、同 leaf），且 sidecar 的 identifier 必须精确等于 `com.sdx.desktop.sidecar`。任何一环对不上，helper 对**所有**命令返回 `unauthorized_client`，表现是设置页权限一直"检测中…"、授权卡片点了没反应。
 
    ```bash
-   APP="desktop/build-artifacts/macos-arm64/SDX.app"
+   APP="desktop/build-artifacts/macos-arm64/AI Agent SDX.app"
    B="$APP/Contents/Resources/app.asar.unpacked/src-tauri/binaries"
    for P in "$APP" "$B/claude-sidecar-aarch64-apple-darwin" "$B/cc-haha-computer-use.app"; do
      codesign -dv "$P" 2>&1 | grep -E "^(Identifier|TeamIdentifier)="

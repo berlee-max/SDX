@@ -6,7 +6,10 @@ import { useTheme } from '../lib/theme'
 import SearchDialog from './SearchDialog'
 
 export const GITHUB_URL = 'https://github.com/berlee-max/SDX'
-export const DOWNLOAD_URL = 'https://github.com/berlee-max/SDX/releases/latest'
+// 公开发布之前，「下载」落到安装说明页。安装包由维护者直接分发，
+// releases/latest 目前是空的——按钮指过去等于把人送进死胡同。
+export const downloadHref = (locale) =>
+  toSiteHref(locale === 'en' ? '/en/start/install' : '/start/install')
 
 const copy = {
   zh: {
@@ -106,7 +109,7 @@ export default function SiteHeader({ activeSection, locale = 'zh', localeHref })
             <a aria-label="GitHub" className="icon-btn" href={GITHUB_URL} rel="noreferrer" target="_blank">
               <Icon name="github" />
             </a>
-            <a className="btn btn--primary header-download" href={DOWNLOAD_URL}>
+            <a className="btn btn--primary header-download" href={downloadHref(locale)}>
               <Icon name="download" size={16} />
               {c.download}
             </a>

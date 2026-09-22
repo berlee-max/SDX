@@ -9,7 +9,7 @@ order: 4
 
 按你看到的现象往下找。每条都是「现象 → 为什么 → 怎么办」。
 
-先确认一件事：你用的是 [GitHub Releases](https://github.com/NanmiCoder/cc-haha/releases/latest) 上的最新正式版。旧版本上的问题很多已经修掉了。
+先确认一件事：你手上是维护者发出的最新一版。旧版本上的问题很多已经修掉了——不确定的话，对一下 **设置 → 关于** 里的版本号。
 
 ## 装不上
 
@@ -17,13 +17,13 @@ order: 4
 
 **为什么** — 文件没坏。macOS 会给从网上下载的包打一个隔离标记，遇到没有 Apple 签名的应用就拒绝启动，而报错文案写成了「已损坏」，非常有误导性。
 
-**怎么办** — 从同一个 Release 下载 `install-macos-unsigned.sh`，放到和 DMG 同一个文件夹，执行 `bash install-macos-unsigned.sh`；或者应用已经在「应用程序」里的话，直接执行 `xattr -dr com.apple.quarantine "/Applications/SDX.app"`。完整说明见 [下载与安装](./install.md)。
+**怎么办** — 向维护者要一份 `install-macos-unsigned.sh`，放到和 DMG 同一个文件夹，执行 `bash install-macos-unsigned.sh`；或者应用已经在「应用程序」里的话，直接执行 `xattr -dr com.apple.quarantine "/Applications/AI Agent SDX.app"`。完整说明见 [下载与安装](./install.md)。
 
 ### Windows 弹出 SmartScreen 蓝屏
 
 **为什么** — 未签名的安装包会被 SmartScreen 拦一道。
 
-**怎么办** — 确认文件确实来自本仓库 Release，点「更多信息」→「仍要运行」。文件名或来源对不上就别绕过。
+**怎么办** — 确认文件确实是维护者发给你的，点「更多信息」→「仍要运行」。文件名或来源对不上就别绕过。
 
 ### Windows 安装器说「程序仍在运行」
 

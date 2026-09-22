@@ -11,7 +11,7 @@ Install and go. You don't need Node.js, Python, or Claude Code — the CLI engin
 
 ## Pick the right package
 
-Everything lives on [GitHub Releases](https://github.com/NanmiCoder/cc-haha/releases/latest). Choose by operating system and CPU architecture:
+There is no public release yet — packages are handed out directly by the maintainer. Ask for the one matching your operating system and CPU architecture:
 
 | Your system | Download |
 |---|---|
@@ -24,7 +24,7 @@ Everything lives on [GitHub Releases](https://github.com/NanmiCoder/cc-haha/rele
 
 Not sure which architecture you have? On macOS check the chip listed in "About This Mac"; on Windows check the system type under Settings → System → About. Don't guess from the brand of the machine.
 
-The `.blockmap` and `latest*.yml` files are used by the app's own updater. You don't need to download them.
+The in-app updater does nothing until there is a public release: it looks for new versions on GitHub Releases, and there are none yet. New builds still reach you directly from the maintainer.
 
 ## macOS
 
@@ -38,7 +38,7 @@ Nothing is actually damaged. macOS quarantines anything downloaded from the web 
 
 **Option 1: the official script (recommended)**
 
-Download `install-macos-unsigned.sh` from the same Release into **the same folder as the DMG** (Downloads, for example), then run:
+Ask the maintainer for `install-macos-unsigned.sh` and put it in **the same folder as the DMG** (Downloads, for example), then run:
 
 ```bash
 cd ~/Downloads
@@ -52,10 +52,10 @@ The script picks the DMG matching your architecture, mounts it, installs the app
 If the app is already in Applications:
 
 ```bash
-xattr -dr com.apple.quarantine "/Applications/SDX.app"
+xattr -dr com.apple.quarantine "/Applications/AI Agent SDX.app"
 ```
 
-Only do this for packages you have confirmed came from this repository's Releases. Never bypass Gatekeeper for software of unknown origin.
+Only do this for packages you have confirmed came from the maintainer. Never bypass Gatekeeper for software of unknown origin.
 
 ## Windows
 
@@ -63,7 +63,7 @@ Only do this for packages you have confirmed came from this repository's Release
 2. Double-click the `.exe`.
 3. **Don't** right-click and choose "Run as administrator" — the installer is per-user, and running it elevated puts your data directory in the wrong place.
 
-Unsigned packages trigger a SmartScreen warning. Once you've confirmed the file came from this repository's Releases, click "More info" → "Run anyway".
+Unsigned packages trigger a SmartScreen warning. Once you've confirmed the file came from the maintainer, click "More info" → "Run anyway".
 
 When upgrading in place, the installer inspects user data in the old install directory. If it reports that the program is still running, quit the main window and the tray icon, give the background sidecar, terminal, and IM adapter processes a few seconds to exit, then run the installer again. Don't delete the old install directory by hand first.
 

@@ -9,7 +9,7 @@ order: 4
 
 Find your symptom below. Each entry is "what you see → why → what to do".
 
-First, one check: make sure you're on the latest stable build from [GitHub Releases](https://github.com/NanmiCoder/cc-haha/releases/latest). A lot of problems on older versions are already fixed.
+First, one check: make sure you have the most recent build the maintainer sent out. A lot of problems on older versions are already fixed — if you're unsure, compare the version under **Settings → About**.
 
 ## Won't install
 
@@ -17,13 +17,13 @@ First, one check: make sure you're on the latest stable build from [GitHub Relea
 
 **Why** — The file isn't damaged. macOS quarantines downloads and refuses to launch anything without an Apple signature, but words the error as "damaged", which sends everyone down the wrong path.
 
-**What to do** — Download `install-macos-unsigned.sh` from the same Release, put it in the same folder as the DMG, and run `bash install-macos-unsigned.sh`. Or, if the app is already in Applications, run `xattr -dr com.apple.quarantine "/Applications/SDX.app"`. Full details in [Download and install](./install.md).
+**What to do** — Ask the maintainer for `install-macos-unsigned.sh`, put it in the same folder as the DMG, and run `bash install-macos-unsigned.sh`. Or, if the app is already in Applications, run `xattr -dr com.apple.quarantine "/Applications/AI Agent SDX.app"`. Full details in [Download and install](./install.md).
 
 ### Windows shows a SmartScreen warning
 
 **Why** — Unsigned installers get flagged by SmartScreen.
 
-**What to do** — Confirm the file came from this repository's Releases, then click "More info" → "Run anyway". If the filename or origin doesn't match, don't bypass it.
+**What to do** — Confirm the file came from the maintainer, then click "More info" → "Run anyway". If the filename or origin doesn't match, don't bypass it.
 
 ### The Windows installer says the program is still running
 
