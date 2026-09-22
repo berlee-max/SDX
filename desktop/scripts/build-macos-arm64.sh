@@ -82,6 +82,41 @@ if [[ "${ACTUAL_BUN}" != "${EXPECTED_BUN}" ]]; then
 fi
 echo "[build-macos-arm64] bun ${ACTUAL_BUN} matches the pin."
 
+# Apple's timestamp authority drops out in bursts of tens of seconds, and
+# codesign has no retry of its own — one blip throws away a ten-minute build.
+# The timestamp cannot be skipped, notarization requires it. Same ladder as
+# build-sidecars.ts and native/cu-helper/build.sh; those are the other two
+# binaries signed outside electron-builder.
+#
+# Only timestamp failures retry. A wrong identity fails identically every time,
+# and retrying it would delay a clear error by two minutes.
+codesign_with_timestamp_retry() {
+  local description="$1"
+  shift
+  local backoffs=(5 15 30 60)
+  local attempt=1
+  local output
+  while :; do
+    if output="$(codesign "$@" 2>&1)"; then
+      [[ -n "${output}" ]] && printf '%s\n' "${output}" >&2
+      return 0
+    fi
+    printf '%s\n' "${output}" >&2
+    if ! printf '%s' "${output}" | grep -qi "timestamp service is not available"; then
+      echo "[build-macos-arm64] codesign failed for ${description}." >&2
+      return 1
+    fi
+    if (( attempt > ${#backoffs[@]} )); then
+      echo "[build-macos-arm64] Apple's timestamp service stayed unavailable for ${description}." >&2
+      return 1
+    fi
+    local delay="${backoffs[attempt-1]}"
+    echo "[build-macos-arm64] timestamp service unavailable (attempt ${attempt}/$(( ${#backoffs[@]} + 1 ))); retrying in ${delay}s" >&2
+    sleep "${delay}"
+    attempt=$(( attempt + 1 ))
+  done
+}
+
 echo "[build-macos-arm64] Checking that packaged output is not running..."
 (cd "${DESKTOP_DIR}" && bun run ./scripts/assert-electron-output-idle.ts "${ELECTRON_OUTPUT_DIR}" "${CANONICAL_OUTPUT_DIR}")
 
@@ -274,7 +309,8 @@ echo "[build-macos-arm64] Packaging Electron app..."
 if [[ "${NOTARIZE:-0}" == "1" ]]; then
   while IFS= read -r dmg; do
     echo "[build-macos-arm64] Signing disk image $(basename "${dmg}")..."
-    codesign --sign "${RESOLVED_SIGN_IDENTITY}" --timestamp --force "${dmg}"
+    codesign_with_timestamp_retry "$(basename "${dmg}")" \
+      --sign "${RESOLVED_SIGN_IDENTITY}" --timestamp --force "${dmg}"
 
     echo "[build-macos-arm64] Notarizing disk image. This waits on Apple's queue again."
     xcrun notarytool submit "${dmg}" \
