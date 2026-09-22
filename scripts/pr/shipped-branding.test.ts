@@ -82,6 +82,15 @@ describe('shipped bundles do not point at the upstream project', () => {
     const grok = readFileSync(join(repoRoot, 'src/services/grokAuth/client.ts'), 'utf8')
     expect(grok).toContain("'User-Agent': 'sdx-grok-oauth/1.0'")
 
+    // Found only by dumping every User-Agent out of the built sidecar, after
+    // grepping the sources had already "cleared" this. The binary is the thing
+    // that ships; it is the thing worth asking.
+    const imAdapter = readFileSync(
+      join(repoRoot, 'adapters/common/attachment/safe-remote-image.ts'),
+      'utf8',
+    )
+    expect(imAdapter).toContain("'User-Agent': 'sdx-im-adapter'")
+
     // The Claude Code user agents are a different thing and stay: they identify
     // the engine this wraps, and Anthropic's API keys behaviour off `claude-cli/`.
     expect(readFileSync(join(repoRoot, 'src/utils/http.ts'), 'utf8')).toContain('Claude-User')
