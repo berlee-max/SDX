@@ -1,0 +1,16 @@
+{
+  "//": "Type-checking config for the CLI core under src/. The base tsconfig.json is tuned for how the bridge/SDK is bundled, not for whole-tree checking, so this layers the checker settings on top: emit nothing, keep strict OFF for now (the codebase has never been type-checked and turning strict on at the same time as introducing the check would bury the real signal), and check every .ts/.tsx under src/. Run it with `bun run typecheck`. The error count it produces is ratcheted by scripts/pr/typecheck-baseline.json — see scripts/pr/typecheck-ratchet.ts.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "strict": false,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "desktop", "adapters", "site"]
+}

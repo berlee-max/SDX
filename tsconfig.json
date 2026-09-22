@@ -18,7 +18,7 @@
       ]
     },
     "types": [
-      "bun-types"
+      "bun"
     ]
   }
 }

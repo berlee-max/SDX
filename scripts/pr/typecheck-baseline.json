@@ -1,0 +1,4 @@
+{
+  "errors": 2498,
+  "note": "src/ has never been type-checked. This is the count at the commit that introduced `bun run typecheck` (tsconfig.typecheck.json, strict off, skipLibCheck). ~690 are TS2614 from the 137 reconstruction stub modules and clear only when those are filled in. The ratchet (scripts/pr/typecheck-ratchet.ts) forbids raising this; lower it with `bun run typecheck --update`."
+}
