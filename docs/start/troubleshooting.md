@@ -58,7 +58,7 @@ order: 4
 
 1. 完全退出应用（不是关窗口），重新打开。
 2. 还白就重装同一个版本的安装包覆盖一次。会话和配置存在 `~/.claude` 下，不在应用目录里，覆盖安装不会丢。
-3. 仍然白屏，说明卡在启动阶段。带上系统版本、CPU 架构、安装包文件名去 [GitHub Issues](https://github.com/NanmiCoder/cc-haha/issues) 提一条。
+3. 仍然白屏，说明卡在启动阶段。带上系统版本、CPU 架构、安装包文件名去 [GitHub Issues](https://github.com/berlee-max/SDX/issues) 提一条。
 
 :::warning
 任何情况下都不要为了排错去删 `~/.claude`。你的会话、服务商配置、技能、Agent、记忆全在那里，删了找不回来。
@@ -201,7 +201,7 @@ order: 4
 去「设置 → 诊断」：
 
 1. 点「复制 Issue 报告」，先拿到一份结构化的现场信息。
-2. 到 [GitHub Issues](https://github.com/NanmiCoder/cc-haha/issues) 搜一下有没有人报过同样的问题，没有再新建。
+2. 到 [GitHub Issues](https://github.com/berlee-max/SDX/issues) 搜一下有没有人报过同样的问题，没有再新建。
 3. 光靠报告定位不了的话，再点「导出诊断包」附上。
 
 一并提供这些能大幅提高解决速度：应用版本、操作系统和 CPU 架构、安装包文件名、用的哪类服务商（**不要贴 API 密钥**）、最短复现步骤、完整错误文字、问题出在桌面端还是手机端还是 CLI。

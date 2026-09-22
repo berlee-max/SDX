@@ -91,7 +91,7 @@ On ARM64 machines, use the corresponding `linux-arm64` file.
 If you want to modify the code, debug the engine, or just use the CLI in a terminal:
 
 ```bash
-git clone https://github.com/NanmiCoder/cc-haha.git
+git clone https://github.com/berlee-max/SDX.git
 cd cc-haha
 bun install
 cp .env.example .env
