@@ -30,6 +30,10 @@ artifacts/
 desktop/dist/
 desktop/electron-dist/
 desktop/build-artifacts/
+
+# Installers staged by hand to hand to a tester. Hundreds of MB, and rebuilt
+# from the build scripts whenever they are needed again — never committed.
+release-for-testing/
 desktop/src-tauri/binaries/
 desktop/src-tauri/target/
 desktop/src-tauri/gen/

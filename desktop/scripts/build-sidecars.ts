@@ -335,14 +335,52 @@ async function signMacBinary(outputPath: string) {
   }
   args.push(outputPath)
 
-  const sign = Bun.spawn(args, { stdout: 'inherit', stderr: 'inherit' })
-  const signExit = await sign.exited
-  if (signExit !== 0) {
-    throw new Error(
-      `[build-sidecars] codesign failed for ${outputPath} (exit ${signExit}, identity: ${label})`,
+  // Apple's timestamp authority is a flaky external dependency and `codesign`
+  // has no retry of its own: it fails the whole build with "The timestamp
+  // service is not available." Observed here failing and recovering within
+  // seconds — a probe succeeded, the sidecar signed, and the next binary in the
+  // same run failed. A secure timestamp cannot be skipped (notarization
+  // requires it), so the only thing to do is try again.
+  //
+  // Only timestamp failures are retried. A wrong identity or a missing
+  // entitlements file fails the same way every time, and retrying it just
+  // delays a clear error by half a minute.
+  // Backoff is deliberately long. The outages come in bursts of tens of seconds,
+  // not as isolated blips: sampled here, six back-to-back requests failed twice
+  // then succeeded four times, while a build seconds earlier failed four for
+  // four. A 2/4/6s ladder fits entirely inside one bad burst; this rides out
+  // roughly two minutes.
+  const backoffScheduleMs = [5_000, 15_000, 30_000, 60_000]
+  const attempts = backoffScheduleMs.length + 1
+  let lastFailure = ''
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    const sign = Bun.spawn(args, { stdout: 'pipe', stderr: 'pipe' })
+    const [stdout, stderr] = await Promise.all([
+      new Response(sign.stdout).text(),
+      new Response(sign.stderr).text(),
+    ])
+    const signExit = await sign.exited
+    if (stdout) process.stdout.write(stdout)
+    if (stderr) process.stderr.write(stderr)
+    if (signExit === 0) {
+      console.log(`[build-sidecars] signed ${outputPath} (${label})`)
+      return
+    }
+
+    lastFailure = `exit ${signExit}`
+    const timestampFailure = /timestamp service is not available|timestamp.*unavailable/i.test(stderr)
+    if (!timestampFailure || attempt === attempts) {
+      throw new Error(
+        `[build-sidecars] codesign failed for ${outputPath} (${lastFailure}, identity: ${label})`,
+      )
+    }
+
+    const backoffMs = backoffScheduleMs[attempt - 1] ?? 60_000
+    console.warn(
+      `[build-sidecars] timestamp service unavailable (attempt ${attempt}/${attempts}); retrying in ${backoffMs / 1000}s`,
     )
+    await new Promise((resolve) => setTimeout(resolve, backoffMs))
   }
-  console.log(`[build-sidecars] signed ${outputPath} (${label})`)
 }
 
 /**

@@ -363,13 +363,45 @@ sign() {
   log ""
   log "==> codesign (identity='$SIGN_IDENTITY', identifier='$BUNDLE_ID', options=runtime, timestamp=$RESOLVED_TIMESTAMP_MODE)"
 
-  codesign \
-    --force \
-    --options runtime \
-    "$CODESIGN_TIMESTAMP_ARG" \
-    --identifier "$BUNDLE_ID" \
-    --sign "$SIGN_IDENTITY" \
-    "$BIN_PATH" 1>&2
+  # Apple's timestamp authority is flaky and codesign has no retry of its own:
+  # it fails the whole build with "The timestamp service is not available."
+  # Seen failing and recovering inside a single build here — the sidecar signed,
+  # this binary did not, seconds apart. A secure timestamp is required for
+  # notarization so it cannot be dropped; retry instead.
+  #
+  # Only timestamp failures retry. A bad identity fails identically every time,
+  # and retrying it would just delay a clear error.
+  # Long backoff on purpose: the outages arrive in bursts of tens of seconds,
+  # so a short ladder can sit entirely inside one. 5/15/30/60 rides out ~2min.
+  local backoffs="5 15 30 60"
+  local attempt=1
+  local max_attempts=5
+  local codesign_output
+  while :; do
+    if codesign_output="$(codesign \
+      --force \
+      --options runtime \
+      "$CODESIGN_TIMESTAMP_ARG" \
+      --identifier "$BUNDLE_ID" \
+      --sign "$SIGN_IDENTITY" \
+      "$BIN_PATH" 2>&1)"; then
+      [ -n "$codesign_output" ] && printf '%s\n' "$codesign_output" >&2
+      break
+    fi
+    printf '%s\n' "$codesign_output" >&2
+    if ! printf '%s' "$codesign_output" | grep -qi "timestamp service is not available"; then
+      die "codesign failed for $BIN_PATH"
+    fi
+    if [ "$attempt" -ge "$max_attempts" ]; then
+      die "codesign could not reach Apple's timestamp service after ${max_attempts} attempts"
+    fi
+    local delay
+    delay="$(printf '%s' "$backoffs" | cut -d' ' -f"$attempt")"
+    [ -n "$delay" ] || delay=60
+    log "timestamp service unavailable (attempt ${attempt}/${max_attempts}); retrying in ${delay}s"
+    sleep "$delay"
+    attempt=$((attempt + 1))
+  done
 
   # Rotation detection: persist what we signed with. If a later build sees a
   # different identity/identifier, TCC grants will have been dropped — warn.
