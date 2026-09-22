@@ -61,6 +61,23 @@ for command in bun; do
   fi
 done
 
+# The bun on PATH must be the one `packageManager` pins. The sidecar is produced
+# by `bun build --compile`, so whichever bun runs the build is baked into the
+# shipped binary — and the pin is load-bearing: 1.4.2 fails the
+# systemProxyBridge race test that 1.3.14 passes. A package-manager install puts
+# a different version ahead of ~/.bun/bin on PATH, and the build still succeeds,
+# which is how the wrong toolchain ships unnoticed.
+EXPECTED_BUN="$(node -p "require('${REPO_ROOT}/package.json').packageManager.split('@')[1]" 2>/dev/null || echo '')"
+if [[ -n "${EXPECTED_BUN}" ]]; then
+  ACTUAL_BUN="$(bun --version)"
+  if [[ "${ACTUAL_BUN}" != "${EXPECTED_BUN}" ]]; then
+    echo "[build-linux] bun ${ACTUAL_BUN} is on PATH ($(command -v bun)), but packageManager pins ${EXPECTED_BUN}." >&2
+    echo "[build-linux] The sidecar is compiled by bun, so the wrong version ships in the binary." >&2
+    exit 1
+  fi
+  echo "[build-linux] bun ${ACTUAL_BUN} matches the pin."
+fi
+
 read -r -a LINUX_TARGET_ARRAY <<< "${LINUX_TARGETS:-AppImage deb}"
 if [[ "${#LINUX_TARGET_ARRAY[@]}" -eq 0 ]]; then
   echo "[build-linux] LINUX_TARGETS must contain at least one electron-builder Linux target." >&2

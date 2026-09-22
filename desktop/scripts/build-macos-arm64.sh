@@ -60,6 +60,28 @@ for command in bun node codesign hdiutil; do
   fi
 done
 
+# The bun on PATH must be the one `packageManager` pins, not merely "a bun".
+#
+# This is not housekeeping. The sidecar is produced by `bun build --compile`, so
+# whichever bun runs the build is baked into the binary that ships. And the pin
+# is load-bearing for a known reason: 1.4.2 fails the systemProxyBridge race
+# test that 1.3.14 passes (18/18 vs 17/18), which is why the version is pinned
+# rather than floated.
+#
+# It is also an easy trap. `brew install bun` puts a different version at
+# /opt/homebrew/bin/bun, which wins the PATH over ~/.bun/bin — so a build can
+# silently use the wrong toolchain and still succeed. It did here, for every
+# macOS artifact produced before this check existed.
+EXPECTED_BUN="$(node -p "require('${REPO_ROOT}/package.json').packageManager.split('@')[1]")"
+ACTUAL_BUN="$(bun --version)"
+if [[ "${ACTUAL_BUN}" != "${EXPECTED_BUN}" ]]; then
+  echo "[build-macos-arm64] bun ${ACTUAL_BUN} is on PATH ($(command -v bun)), but packageManager pins ${EXPECTED_BUN}." >&2
+  echo "[build-macos-arm64] The sidecar is compiled by bun, so the wrong version ships in the binary." >&2
+  echo "[build-macos-arm64] Fix the PATH, e.g.:  export PATH=\"\${HOME}/.bun/bin:\${PATH}\"" >&2
+  exit 1
+fi
+echo "[build-macos-arm64] bun ${ACTUAL_BUN} matches the pin."
+
 echo "[build-macos-arm64] Checking that packaged output is not running..."
 (cd "${DESKTOP_DIR}" && bun run ./scripts/assert-electron-output-idle.ts "${ELECTRON_OUTPUT_DIR}" "${CANONICAL_OUTPUT_DIR}")
 

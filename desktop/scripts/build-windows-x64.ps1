@@ -84,6 +84,22 @@ function Clear-Directory {
 Assert-WindowsHost
 Assert-Command bun
 Assert-Command bunx
+
+# The bun on PATH must be the one `packageManager` pins. The sidecar is produced
+# by `bun build --compile`, so whichever bun runs the build is baked into the
+# binary that ships — and the pin is load-bearing: 1.4.2 fails the
+# systemProxyBridge race test that 1.3.14 passes. A winget/scoop/choco install
+# can put a different version ahead of the pinned one on PATH and the build will
+# still succeed, which is how the wrong toolchain ships unnoticed.
+$expectedBun = (Get-Content (Join-Path $repoRoot 'package.json') -Raw | ConvertFrom-Json).packageManager -replace '^bun@', ''
+$actualBun = (& bun --version).Trim()
+if ($actualBun -ne $expectedBun) {
+  Write-Host "[build-windows-x64] bun $actualBun is on PATH ($((Get-Command bun).Source)), but packageManager pins $expectedBun." -ForegroundColor Red
+  Write-Host '[build-windows-x64] The sidecar is compiled by bun, so the wrong version ships in the binary.' -ForegroundColor Red
+  throw "[build-windows-x64] bun version mismatch: $actualBun != $expectedBun"
+}
+Write-Step "bun $actualBun matches the pin."
+
 Import-VsDevEnvironment
 
 if ($env:SKIP_INSTALL -ne '1') {
