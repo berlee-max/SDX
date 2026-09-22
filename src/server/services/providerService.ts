@@ -171,6 +171,7 @@ function appendNewProviderToOrder(providerOrder: string[], providerId: string, e
 export class ProviderService {
   private static serverPort = 3456
   private managedSettingsService = new ManagedSettingsService()
+  private indexMutationQueue: Promise<unknown> = Promise.resolve()
 
   static setServerPort(port: number): void {
     ProviderService.serverPort = port
@@ -216,6 +217,32 @@ export class ProviderService {
     }
   }
 
+  /**
+   * Serializes every read-modify-write of providers.json.
+   *
+   * `writeIndex` is atomic — temp file plus rename — which stops a torn file
+   * but does nothing about a lost update. Each mutator reads the index, mutates
+   * its own copy and writes it back, so two overlapping calls leave only the
+   * second one's change.
+   *
+   * That is not theoretical. Activating a provider writes `activeId` to this
+   * index AND the provider's env to managed settings. A reorder that read the
+   * index before the activation wrote it puts `activeId` back to null on its
+   * own write, while the settings env survives — so the CLI keeps talking to
+   * the provider and the model picker goes back to listing the official models.
+   * Found in exactly that state: env fully written, `activeId: null`, and
+   * `providerOrder` showing the reorder that clobbered it.
+   *
+   * The chain deliberately swallows rejections when storing itself back: one
+   * failed mutation must not wedge every later write. Callers still see their
+   * own error, because `run` is what gets returned.
+   */
+  private async serializeIndexMutation<T>(mutate: () => Promise<T>): Promise<T> {
+    const run = this.indexMutationQueue.then(mutate)
+    this.indexMutationQueue = run.then(() => undefined, () => undefined)
+    return run
+  }
+
   private async readSettings(): Promise<Record<string, unknown>> {
     return this.managedSettingsService.readSettings()
   }
@@ -257,6 +284,10 @@ export class ProviderService {
   }
 
   async addProvider(input: CreateProviderInput): Promise<SavedProvider> {
+    return this.serializeIndexMutation(() => this.addProviderLocked(input))
+  }
+
+  private async addProviderLocked(input: CreateProviderInput): Promise<SavedProvider> {
     const index = await this.readIndex()
 
     const provider = buildSavedProvider(input)
@@ -275,6 +306,10 @@ export class ProviderService {
    * to addProvider, so no storage migration is involved.
    */
   async importProviders(inputs: CreateProviderInput[]): Promise<SavedProvider[]> {
+    return this.serializeIndexMutation(() => this.importProvidersLocked(inputs))
+  }
+
+  private async importProvidersLocked(inputs: CreateProviderInput[]): Promise<SavedProvider[]> {
     if (inputs.length === 0) return []
 
     const index = await this.readIndex()
@@ -292,6 +327,10 @@ export class ProviderService {
   }
 
   async updateProvider(id: string, input: UpdateProviderInput): Promise<SavedProvider> {
+    return this.serializeIndexMutation(() => this.updateProviderLocked(id, input))
+  }
+
+  private async updateProviderLocked(id: string, input: UpdateProviderInput): Promise<SavedProvider> {
     const index = await this.readIndex()
     const idx = index.providers.findIndex((p) => p.id === id)
     if (idx === -1) throw ApiError.notFound(`Provider not found: ${id}`)
@@ -349,6 +388,10 @@ export class ProviderService {
   }
 
   async deleteProvider(id: string): Promise<void> {
+    return this.serializeIndexMutation(() => this.deleteProviderLocked(id))
+  }
+
+  private async deleteProviderLocked(id: string): Promise<void> {
     const index = await this.readIndex()
     const idx = index.providers.findIndex((p) => p.id === id)
     if (idx === -1) throw ApiError.notFound(`Provider not found: ${id}`)
@@ -371,6 +414,10 @@ export class ProviderService {
    * order without moving the built-in official rows.
    */
   async reorderProviders(orderedIds: string[]): Promise<{ providers: SavedProvider[]; providerOrder: string[] }> {
+    return this.serializeIndexMutation(() => this.reorderProvidersLocked(orderedIds))
+  }
+
+  private async reorderProvidersLocked(orderedIds: string[]): Promise<{ providers: SavedProvider[]; providerOrder: string[] }> {
     const index = await this.readIndex()
 
     const currentSavedIds = savedProviderIds(index.providers)
@@ -396,6 +443,10 @@ export class ProviderService {
   // --- Activation ---
 
   async activateProvider(id: string): Promise<void> {
+    return this.serializeIndexMutation(() => this.activateProviderLocked(id))
+  }
+
+  private async activateProviderLocked(id: string): Promise<void> {
     const index = await this.readIndex()
     const provider = isOpenAIOfficialProviderId(id)
       ? OPENAI_OFFICIAL_PROVIDER
@@ -417,6 +468,10 @@ export class ProviderService {
   }
 
   async activateOfficial(): Promise<void> {
+    return this.serializeIndexMutation(() => this.activateOfficialLocked())
+  }
+
+  private async activateOfficialLocked(): Promise<void> {
     const index = await this.readIndex()
     index.activeId = null
     await this.writeIndex(index)
