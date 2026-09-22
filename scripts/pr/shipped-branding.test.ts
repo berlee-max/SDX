@@ -96,6 +96,30 @@ describe('shipped bundles do not point at the upstream project', () => {
     expect(readFileSync(join(repoRoot, 'src/utils/http.ts'), 'utf8')).toContain('Claude-User')
   })
 
+  test('the IM adapters identify this product to the vendors, not the upstream', () => {
+    // A second class of outbound self-identifier, found the same way the third
+    // User-Agent was: by dumping the built sidecar, not by grepping sources.
+    // These are not headers, so the UA sweep above missed all four.
+    //
+    // Three are a `source` query parameter on a vendor endpoint, which looked
+    // risky to rename — unlike a UA, it could be a key the vendor allowlists.
+    // It is not: WeCom's generate endpoint returns a valid code for `sdx` and
+    // for a nonsense string alike, so `source` is attribution, and this is a
+    // fork whose value was never registered with anyone in the first place.
+    const cases: Array<[string, string, string]> = [
+      ['adapters/wecom/qr-auth.ts', "const DEFAULT_SOURCE = 'sdx'", 'WeCom QR bind'],
+      ['adapters/qq/qr-auth.ts', "const DEFAULT_SOURCE = 'sdx'", 'QQ QR bind'],
+      ['adapters/feishu/registration.ts', "options.source || 'sdx'", 'Feishu app registration'],
+      // Per-message dedup key; the UUID does the work, the prefix is a label.
+      ['adapters/wechat/protocol.ts', 'client_id: `sdx-wechat-${', 'WeChat sendmessage'],
+    ]
+    for (const [file, expected, what] of cases) {
+      const source = readFileSync(join(repoRoot, file), 'utf8')
+      expect(source, `${what} (${file})`).toContain(expected)
+      expect(source, `${what} (${file})`).not.toContain('claude-code-haha')
+    }
+  })
+
   test('the Windows default install directory is the short, space-free one', () => {
     // electron-builder derives it from productName, which would give
     // "...\\Programs\\AI Agent SDX". The override lives in customInit because
