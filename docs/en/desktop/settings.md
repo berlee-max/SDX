@@ -19,6 +19,8 @@ You'll come here once during setup and rarely again. Full steps in [Connecting a
 
 The tab you'll open most often — everything about how the app feels.
 
+![Settings → General: color theme, language, output style, default session permissions and reasoning effort](../../images/app/en/settings-general.webp)
+
 
 - **Color theme** — six of them: Pure White (default), Paper, Warm Classic, Celadon, Ink Night, Ink Blue. There's also **Follow the system**, which lets you pick which theme to use in light mode and which in dark mode.
 - **Language** — the interface language.
