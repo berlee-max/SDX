@@ -108,6 +108,21 @@ describe('shipped bundles do not point at the upstream project', () => {
     expect(nsh.match(/^!macro customInit$/gm)).toHaveLength(1)
   })
 
+  test('the macOS build signs through the retrying codesign shim', () => {
+    // electron-builder signs ~33 binaries per build and abandons the whole run
+    // on the first timestamp failure, inside code this repo does not own.
+    // Wrapping our own call sites was not enough; the shim goes on PATH so
+    // every caller gets the retry.
+    const shim = readFileSync(join(repoRoot, 'desktop/scripts/codesign-retry/codesign'), 'utf8')
+    expect(shim).toContain('/usr/bin/codesign')
+    // Must stay narrow: anything that is not a timestamp outage fails the same
+    // way every time, and retrying it hides a clear error behind four minutes.
+    expect(shim).toContain('timestamp service is not available')
+
+    const build = readFileSync(join(repoRoot, 'desktop/scripts/build-macos-arm64.sh'), 'utf8')
+    expect(build).toContain('export PATH="${SCRIPT_DIR}/codesign-retry:${PATH}"')
+  })
+
   test('settings descriptions name this product', () => {
     // Schema `.describe()` text surfaces in the settings UI and in generated docs.
     const source = readFileSync(join(repoRoot, 'src/utils/settings/types.ts'), 'utf8')

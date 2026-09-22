@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# A `codesign` that retries when Apple's timestamp authority drops out.
+#
+# Put this directory first on PATH and every codesign in the build gets the
+# retry — including the ones inside electron-builder, which signs roughly 33
+# binaries per macOS build (the Electron framework, its helpers, every native
+# .node module) and gives up the whole build on the first failure.
+#
+# That breadth is the reason this is a PATH shim rather than more retry loops.
+# Three call sites were wrapped individually first; the next build failed anyway,
+# in electron-builder's own signing of sharp-darwin-arm64.node, which no amount
+# of patching our own scripts can reach.
+#
+# It is worth it because the service is genuinely unreliable, not occasionally
+# slow: sampled at five signings in a row during one of these outages, two
+# succeeded. At that rate a build signing 33 binaries essentially never
+# completes. Retrying is not papering over a real error — a secure timestamp is
+# required for notarization, so the only alternative to waiting is failing.
+#
+# Only timestamp failures retry. Everything else — a wrong identity, a missing
+# entitlements file, a malformed bundle — fails the same way every time, and
+# retrying it would turn a clear error into a four-minute one.
+set -uo pipefail
+
+readonly REAL_CODESIGN=/usr/bin/codesign
+readonly BACKOFFS=(5 15 30 60 120)
+
+if [[ ! -x "${REAL_CODESIGN}" ]]; then
+  echo "[codesign-retry] ${REAL_CODESIGN} is missing; cannot sign." >&2
+  exit 127
+fi
+
+attempt=0
+while :; do
+  # stderr is captured to inspect it, then replayed, so callers that parse it
+  # (electron-builder does) still see exactly what codesign wrote.
+  stderr_file="$(mktemp -t codesign-retry)"
+  "${REAL_CODESIGN}" "$@" 2>"${stderr_file}"
+  status=$?
+  stderr_text="$(cat "${stderr_file}")"
+  rm -f "${stderr_file}"
+
+  if [[ ${status} -eq 0 ]]; then
+    [[ -n "${stderr_text}" ]] && printf '%s\n' "${stderr_text}" >&2
+    exit 0
+  fi
+
+  if ! printf '%s' "${stderr_text}" | grep -qi "timestamp service is not available"; then
+    printf '%s\n' "${stderr_text}" >&2
+    exit "${status}"
+  fi
+
+  if (( attempt >= ${#BACKOFFS[@]} )); then
+    printf '%s\n' "${stderr_text}" >&2
+    echo "[codesign-retry] Apple's timestamp service stayed unavailable across $(( ${#BACKOFFS[@]} + 1 )) attempts." >&2
+    exit "${status}"
+  fi
+
+  delay="${BACKOFFS[attempt]}"
+  echo "[codesign-retry] timestamp service unavailable; retrying in ${delay}s ($(( attempt + 1 ))/${#BACKOFFS[@]})" >&2
+  sleep "${delay}"
+  attempt=$(( attempt + 1 ))
+done

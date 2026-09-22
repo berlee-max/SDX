@@ -82,6 +82,17 @@ if [[ "${ACTUAL_BUN}" != "${EXPECTED_BUN}" ]]; then
 fi
 echo "[build-macos-arm64] bun ${ACTUAL_BUN} matches the pin."
 
+# Put the retrying codesign ahead of /usr/bin on PATH for the whole build.
+#
+# electron-builder signs roughly 33 binaries per macOS build — the Electron
+# framework, its helpers, every native .node — and abandons the build on the
+# first timestamp failure. Wrapping our own three call sites was not enough:
+# the next build died inside electron-builder's signing of
+# sharp-darwin-arm64.node, which our scripts cannot reach. A PATH shim covers
+# every caller, ours and theirs, without patching a dependency.
+export PATH="${SCRIPT_DIR}/codesign-retry:${PATH}"
+echo "[build-macos-arm64] codesign retry shim active ($(command -v codesign))."
+
 # Apple's timestamp authority drops out in bursts of tens of seconds, and
 # codesign has no retry of its own — one blip throws away a ten-minute build.
 # The timestamp cannot be skipped, notarization requires it. Same ladder as
